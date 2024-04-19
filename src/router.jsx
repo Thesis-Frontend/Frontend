@@ -11,6 +11,7 @@ import Loading from "./components/Loading/Loading";
 // Lazy loading components for better performance
 const Login = lazy(() => import("./pages/Login/Login"));
 const Landing = lazy(() => import("./pages/Landing/Landing"));
+const Signup = lazy(() => import("./pages/SignUp/Signup"));
 const Dashboard = lazy(() => import("./pages/Dashboard/Dashboard"));
 const NotFound = lazy(() => import("./components/NotFound"));
 const Navbar = lazy(() => import("./components/Navbar"));
@@ -30,10 +31,15 @@ const publicRoutes = [
     path: "/forgot-password",
     element: <ForgetPwd />,
   },
+
   {
     path: "/reset-password/:token",
     element: <UpdatePwd />,
     exact: true,
+  },
+  {
+    path: "sign-up",
+    element: <Signup />,
   },
 ];
 
