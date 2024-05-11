@@ -83,7 +83,7 @@ const SubscriptionPackages = ({onSelectPackage}) => {
     <div className="h-screen flex-col gap-y-32 lg:flex lg:justify-center lg:items-center">
       <label
         htmlFor="checkbox"
-        className="bg-gray-100 cursor-pointer relative w-40 h-10 rounded-full"
+        className="bg-gray-100 cursor-pointer relative w-40 h-10 rounded-full border border-solid border-2"
       >
         <input
           type="checkbox"
@@ -91,7 +91,7 @@ const SubscriptionPackages = ({onSelectPackage}) => {
           className="sr-only peer"
           onClick={handleToggleDuration}
         />
-        <span className="text-white text-center w-2/3 h-4/5 bg-indigo-300 absolute rounded-full left-2 top-1 peer-checked:bg-indigo-600 peer-checked:left-11 transition-all duration-500">
+        <span className="text-white text-center w-2/3 h-4/5 bg-indigo-400 absolute rounded-full left-2 top-1 peer-checked:bg-indigo-600 peer-checked:left-11 transition-all duration-500">
           <span className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
             {subscriptionDuration}
           </span>

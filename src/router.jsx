@@ -9,20 +9,18 @@ import SessionHelper from "../src/helpers/SessionHelper";
 import Loading from "./components/Loading/Loading";
 
 // Lazy loading components for better performance
-const Login = lazy(() => import("./pages/Login/Login"));
+// const Login = lazy(() => import("./pages/Login/Login"));
 const Landing = lazy(() => import("./pages/Landing/Landing"));
 const Signup = lazy(() => import("./pages/SignUp/Signup"));
 const Dashboard = lazy(() => import("./pages/Dashboard/Dashboard"));
 const NotFound = lazy(() => import("./components/NotFound"));
 const Navbar = lazy(() => import("./components/Navbar"));
+const Sidebar = lazy(() => import("./components/Sidebar"));
 const ForgetPwd = lazy(() => import("./pages/ForgetPwd/ForgetPwd"));
 const UpdatePwd = lazy(() => import("./pages/ForgetPwd/UpdatePwd"));
+const Companies =  lazy(() => import("./pages/Companies/Companies"));
 
 const publicRoutes = [
-  {
-    path: "/login",
-    element: <Login />,
-  },
   {
     path: "/welcome",
     element: <Landing />,
@@ -38,7 +36,7 @@ const publicRoutes = [
     exact: true,
   },
   {
-    path: "sign-up",
+    path: "/sign-up",
     element: <Signup />,
   },
 ];
@@ -48,18 +46,24 @@ const privateRoutes = [
     path: "/dashboard",
     element: <Dashboard />,
   },
+  {
+    path: "/companies",
+    element: <Companies />,
+  },
 ];
 
 const PrivateRoute = ({ element }) => {
+  console.log(element);
   const isLoggedIn = SessionHelper.getIsLoggedIn();
+  console.log(isLoggedIn);
 
-  return isLoggedIn ? (
-    <>
-      <Navbar />
-      {element}
-    </>
+  return !isLoggedIn ? (
+    <div className="flex">
+      <Sidebar />
+      <main className="flex-1 p-4">{element}</main>
+    </div>
   ) : (
-    <Navigate to="/login" replace />
+    <Navigate to="/welcome" replace />
   );
 };
 
@@ -68,15 +72,17 @@ export default function AppRoutes() {
     <Router>
       <Suspense fallback={<Loading />}>
         <Routes>
-          <Route exact path="/" element={<Landing />} />
+          <Route exact path="/" element={<Navigate to="/welcome" />} />
           {publicRoutes.map((route, index) => (
-            <Route path={route.path} element={route.element} />
+            <Route key={index} path={route.path} element={route.element} />
           ))}
-          <Route element={<PrivateRoute />}>
-            {privateRoutes.map((route, index) => (
-              <Route path={route.path} element={route.element} />
-            ))}
-          </Route>
+          {privateRoutes.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              element={<PrivateRoute element={route.element} />}
+            />
+          ))}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
