@@ -55,7 +55,6 @@ const privateRoutes = [
 const PrivateRoute = ({ element }) => {
   console.log(element);
   const isLoggedIn = SessionHelper.getIsLoggedIn();
-  console.log(isLoggedIn);
 
   return !isLoggedIn ? (
     <div className="flex">

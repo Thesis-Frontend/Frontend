@@ -1,37 +1,20 @@
-import React, { useState, useEffect } from "react";
-import Table from "../../components/Table"; // Adjust the path as necessary
+import React from "react";
+import Table from "../../components/Table";
 import CompanyModal from "./CompanyModal"; // Adjust the path as necessary
+import FetchData from "./FetchData";
+
+// const fetchCompanies = async (page, rowsPerPage, searchQuery, sortConfig) => {
+//   // Replace this with your actual API call
+//   const response = await fetch(
+//     `/api/companies?page=${page}&limit=${rowsPerPage}&search=${searchQuery}&sort=${sortConfig.key}&order=${sortConfig.direction}`
+//   );
+//   const data = await response.json();
+//   return data;
+// };
+
+
 
 const Companies = () => {
-  const [companies, setCompanies] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Fetch companies data here. This is just a placeholder.
-    setTimeout(() => {
-      setCompanies([
-        {
-          id: 1,
-          companyName: "Company A",
-          city: "City A",
-          companyType: "Type A",
-          taxOffice: "Office A",
-          taxNumber: "123456",
-        },
-        {
-          id: 2,
-          companyName: "Company B",
-          city: "City B",
-          companyType: "Type B",
-          taxOffice: "Office B",
-          taxNumber: "789012",
-        },
-        // Add more companies as needed
-      ]);
-      setLoading(false);
-    }, 1000);
-  }, []);
-
   const columns = [
     { id: "companyName", label: "Company Name", minWidth: 170 },
     { id: "city", label: "City", minWidth: 100 },
@@ -41,39 +24,27 @@ const Companies = () => {
   ];
 
   const handleCreate = (newCompany) => {
-    setCompanies((prevCompanies) => [...prevCompanies, newCompany]);
+    // Handle create company logic
   };
 
   const handleUpdate = (updatedCompany) => {
-    setCompanies((prevCompanies) =>
-      prevCompanies.map((company) =>
-        company.id === updatedCompany.id ? updatedCompany : company
-      )
-    );
+    // Handle update company logic
   };
 
   const handleDelete = (id) => {
-    setCompanies((prevCompanies) =>
-      prevCompanies.filter((company) => company.id !== id)
-    );
+    // Handle delete company logic
   };
 
   return (
-    <div className="flex flex-col h-full">
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <Table
-          title={"Companies"}
-          columns={columns}
-          data={companies}
-          onCreate={handleCreate}
-          onUpdate={handleUpdate}
-          onDelete={handleDelete}
-          ModalComponent={CompanyModal}
-        />
-      )}
-    </div>
+    <Table
+      title="Companies"
+      columns={columns}
+      fetchData={FetchData}
+      onCreate={handleCreate}
+      onUpdate={handleUpdate}
+      onDelete={handleDelete}
+      ModalComponent={CompanyModal}
+    />
   );
 };
 
