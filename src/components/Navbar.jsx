@@ -33,7 +33,8 @@ const Navbar = ({ setLoginModal, setIsUserLogin }) => {
           isOpen ? "" : "hidden"
         } lg:block`}
       >
-        <div className="text-sm lg:flex-grow">
+        <div className="text-md font-bold lg:flex-grow">
+          {" "}
           <Link
             to="/"
             className="block mt-4 mr-20 lg:inline-block lg:mt-0 landingFontColor hover:text-blue-200"
@@ -63,6 +64,7 @@ const Navbar = ({ setLoginModal, setIsUserLogin }) => {
             Contact
           </Link>
         </div>
+
         {/* Login Sign Up */}
         <div>
           {!showLoginOptions ? (
