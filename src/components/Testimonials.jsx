@@ -45,7 +45,6 @@ export default function Testimonials() {
               key={testimonial.id}
               className="!bg-blue-600/45 duration-500 group-hover:blur-sm hover:!blur-none group-hover:scale-[0.85] hover:!scale-100 cursor-pointer p-8 rounded-xl  w-1/3"
             >
-              {/* <div className="flex items-center space-x-4 mb-4"> */}
               <img
                 className="h-32 mx-auto rounded-full mb-4"
                 src={testimonial.image}
@@ -54,13 +53,7 @@ export default function Testimonials() {
               <h4 className="uppercase text-xl font-bold">
                 {testimonial.name}
               </h4>
-              {/* <div>
-                  <p className="text-lg font-semibold">{testimonial.name}</p>
-                  <p className="text-gray-600 text-sm">
-                    {testimonial.position}
-                  </p>
-                </div> */}
-              {/* </div> */}
+              <p className="text-gray-600 text-sm">{testimonial.position}</p>
               <p className="text-sm leading-7 my-3 font-light opacity-70 inline-block">
                 <FaQuoteLeft className="inline text-black text-xl" />
                 {` ${testimonial.comment} `}
