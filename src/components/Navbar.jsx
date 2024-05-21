@@ -54,7 +54,7 @@ const Navbar = () => {
         } lg:block`}
       >
         <div className="lg:flex-grow flex lg:justify-start items-center space-x-8">
-          <Link to="/" className={linkStyles("/")} onClick={toggleMenu}>
+          <Link to="/" className={linkStyles("/welcome")} onClick={toggleMenu}>
             <span className="text-base lg:text-base">Home</span>
           </Link>
           <Link
