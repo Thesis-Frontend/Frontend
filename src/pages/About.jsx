@@ -1,15 +1,34 @@
 import React from "react";
 import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import Testimonials from "../components/Testimonials";
+import { motion } from "framer-motion";
 
 const AboutUs = () => {
+  const fadeIn = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+      },
+    },
+  };
+
   return (
     <div className="h-full mb-10">
-      <section
+      <motion.section
         id="features"
         className="flex flex-col justify-center items-center mt-36"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
       >
-        <div className="relative mx-auto max-w-5xl text-center">
+        <motion.div className="relative mx-auto max-w-5xl text-center" variants={fadeIn}>
           <span className="text-gray-600 my-3 flex items-center justify-center font-medium uppercase tracking-wider">
             Discover Pincident Lite
           </span>
@@ -17,19 +36,19 @@ const AboutUs = () => {
             Innovating Business Management
           </h2>
           <p className="mx-auto my-4 w-full max-w-xl bg-transparent text-center font-medium leading-relaxed tracking-wide text-gray-400">
-            Our templates allow for maximum customization. No technical skills
-            required – our intuitive design tools let you get the job done
-            easily.
+            Our project is an advanced company management system designed to streamline workflows and enhance organizational control. Through the use of microservices architecture and Role-Centric Attribute-Based Access Control (RABAC), we provide a secure, flexible, and efficient platform for businesses.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="relative mx-auto max-w-7xl grid grid-cols-1 gap-10 pt-14 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="rounded-md border border-blue-600 p-8 text-center shadow">
+        <motion.div
+          className="relative mx-auto max-w-7xl grid grid-cols-1 gap-10 pt-14 sm:grid-cols-2 lg:grid-cols-3"
+          variants={staggerContainer}
+        >
+          <motion.div className="rounded-md border border-blue-600 p-8 text-center shadow bg-white hover:shadow-lg transition-shadow duration-300" variants={fadeIn}>
             <div
-              className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border "
+              className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border mb-4"
               style={{
-                backgroundImage:
-                  "linear-gradient(rgb(80, 70, 229) 0%, rgb(43, 49, 203) 100%)",
+                backgroundImage: "linear-gradient(rgb(80, 70, 229) 0%, rgb(43, 49, 203) 100%)",
                 borderColor: "rgb(93, 79, 240)",
               }}
             >
@@ -52,19 +71,17 @@ const AboutUs = () => {
                 <line x1="17" y1="17" x2="17" y2="17.01"></line>
               </svg>
             </div>
-            <h3 className="mt-6 text-gray-600">Customizable</h3>
+            <h3 className="mt-6 text-gray-600">Enhanced Security</h3>
             <p className="my-4 mb-0 font-normal leading-relaxed tracking-wide text-gray-400">
-              Tailor your landing page's look and feel, from the color scheme to
-              the font size, to the design of the page.
+              Our microservices architecture ensures secure isolation of functionalities, reducing vulnerabilities and safeguarding sensitive data.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="rounded-md border border-blue-600 p-8 text-center shadow">
+          <motion.div className="rounded-md border border-blue-600 p-8 text-center shadow bg-white hover:shadow-lg transition-shadow duration-300" variants={fadeIn}>
             <div
-              className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border "
+              className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border mb-4"
               style={{
-                backgroundImage:
-                  "linear-gradient(rgb(80, 70, 229) 0%, rgb(43, 49, 203) 100%)",
+                backgroundImage: "linear-gradient(rgb(80, 70, 229) 0%, rgb(43, 49, 203) 100%)",
                 borderColor: "rgb(93, 79, 240)",
               }}
             >
@@ -84,19 +101,17 @@ const AboutUs = () => {
                 <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3"></polyline>
               </svg>
             </div>
-            <h3 className="mt-6 text-gray-600">Fast Performance</h3>
+            <h3 className="mt-6 text-gray-600">Flexible Management</h3>
             <p className="my-4 mb-0 font-normal leading-relaxed tracking-wide text-gray-400">
-              We build our templates for speed in mind, for super-fast load
-              times so your customers never waver.
+              Our platform's modular framework allows for easy updates, testing, and debugging, enhancing code management and system scalability.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="rounded-md border border-blue-600 p-8 text-center shadow">
+          <motion.div className="rounded-md border border-blue-600 p-8 text-center shadow bg-white hover:shadow-lg transition-shadow duration-300" variants={fadeIn}>
             <div
-              className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border "
+              className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border mb-4"
               style={{
-                backgroundImage:
-                  "linear-gradient(rgb(80, 70, 229) 0%, rgb(43, 49, 203) 100%)",
+                backgroundImage: "linear-gradient(rgb(80, 70, 229) 0%, rgb(43, 49, 203) 100%)",
                 borderColor: "rgb(93, 79, 240)",
               }}
             >
@@ -121,14 +136,22 @@ const AboutUs = () => {
                 <line x1="16" y1="17" x2="14.5" y2="18.5"></line>
               </svg>
             </div>
-            <h3 className="mt-6 text-gray-600">Fully Featured</h3>
+            <h3 className="mt-6 text-gray-600">Improved Performance</h3>
             <p className="my-4 mb-0 font-normal leading-relaxed tracking-wide text-gray-400">
-              Everything you need to succeed and launch your landing page, right
-              out of the box. No need to install anything else.
+              Our microservices architecture reduces network congestion, ensuring a responsive and efficient system.
             </p>
-          </div>
-        </div>
-      </section>
+          </motion.div>
+        </motion.div>
+
+        <motion.div className="my-16 mx-auto max-w-5xl" variants={fadeIn} initial="hidden" animate="visible">
+          <h2 className="text-3xl font-bold text-center text-gray-600 mb-8">
+            Our Mission
+          </h2>
+          <p className="text-lg text-gray-500 leading-relaxed">
+            Our mission is to revolutionize company management by providing a robust, flexible, and secure platform. We aim to enhance business workflows, improve control, and offer customizable digital environments tailored to the unique needs of each company. By leveraging modern technology and strategic design, we set a new standard in organizational management.
+          </p>
+        </motion.div>
+      </motion.section>
       <Testimonials />
     </div>
   );
