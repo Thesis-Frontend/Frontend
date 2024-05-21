@@ -1,11 +1,15 @@
 import React from "react";
 import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import image from "../assets/my-photo.jpg";
+import image2 from "../assets/talha foto.jpg";
+import image3 from "../assets/cihat foto.jpg";
+
+
 
 const testimonials = [
   {
     id: 1,
-    name: "Ahmet Yılmaz",
+    name: "Sudenur Çevik",
     position: "CEO, Innovatech",
     comment:
       "Pincident Lite has dramatically improved our operational efficiency. The multi-tenant architecture and customizable access controls are game changers!",
@@ -13,19 +17,19 @@ const testimonials = [
   },
   {
     id: 2,
-    name: "Elif Korkmaz",
+    name: "Talha Arık",
     position: "Operations Manager, TechSolutions",
     comment:
       "The level of detail and control over data access is unprecedented. Pincident Lite's system is integral to our day-to-day operations.",
-    image: image,
+    image: image2,
   },
   {
     id: 3,
-    name: "John Doe",
+    name: "Cihat Gelir",
     position: "CTO, AutoAdvance",
     comment:
       "From scalability to security, Pincident Lite checks all the boxes for what we need in an enterprise management platform.",
-    image: image,
+    image: image3,
   },
 ];
 
