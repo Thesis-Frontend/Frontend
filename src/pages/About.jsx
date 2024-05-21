@@ -143,11 +143,14 @@ const AboutUs = () => {
           </motion.div>
         </motion.div>
 
-        <motion.div className="my-16 mx-auto max-w-5xl" variants={fadeIn} initial="hidden" animate="visible">
-          <h2 className="text-3xl font-bold text-center text-gray-600 mb-8">
+        <motion.div className="mt-32 mx-auto p-8 w-full flex flex-col justify-center bg-slate-50" variants={fadeIn} initial="hidden" animate="visible">
+        <span className="text-gray-600 my-3 flex items-center justify-center font-medium uppercase tracking-wider">
+          To the Future!
+        </span>
+          <h2 className="text-center text-gray-600 mb-8 block w-full bg-gradient-to-b from-blue-600 to-gray-500 bg-clip-text font-bold text-transparent text-3xl sm:text-4xl">
             Our Mission
           </h2>
-          <p className="text-lg text-gray-500 leading-relaxed">
+          <p className="text-lg text-gray-500 leading-relaxed w-1/2 text-center self-center">
             Our mission is to revolutionize company management by providing a robust, flexible, and secure platform. We aim to enhance business workflows, improve control, and offer customizable digital environments tailored to the unique needs of each company. By leveraging modern technology and strategic design, we set a new standard in organizational management.
           </p>
         </motion.div>
