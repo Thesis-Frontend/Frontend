@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Login from "../Login/Login";
@@ -11,6 +11,7 @@ import rightImage2 from "../../assets/Shape2.jpg";
 export default function Landing() {
   return (
     <div className="relative h-screen">
+      <Navbar />
       <div className="absolute inset-0 flex items-center justify-centers pb-20">
         <img
           src={leftImage}

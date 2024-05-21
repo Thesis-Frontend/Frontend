@@ -32,10 +32,13 @@ const Navbar = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
   return (
     <nav className="absolute w-full flex items-center justify-between flex-wrap landingBackgroundColor p-6 z-10">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
-        <img src={logo} alt="Logo" className="h-8 mr-10 w-auto" />
+        <Link to="/">
+          <img src={logo} alt="Logo" className="h-8 mr-10 w-auto" />
+        </Link>
       </div>
       <div className="block lg:hidden">
         <button
@@ -51,7 +54,7 @@ const Navbar = () => {
         } lg:block`}
       >
         <div className="lg:flex-grow flex lg:justify-start items-center space-x-8">
-          <Link to="/" className={linkStyles("/welcome")} onClick={toggleMenu}>
+          <Link to="/" className={linkStyles("/")} onClick={toggleMenu}>
             Home
           </Link>
           <Link
