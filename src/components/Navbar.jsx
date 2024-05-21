@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import logo from "../assets/logo.png";
+import Login from "../pages/Login/Login";
 
-const Navbar = ({ setLoginModal, setIsUserLogin }) => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showLoginOptions, setShowLoginOptions] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [isUserLogin, setIsUserLogin] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -15,14 +19,27 @@ const Navbar = ({ setLoginModal, setIsUserLogin }) => {
     setShowLoginOptions(!showLoginOptions);
   };
 
+  const linkStyles = (path) => {
+    return location.pathname === path
+      ? "block mt-4 lg:inline-block lg:mt-0 text-black font-bold text-xl hover:text-blue-200 border-b-2 border-blue-500"
+      : "block mt-4 lg:inline-block lg:mt-0 text-black font-bold text-xl hover:text-blue-200";
+  };
+
+  const handleLoginClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
   return (
     <nav className="absolute w-full flex items-center justify-between flex-wrap landingBackgroundColor p-6 z-10">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
-        <img src={logo} alt="Logo" className="h-8 mr-20 w-auto" />
+        <img src={logo} alt="Logo" className="h-8 mr-10 w-auto" />
       </div>
       <div className="block lg:hidden">
         <button
-          className="flex items-center px-3 py-2 border rounded text-white border-white hover:text-white hover:border-white"
+          className="lg:flex-grow flex items-center px-3 py-2 border rounded text-white border-white hover:text-white hover:border-white"
           onClick={toggleMenu}
         >
           {isOpen ? <RiCloseLine size={24} /> : <RiMenu3Line size={24} />}
@@ -33,44 +50,38 @@ const Navbar = ({ setLoginModal, setIsUserLogin }) => {
           isOpen ? "" : "hidden"
         } lg:block`}
       >
-        <div className="text-sm lg:flex-grow">
-          <Link
-            to="/"
-            className="block mt-4 mr-20 lg:inline-block lg:mt-0 landingFontColor hover:text-blue-200"
-            onClick={toggleMenu}
-          >
+        <div className="lg:flex-grow flex lg:justify-start items-center space-x-8">
+          <Link to="/" className={linkStyles("/welcome")} onClick={toggleMenu}>
             Home
           </Link>
           <Link
-            to="/about"
-            className="block mt-4 mr-20 lg:inline-block lg:mt-0 landingFontColor hover:text-blue-200"
+            to="/about-us"
+            className={linkStyles("/about-us")}
             onClick={toggleMenu}
           >
             About
           </Link>
-          <Link
+          {/* <Link
             to="/companies"
-            className="block mt-4 mr-20 lg:inline-block lg:mt-0 landingFontColor hover:text-blue-200"
+            className={linkStyles("/companies")}
             onClick={toggleMenu}
           >
             Companies
-          </Link>
+          </Link> */}
           <Link
             to="/contact"
-            className="block mt-4 mr-20 lg:inline-block lg:mt-0 landingFontColor hover:text-blue-200"
+            className={linkStyles("/contact")}
             onClick={toggleMenu}
           >
             Contact
           </Link>
         </div>
-        {/* Login Sign Up */}
-        <div>
+        <div className="flex items-center space-x-4 mt-4 lg:mt-0">
           {!showLoginOptions ? (
             <button
-              className="inline-block text-sm px-4 py-2 leading-none border rounded-full text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0 mr-4"
+              className="text-md px-6 py-3 leading-none border rounded-full text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
               onClick={toggleLoginOptions}
               style={{
-                borderRadius: "25px",
                 backgroundColor: "#5C5E64",
                 color: "#ffffff",
                 fontWeight: "bold",
@@ -81,13 +92,12 @@ const Navbar = ({ setLoginModal, setIsUserLogin }) => {
           ) : (
             <>
               <Link
-                className="inline-block text-sm px-4 py-2 leading-none border rounded-l-full text-white border-white hover:border-transparent border-r-0 hover:text-blue-500 hover:bg-white mt-4 lg:mt-0"
+                className="text-md px-6 py-3 leading-none border rounded-l-full text-white border-white hover:border-transparent border-r-0 hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
                 onClick={() => {
-                  setLoginModal(true);
+                  handleLoginClick(true);
                   setIsUserLogin(false);
                 }}
                 style={{
-                  borderRadius: "25px",
                   backgroundColor: "#5C5E64",
                   color: "#ffffff",
                   fontWeight: "bold",
@@ -96,13 +106,12 @@ const Navbar = ({ setLoginModal, setIsUserLogin }) => {
                 Yönetici
               </Link>
               <Link
-                className="inline-block text-sm px-4 py-2 leading-none border rounded-r-full text-white border-white hover:border-transparent border-l-0 hover:text-blue-500 hover:bg-white mt-4 lg:mt-0 mr-4"
+                className="text-md px-6 py-3 leading-none border rounded-r-full text-white border-white hover:border-transparent border-l-0 hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
                 onClick={() => {
-                  setLoginModal(true);
+                  handleLoginClick(true);
                   setIsUserLogin(true);
                 }}
                 style={{
-                  borderRadius: "25px",
                   backgroundColor: "#5C5E64",
                   color: "#ffffff",
                   fontWeight: "bold",
@@ -112,22 +121,24 @@ const Navbar = ({ setLoginModal, setIsUserLogin }) => {
               </Link>
             </>
           )}
+          <Link
+            to="/sign-up"
+            className="text-md px-6 py-3 leading-none border rounded-full text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
+            onClick={toggleMenu}
+            style={{
+              backgroundColor: "#5C5E64",
+              color: "#ffffff",
+              fontWeight: "bold",
+            }}
+          >
+            Sign Up
+          </Link>
         </div>
-
-        <Link
-          to="/sign-up"
-          className="inline-block text-sm px-4 py-2 leading-none border rounded-full text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0"
-          onClick={toggleMenu}
-          style={{
-            borderRadius: "25px",
-            backgroundColor: "#5C5E64",
-            color: "#ffffff",
-            fontWeight: "bold",
-          }}
-        >
-          Sign Up
-        </Link>
-        {/* Login Sign Up END*/}
+        <Login
+          isOpen={showModal}
+          onClose={handleCloseModal}
+          isUserLogin={isUserLogin}
+        />
       </div>
     </nav>
   );

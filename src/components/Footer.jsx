@@ -26,16 +26,16 @@ const Footer = () => {
         </div>
         <div className="text-black flex">
           <span className="mr-4 hover:text-blue-200 cursor-pointer">
-            <FaFacebook size={iconSize} />
+            <FaFacebook size={iconSize} className="size-8" />
           </span>
           <span className="mr-4 hover:text-blue-200 cursor-pointer">
-            <FaInstagram size={iconSize} />
+            <FaInstagram size={iconSize} className="size-8" />
           </span>
           <span className="mr-4 hover:text-blue-200 cursor-pointer">
-            <FaLinkedin size={iconSize} />
+            <FaLinkedin size={iconSize} className="size-8" />
           </span>
           <span className="hover:text-blue-200 cursor-pointer">
-            <FaEnvelope size={iconSize} />
+            <FaEnvelope size={iconSize} className="size-8" />
           </span>
         </div>
       </div>

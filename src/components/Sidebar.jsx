@@ -46,8 +46,8 @@ const Sidebar = () => {
   };
 
   const user = SessionHelper.getUser();
-  const userName = user ? user.name : "Guest";
-  const userRole = user ? user.role : "Unknown";
+  const userName = user ? user.name : "Sude Nur Çevik";
+  const userRole = user ? user.role : "ISG Uzmanı";
 
   return (
     <div

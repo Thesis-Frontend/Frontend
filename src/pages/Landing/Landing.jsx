@@ -9,29 +9,14 @@ import rightImage1 from "../../assets/Shape1.jpg";
 import rightImage2 from "../../assets/Shape2.jpg";
 
 export default function Landing() {
-  const [showModal, setShowModal] = useState(false);
-  const [isUserLogin, setIsUserLogin] = useState(false);
-
-  const handleLoginClick = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
   return (
-    <div className="relative min-h-screen">
-      <Navbar
-        setLoginModal={handleLoginClick}
-        setIsUserLogin={setIsUserLogin}
-      />
+    <div className="relative h-screen">
       <div className="absolute inset-0 flex items-center justify-centers pb-20">
         <img
           src={leftImage}
           alt="Left Image"
           className="absolute left-0 h-auto w-2/5"
-          style={{top: "11%"}}
+          style={{ top: "11%" }}
         />
         <img
           src={rightImage1}
@@ -42,7 +27,7 @@ export default function Landing() {
           src={rightImage2}
           alt="Right Image 2"
           className="absolute"
-          style={{right: "0", width: "17%", top:"20%"}}
+          style={{ right: "0", width: "17%", top: "20%" }}
         />
         <p
           className="absolute p-4 text-3xl font-bold tracking-wide text-white"
@@ -59,14 +44,9 @@ export default function Landing() {
           Elevating Success.
         </p>
       </div>
-      <div className="absolute bottom-0 w-full">
+      {/* <div className="absolute bottom-0 w-full">
         <Footer />
-      </div>
-      <Login
-        isOpen={showModal}
-        onClose={handleCloseModal}
-        isUserLogin={isUserLogin}
-      />
+      </div> */}
     </div>
   );
 }
