@@ -2,6 +2,7 @@ import React from "react";
 import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import Testimonials from "../components/Testimonials";
 import { motion } from "framer-motion";
+import aboutus from "../assets/aboutus foto.jpg";
 
 const AboutUs = () => {
   const fadeIn = {

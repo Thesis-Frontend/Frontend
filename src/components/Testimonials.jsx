@@ -9,7 +9,7 @@ import image3 from "../assets/cihat foto.jpg";
 const testimonials = [
   {
     id: 1,
-    name: "Sudenur Çevik",
+    name: "Sude nur Çevik",
     position: "CEO, Innovatech",
     comment:
       "Pincident Lite has dramatically improved our operational efficiency. The multi-tenant architecture and customizable access controls are game changers!",
@@ -47,7 +47,7 @@ export default function Testimonials() {
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.id}
-              className="!bg-blue-600/45 duration-500 group-hover:blur-sm hover:!blur-none group-hover:scale-[0.85] hover:!scale-100 cursor-pointer p-8 rounded-xl  w-1/3"
+              className="!bg-landingShapeColor duration-500 group-hover:blur-sm hover:!blur-none group-hover:scale-[0.85] hover:!scale-100 cursor-pointer p-8 rounded-xl  w-1/3"
             >
               <img
                 className="h-32 mx-auto rounded-full mb-4"
