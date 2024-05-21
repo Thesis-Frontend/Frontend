@@ -10,11 +10,11 @@ import Loading from "./components/Loading/Loading";
 import Footer from "./components/Footer";
 
 // Lazy loading components for better performance
-// const Login = lazy(() => import("./pages/Login/Login"));
 const Landing = lazy(() => import("./pages/Landing/Landing"));
 const Signup = lazy(() => import("./pages/SignUp/Signup"));
 const Dashboard = lazy(() => import("./pages/Dashboard/Dashboard"));
 const AboutUs = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
 const NotFound = lazy(() => import("./components/NotFound"));
 const Navbar = lazy(() => import("./components/Navbar"));
 const Sidebar = lazy(() => import("./components/Sidebar"));
@@ -23,10 +23,6 @@ const UpdatePwd = lazy(() => import("./pages/ForgetPwd/UpdatePwd"));
 const Companies = lazy(() => import("./pages/Companies/Companies"));
 
 const publicRoutes = [
-  {
-    path: "/welcome",
-    element: <Landing />,
-  },
   {
     path: "/forgot-password",
     element: <ForgetPwd />,
@@ -40,9 +36,20 @@ const publicRoutes = [
     path: "/sign-up",
     element: <Signup />,
   },
+];
+
+const mainRoutes = [
+  {
+    path: "/welcome",
+    element: <Landing />,
+  },
   {
     path: "/about-us",
     element: <AboutUs />,
+  },
+  {
+    path: "/contact",
+    element: <Contact />,
   },
 ];
 
@@ -71,12 +78,19 @@ const PrivateRoute = ({ element }) => {
   );
 };
 
-const PublicRoute = ({ element }) => {
+const MainRoute = ({ element }) => {
   return (
     <div className="relative flex flex-col h-full">
       <Navbar />
       <main className="flex-1">{element}</main>
       <Footer />
+    </div>
+  );
+};
+const PublicRoute = ({ element }) => {
+  return (
+    <div className="relative flex flex-col h-full">
+      <main className="flex-1">{element}</main>
     </div>
   );
 };
@@ -87,6 +101,13 @@ export default function AppRoutes() {
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route exact path="/" element={<Navigate to="/welcome" />} />
+          {mainRoutes.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              element={<MainRoute element={route.element} />}
+            />
+          ))}
           {publicRoutes.map((route, index) => (
             <Route
               key={index}
