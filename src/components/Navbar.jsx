@@ -55,30 +55,24 @@ const Navbar = () => {
       >
         <div className="lg:flex-grow flex lg:justify-start items-center space-x-8">
           <Link to="/" className={linkStyles("/")} onClick={toggleMenu}>
-            Home
+            <span className="text-base lg:text-base">Home</span>
           </Link>
           <Link
             to="/about-us"
             className={linkStyles("/about-us")}
             onClick={toggleMenu}
           >
-            About
+            <span className="text-base lg:text-base">About</span>
           </Link>
-          {/* <Link
-            to="/companies"
-            className={linkStyles("/companies")}
-            onClick={toggleMenu}
-          >
-            Companies
-          </Link> */}
           <Link
             to="/contact"
             className={linkStyles("/contact")}
             onClick={toggleMenu}
           >
-            Contact
+            <span className="text-base lg:text-base">Contact</span>
           </Link>
         </div>
+
         <div className="flex items-center space-x-4 mt-4 lg:mt-0">
           {!showLoginOptions ? (
             <button
