@@ -21,8 +21,8 @@ const Navbar = () => {
 
   const linkStyles = (path) => {
     return location.pathname === path
-      ? "block mt-4 lg:inline-block lg:mt-0 text-black font-bold text-xl hover:text-blue-200 border-b-2 border-blue-500"
-      : "block mt-4 lg:inline-block lg:mt-0 text-black font-bold text-xl hover:text-blue-200";
+      ? "block mt-4 lg:inline-block lg:mt-0 text-black font-bold text-base hover:text-blue-200 border-b-2 border-blue-500"
+      : "block mt-4 lg:inline-block lg:mt-0 text-black font-bold text-base hover:text-blue-200";
   };
 
   const handleLoginClick = () => {
@@ -36,8 +36,9 @@ const Navbar = () => {
   return (
     <nav className="absolute w-full flex items-center justify-between flex-wrap landingBackgroundColor p-6 z-10">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
-        <Link to="/">
-          <img src={logo} alt="Logo" className="h-8 mr-10 w-auto" />
+        <Link to="/" className="flex items-center">
+          <img src={logo} alt="Logo" className="h-7 w-auto mr-2 mb-3" />
+          <span className="text-lg font-bold text-black"></span>
         </Link>
       </div>
       <div className="block lg:hidden">
@@ -76,7 +77,7 @@ const Navbar = () => {
         <div className="flex items-center space-x-4 mt-4 lg:mt-0">
           {!showLoginOptions ? (
             <button
-              className="text-md px-6 py-3 leading-none border rounded-full text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
+              className="text-base px-4 py-2 leading-none border rounded-full text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
               onClick={toggleLoginOptions}
               style={{
                 backgroundColor: "#5C5E64",
@@ -89,7 +90,7 @@ const Navbar = () => {
           ) : (
             <>
               <Link
-                className="text-md px-6 py-3 leading-none border rounded-l-full text-white border-white hover:border-transparent border-r-0 hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
+                className="text-base px-4 py-2 leading-none border rounded-l-full text-white border-white hover:border-transparent border-r-0 hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
                 onClick={() => {
                   handleLoginClick(true);
                   setIsUserLogin(false);
@@ -103,7 +104,7 @@ const Navbar = () => {
                 Yönetici
               </Link>
               <Link
-                className="text-md px-6 py-3 leading-none border rounded-r-full text-white border-white hover:border-transparent border-l-0 hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
+                className="text-base px-4 py-2 leading-none border rounded-r-full text-white border-white hover:border-transparent border-l-0 hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
                 onClick={() => {
                   handleLoginClick(true);
                   setIsUserLogin(true);
@@ -120,7 +121,7 @@ const Navbar = () => {
           )}
           <Link
             to="/sign-up"
-            className="text-md px-6 py-3 leading-none border rounded-full text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
+            className="text-base px-4 py-2 leading-none border rounded-full text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
             onClick={toggleMenu}
             style={{
               backgroundColor: "#5C5E64",

@@ -71,14 +71,16 @@ export default function Contact() {
         severity={severity}
       />
 
-      <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 bg-blue-500 w-full max-w-4xl p-8 rounded-xl shadow-lg text-white sm:p-12 overflow-hidden">
+      <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 bg-signupButtonStrokeColor w-full max-w-4xl p-8 rounded-xl shadow-lg text-white sm:p-12 overflow-hidden">
         <div className="flex flex-col space-y-10 justify-between">
           <div>
             <h1 className="font-bold text-4xl tracking-wide">Contact Us!</h1>
-            <p className="pt-2 text-blue-300 text-sm">
-              egkepwp4gamerophmreohgowegowelgomeroheorhbmoer açıklamalar
+            <p className="pt-2 text-landingShapeColor text-sm whitespace-pre-wrap overflow-hidden">
+              If you have a question or are experiencing a problem with our
+              site, contact our expert support team!
             </p>
           </div>
+
           <div className="flex flex-col space-y-6">
             <div className="inline-flex space-x-2 items-center">
               <RiPhoneFill className="text-teal-300 text-xl" />
@@ -136,7 +138,11 @@ export default function Contact() {
                 ></textarea>
               </div>
               {loading ? (
-                <svg className="h-8 w-8 animate-spin self-end" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <svg
+                  className="h-8 w-8 animate-spin self-end"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                >
                   <path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z" />
                 </svg>
               ) : (
