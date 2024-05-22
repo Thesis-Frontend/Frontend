@@ -23,30 +23,6 @@ const Roles = () => {
       { id: 3, name: "policy3" },
     ],
   };
-  
-  const columns = [
-    { id: "id", label: "ID", minWidth: 170 },
-    { id: "roleName", label: "Name", minWidth: 170 },
-    {
-      id: "created_at",
-      label: "Created At",
-      minWidth: 100,
-      render: (rowData) =>
-        rowData.created_at == "" ? "-" : rowData.created_at,
-    },
-    {
-      id: "deleted_at",
-      label: "Deleted At",
-      minWidth: 100,
-      render: (rowData) =>
-        rowData.deleted_at == "" ? "-" : rowData.deleted_at,
-    },
-    {
-      id: "active",
-      label: "Active",
-      render: (rowData) => (rowData.active ? "True" : "False"),
-    },
-  ];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,6 +75,50 @@ const Roles = () => {
     setModalOpen(false);
   };
 
+  const getPolicyNames = (policyIds) => {
+    return (
+      <div className="policy-list">
+        {policyIds.map((policyId) => {
+          const policy = options.policies.find((p) => p.id === policyId);
+          return policy ? (
+            <div key={policyId}>{policy.name}</div>
+          ) : (
+            <div>-</div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const columns = [
+    { id: "id", label: "ID", minWidth: 170 },
+    { id: "roleName", label: "Name", minWidth: 170 },
+    {
+      id: "created_at",
+      label: "Created At",
+      minWidth: 100,
+      render: (rowData) =>
+        rowData.created_at === "" ? "-" : rowData.created_at,
+    },
+    {
+      id: "deleted_at",
+      label: "Deleted At",
+      minWidth: 100,
+      render: (rowData) =>
+        rowData.deleted_at === "" ? "-" : rowData.deleted_at,
+    },
+    {
+      id: "active",
+      label: "Active",
+      render: (rowData) => (rowData.active ? "True" : "False"),
+    },
+    {
+      id: "policies",
+      label: "Policies",
+      render: (rowData) => getPolicyNames(rowData.policyIds || []),
+    },
+  ];
+
   return (
     <div>
       <Table
@@ -124,6 +144,18 @@ const Roles = () => {
         onRequestClose={() => setDeleteModalOpen(false)}
         onDelete={confirmDelete}
       />
+      <style jsx>{`
+        .policy-list {
+          max-height: 100px; /* Adjust as needed */
+          overflow-y: auto;
+          padding: 5px;
+          border-radius: 5px;
+          color: #666; /* A lighter color */
+        }
+        .policy-list div {
+          margin: 7px 0;
+        }
+      `}</style>
     </div>
   );
 };
