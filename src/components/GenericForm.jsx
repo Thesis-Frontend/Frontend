@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
+import {
+  RiArrowLeftSLine,
+  RiArrowRightSLine,
+  RiEyeLine,
+  RiEyeOffLine,
+} from "react-icons/ri";
 import Snackbar from "./Snackbar"; // Importing the Snackbar component
 import CustomDropdown from "./CustomDropdown";
 
@@ -13,6 +18,7 @@ const GenericFormComponent = ({
   type = "text",
   options = [],
 }) => {
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
@@ -25,11 +31,11 @@ const GenericFormComponent = ({
     if (!value) {
       setSnackbarMessage(`${title} field is required`);
       setShowSnackbar(true);
-      setTimeout(() => setShowSnackbar(false), 3000); // Hide the snackbar after 3 seconds
+      setTimeout(() => setShowSnackbar(false), 3000); // Hide snackbar after 3 seconds
     } else if (type === "email" && !isValidEmail(value)) {
       setSnackbarMessage("Please enter a valid email address");
       setShowSnackbar(true);
-      setTimeout(() => setShowSnackbar(false), 3000); // Hide the snackbar after 3 seconds
+      setTimeout(() => setShowSnackbar(false), 3000); // Hide snackbar after 3 seconds
     } else {
       onNext(e);
     }
@@ -39,6 +45,10 @@ const GenericFormComponent = ({
     if (e.key === "Enter") {
       handleNext(e);
     }
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -57,14 +67,27 @@ const GenericFormComponent = ({
               isMultiple={false}
             />
           ) : (
-            <input
-              type={type}
-              placeholder={placeholder}
-              value={value}
-              onChange={(e) => onChange(e.target.value)}
-              onKeyDown={handleKeyPress}
-              className="w-1/2 p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-            />
+            <div className="relative">
+              <input
+                type={
+                  type !== "password" ? "text" : showPassword ? "text" : "password"
+                }
+                placeholder={placeholder}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                onKeyDown={handleKeyPress}
+                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              />
+              {type === "password" && (
+                <button
+                  type="button"
+                  onClick={toggleShowPassword}
+                  className="absolute right-3 top-4 cursor-pointer"
+                >
+                  {showPassword ? <RiEyeOffLine /> : <RiEyeLine />}
+                </button>
+              )}
+            </div>
           )}
         </div>
       </div>

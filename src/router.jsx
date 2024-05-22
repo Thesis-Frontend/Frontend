@@ -22,7 +22,8 @@ const ForgetPwd = lazy(() => import("./pages/ForgetPwd/ForgetPwd"));
 const UpdatePwd = lazy(() => import("./pages/ForgetPwd/UpdatePwd"));
 const Companies = lazy(() => import("./pages/Companies/Companies"));
 const Roles = lazy(() => import("./pages/Role&Auth/Roles/Roles"));
-const Policies = lazy(() => import("./pages/Role&Auth/Policies"));
+const Policies = lazy(() => import("./pages/Role&Auth/Policy/Policies"));
+const PolicyEditor = lazy(() => import("./pages/Role&Auth/Policy/PolicyEditor"));
 
 const publicRoutes = [
   {
@@ -71,6 +72,10 @@ const privateRoutes = [
   {
     path: "/policies",
     element: <Policies />,
+  },
+  {
+    path: "/policies/:id",
+    element: <PolicyEditor />,
   },
 ];
 

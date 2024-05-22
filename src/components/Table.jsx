@@ -22,6 +22,7 @@ const Table = ({
   handleDelete,
   fetchData,
   rowStyle,
+  actions,
 }) => {
   const user = SessionHelper.getUser();
   const role = user?.role ? user.role : "admin";
@@ -159,6 +160,15 @@ const Table = ({
                       >
                         <FaTrash />
                       </button>
+                      {actions && actions.map((action, index) => (
+                        <button
+                          key={index}
+                          onClick={() => action.onClick(row.id)}
+                          className={`text-${action.color}-500 ml-2`}
+                        >
+                          {action.icon}
+                        </button>
+                      ))}
                     </td>
                   )}
                 </tr>

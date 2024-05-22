@@ -1,7 +1,18 @@
-import React from "react";
-import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
+import React, { useState } from "react";
+import {
+  RiArrowLeftSLine,
+  RiArrowRightSLine,
+  RiEyeLine,
+  RiEyeOffLine,
+} from "react-icons/ri";
 
-const ReviewInformation = ({ data, onEdit, onSubmit, onPrevious }) => {
+const ReviewInformation = ({ data, onEdit, onSubmit, onPrevious, options }) => {
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-signupCardColor p-8 rounded-lg rounded-b-none shadow-lg w-2/5">
@@ -27,8 +38,29 @@ const ReviewInformation = ({ data, onEdit, onSubmit, onPrevious }) => {
             <hr className="mt-4 opacity-40" />
           </div>
           <div>
-            <strong>4. Sector Name</strong>
-            <div className="opacity-75">{data.sectorName}</div>
+            <strong>4. Password</strong>
+            <div className="relative opacity-75 fle">
+              <input
+                className="bg-transparent"
+                value={data.password}
+                type={showPassword ? "text" : "password"}
+              />
+              <button
+                type="button"
+                onClick={toggleShowPassword}
+                className="absolute right-3 top-0 cursor-pointer"
+              >
+                {showPassword ? <RiEyeOffLine /> : <RiEyeLine />}
+              </button>
+            </div>
+            <hr className="mt-4 opacity-40" />
+          </div>
+          <div>
+            <strong>5. Sector Name</strong>
+            <div className="opacity-75">
+              {options.find((opt) => opt.id === data.sectorName)?.name ||
+                "Sector Not Found"}
+            </div>
           </div>
         </div>
       </div>

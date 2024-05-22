@@ -17,8 +17,15 @@ export default function Signup() {
     surname: "",
     companyName: "",
     email: "",
+    password: "",
     sectorName: "",
   });
+
+  const options = [
+    { id: 1, name: "EDC" },
+    { id: 2, name: "WATER" },
+    { id: 3, name: "ENERGY" },
+  ];
 
   const nextStep = () => setCurrentStep(currentStep + 1);
   const prevStep = () => setCurrentStep(currentStep - 1);
@@ -51,6 +58,7 @@ export default function Signup() {
             onNext={nextStep}
             onPrevious={prevStep}
             placeholder="Enter name"
+            type="text"
           />
         );
       case 3:
@@ -64,6 +72,7 @@ export default function Signup() {
             onNext={nextStep}
             onPrevious={prevStep}
             placeholder="Enter surname"
+            type="text"
           />
         );
       case 4:
@@ -77,6 +86,7 @@ export default function Signup() {
             onNext={nextStep}
             onPrevious={prevStep}
             placeholder="Enter company name"
+            type="text"
           />
         );
       case 5:
@@ -96,6 +106,20 @@ export default function Signup() {
       case 6:
         return (
           <GenericFormComponent
+            title="Password"
+            value={signupData.password}
+            onChange={(val) => {
+              handleDataChange("password", val);
+            }}
+            onNext={nextStep}
+            onPrevious={prevStep}
+            placeholder="Enter password"
+            type="password"
+          />
+        );
+      case 7:
+        return (
+          <GenericFormComponent
             title="Sector Name"
             value={signupData.sectorName}
             onChange={(val) => {
@@ -105,16 +129,12 @@ export default function Signup() {
             onPrevious={prevStep}
             placeholder="Enter company name"
             type="select"
-            options={[
-              { id: 1, name: "EDC" },
-              { id: 2, name: "WATER" },
-              { id: 3, name: "ENERGY" },
-            ]}
+            options={options}
           />
         );
       // Part of the Signup component
 
-      case 7:
+      case 8:
         return (
           <ReviewInformation
             data={signupData}
@@ -124,20 +144,21 @@ export default function Signup() {
               nextStep(); // Assuming nextStep leads to the success or confirmation page
             }}
             onPrevious={prevStep}
+            options={options}
           />
         );
 
-      case 8:
-        return (
-          <SuccessPage
-            message="Ödeminiz başarıyla gerçekleşmiştir. Mailinize gelen kullanıcı adı ve şifre ile sisteme giriş yapabilirsiniz."
-            onReturnHome={() => {
-              navigate("/");
-            }}
-            title={"Teşekkürler!"}
-            buttonName={"Ana sayfaya dön"}
-          />
-        );
+      // case 8:
+      //   return (
+      //     <SuccessPage
+      //       message="Ödeminiz başarıyla gerçekleşmiştir. Mailinize gelen kullanıcı adı ve şifre ile sisteme giriş yapabilirsiniz."
+      //       onReturnHome={() => {
+      //         navigate("/");
+      //       }}
+      //       title={"Teşekkürler!"}
+      //       buttonName={"Ana sayfaya dön"}
+      //     />
+      //   );
 
       default:
         return <NotFound />;

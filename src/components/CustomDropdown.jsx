@@ -56,7 +56,7 @@ export default function CustomDropdown({
     <div className="font-medium">
       <div
         onClick={() => setOpen(!open)}
-        className={`bg-white w-full p-2 flex items-center justify-between rounded-xl ${
+        className={`bg-white w-full p-2 flex items-center justify-between rounded ${
           isMultiple
             ? !selected.length && "text-gray-700"
             : !selected.name && "text-gray-700"
