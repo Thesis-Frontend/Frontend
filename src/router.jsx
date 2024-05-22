@@ -21,6 +21,8 @@ const Sidebar = lazy(() => import("./components/Sidebar"));
 const ForgetPwd = lazy(() => import("./pages/ForgetPwd/ForgetPwd"));
 const UpdatePwd = lazy(() => import("./pages/ForgetPwd/UpdatePwd"));
 const Companies = lazy(() => import("./pages/Companies/Companies"));
+const Roles = lazy(() => import("./pages/Role&Auth/Roles/Roles"));
+const Policies = lazy(() => import("./pages/Role&Auth/Policies"));
 
 const publicRoutes = [
   {
@@ -62,10 +64,17 @@ const privateRoutes = [
     path: "/companies",
     element: <Companies />,
   },
+  {
+    path: "/roles",
+    element: <Roles />,
+  },
+  {
+    path: "/policies",
+    element: <Policies />,
+  },
 ];
 
 const PrivateRoute = ({ element }) => {
-  console.log(element);
   const isLoggedIn = SessionHelper.getIsLoggedIn();
 
   return !isLoggedIn ? (

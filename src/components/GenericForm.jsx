@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
-import Snackbar from "./Snackbar";  // Importing the Snackbar component
+import Snackbar from "./Snackbar"; // Importing the Snackbar component
+import CustomDropdown from "./CustomDropdown";
 
 const GenericFormComponent = ({
   title,
@@ -24,11 +25,11 @@ const GenericFormComponent = ({
     if (!value) {
       setSnackbarMessage(`${title} field is required`);
       setShowSnackbar(true);
-      setTimeout(() => setShowSnackbar(false), 3000);  // Hide the snackbar after 3 seconds
+      setTimeout(() => setShowSnackbar(false), 3000); // Hide the snackbar after 3 seconds
     } else if (type === "email" && !isValidEmail(value)) {
       setSnackbarMessage("Please enter a valid email address");
       setShowSnackbar(true);
-      setTimeout(() => setShowSnackbar(false), 3000);  // Hide the snackbar after 3 seconds
+      setTimeout(() => setShowSnackbar(false), 3000); // Hide the snackbar after 3 seconds
     } else {
       onNext(e);
     }
@@ -48,21 +49,13 @@ const GenericFormComponent = ({
             {title}
           </label>
           {type === "select" ? (
-            <select
-              className="form-select appearance-none block w-1/2 p-3 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-black focus:outline-none"
-              value={value}
-              onChange={(e) => onChange(e.target.value)}
-              onKeyDown={handleKeyPress}
-            >
-              <option disabled value="">
-                Select One
-              </option>
-              {options.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+            <CustomDropdown
+              title={title}
+              options={options}
+              selectedValue={value}
+              onChange={(value) => onChange(value)}
+              isMultiple={false}
+            />
           ) : (
             <input
               type={type}
@@ -89,7 +82,11 @@ const GenericFormComponent = ({
           Next <RiArrowRightSLine className="ml-1" />
         </button>
       </div>
-      <Snackbar message={snackbarMessage} show={showSnackbar} severity={"error"} />
+      <Snackbar
+        message={snackbarMessage}
+        show={showSnackbar}
+        severity={"error"}
+      />
     </div>
   );
 };

@@ -20,7 +20,7 @@ const SubscriptionCard = ({
     <div
       className={`${
         titleToBackgroundColor[title]
-      } border-indigo-600 rounded-md shadow-xl cursor-pointer relative ${
+      } border-neutral-400 rounded-md shadow-xl cursor-pointer relative ${
         featured ? "border-2" : "border border-opacity-10"
       }`}
     >

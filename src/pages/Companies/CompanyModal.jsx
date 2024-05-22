@@ -1,30 +1,38 @@
 import React, { useState, useEffect } from "react";
 
 const CompanyModal = ({ isOpen, onClose, onSave, data }) => {
-  const [companyName, setCompanyName] = useState("");
-  const [city, setCity] = useState("");
-  const [companyType, setCompanyType] = useState("");
-  const [taxOffice, setTaxOffice] = useState("");
-  const [taxNumber, setTaxNumber] = useState("");
+  const [formData, setFormData] = useState({
+    companyName: "",
+    city: "",
+    companyType: "",
+    taxOffice: "",
+    taxNumber: "",
+  });
 
   useEffect(() => {
     if (data) {
-      setCompanyName(data.companyName || "");
-      setCity(data.city || "");
-      setCompanyType(data.companyType || "");
-      setTaxOffice(data.taxOffice || "");
-      setTaxNumber(data.taxNumber || "");
+      setFormData({
+        companyName: data.companyName || "",
+        city: data.city || "",
+        companyType: data.companyType || "",
+        taxOffice: data.taxOffice || "",
+        taxNumber: data.taxNumber || "",
+      });
     }
   }, [data]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleSave = () => {
     const newCompany = {
       ...data,
-      companyName,
-      city,
-      companyType,
-      taxOffice,
-      taxNumber,
+      ...formData,
     };
     onSave(newCompany);
   };
@@ -34,53 +42,55 @@ const CompanyModal = ({ isOpen, onClose, onSave, data }) => {
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-gray-200 rounded-xl shadow-lg p-8 w-1/4">
-        {/* <h2 className="text-xl font-bold mb-4">
-          {data?.id ? "Update Company" : "Create a new company"}
-        </h2> */}
         <div className="space-y-4">
           <div>
             <label className="block text-gray-700 font-bold">Company Name</label>
             <input
               type="text"
+              name="companyName"
               className="w-full border border-gray-300 p-2 rounded-xl"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
+              value={formData.companyName}
+              onChange={handleChange}
             />
           </div>
           <div>
             <label className="block text-gray-700 font-bold">City</label>
             <input
               type="text"
+              name="city"
               className="w-full border border-gray-300 p-2 rounded-xl"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
+              value={formData.city}
+              onChange={handleChange}
             />
           </div>
           <div>
             <label className="block text-gray-700 font-bold">Company Type</label>
             <input
               type="text"
+              name="companyType"
               className="w-full border border-gray-300 p-2 rounded-xl"
-              value={companyType}
-              onChange={(e) => setCompanyType(e.target.value)}
+              value={formData.companyType}
+              onChange={handleChange}
             />
           </div>
           <div>
             <label className="block text-gray-700 font-bold">Tax Office</label>
             <input
               type="text"
+              name="taxOffice"
               className="w-full border border-gray-300 p-2 rounded-xl"
-              value={taxOffice}
-              onChange={(e) => setTaxOffice(e.target.value)}
+              value={formData.taxOffice}
+              onChange={handleChange}
             />
           </div>
           <div>
             <label className="block text-gray-700 font-bold">Tax ID</label>
             <input
               type="text"
+              name="taxNumber"
               className="w-full border border-gray-300 p-2 rounded-xl"
-              value={taxNumber}
-              onChange={(e) => setTaxNumber(e.target.value)}
+              value={formData.taxNumber}
+              onChange={handleChange}
             />
           </div>
         </div>

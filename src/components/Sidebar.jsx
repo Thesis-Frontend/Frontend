@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   RiHome2Line,
   RiFileList2Line,
@@ -12,20 +12,91 @@ import {
   RiLogoutCircleLine,
 } from "react-icons/ri";
 import { BiCollapseHorizontal, BiExpandHorizontal } from "react-icons/bi";
+import { IoIosMenu } from "react-icons/io";
 import { SiAuthentik } from "react-icons/si";
 import { LuBookMinus } from "react-icons/lu";
 import { CiLight, CiDark } from "react-icons/ci";
-import SessionHelper from "../helpers/SessionHelper"; // Adjust the path as necessary
-import logo from "../assets/logo.png"; // Replace with the path to your logo
-import logoCollapsed from "../assets/collapsed-logo.png"; // Replace with the path to your collapsed logo
+import SessionHelper from "../helpers/SessionHelper";
+import logo from "../assets/logo.png";
+import logoCollapsed from "../assets/collapsed-logo.png";
+
+const menuItems1 = [
+  { name: "Dashboard", path: "/dashboard", icon: <RiHome2Line size={24} /> },
+  { name: "Records", path: "/records", icon: <RiFileList2Line size={24} /> },
+  {
+    name: "Server Error Logs",
+    path: "/server-error-logs",
+    icon: <RiErrorWarningLine size={24} />,
+  },
+  { name: "History", path: "/history", icon: <RiHistoryLine size={24} /> },
+];
+const menuItems2 = [
+  { name: "Users", path: "/users", icon: <RiTeamLine size={24} /> },
+  {
+    name: "Companies",
+    path: "/companies",
+    icon: <RiBuildingLine size={24} />,
+  },
+  {
+    name: "Departments",
+    path: "/departments",
+    icon: <RiBuilding2Line size={24} />,
+  },
+  {
+    name: "Cities and Towns",
+    path: "/cities-and-towns",
+    icon: <RiMapPin2Line size={24} />,
+  },
+  {
+    name: "Role-Authorization Matrix",
+    path: "",
+    icon: <SiAuthentik size={24} />,
+    subItems: [
+      {
+        name: "Roles",
+        path: "/roles",
+        icon: <IoIosMenu size={20} />,
+      },
+      {
+        name: "Policies",
+        path: "/policies",
+        icon: <IoIosMenu size={20} />,
+      },
+    ],
+  },
+  { name: "Trainings", path: "/trainings", icon: <LuBookMinus size={24} /> },
+];
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const path = location.pathname;
+
   const [isOpen, setIsOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
-  const [selectedMenuItem, setSelectedMenuItem] = useState("Dashboard");
-  const navigate = useNavigate();
+  const [selectedMenuItem, setSelectedMenuItem] = useState(path);
+  const [expandedMenus, setExpandedMenus] = useState({});
 
-  const toggleSidebar = () => setIsOpen(!isOpen);
+  useEffect(() => {
+    const totalArr = [...menuItems1, ...menuItems2];
+    totalArr.forEach((item) => {
+      if (item.subItems) {
+        item.subItems.forEach((subItem) => {
+          if (subItem.path === path) {
+            setExpandedMenus((prev) => ({ ...prev, [item.name]: true }));
+          }
+        });
+      }
+    });
+  }, [path]);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+    if (isOpen) {
+      setExpandedMenus({});
+    }
+  };
+
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
   const handleLogout = () => {
@@ -33,21 +104,25 @@ const Sidebar = () => {
     navigate("/welcome");
   };
 
-  const handleMenuItemClick = (path, menuItem) => {
-    setSelectedMenuItem(menuItem);
+  const handleMenuItemClick = (path) => {
+    setSelectedMenuItem(path);
     navigate(path);
   };
 
-  const getMenuItemClass = (menuItem) => {
+  const getMenuItemClass = (path) => {
     const baseClass =
       "flex items-center space-x-2 px-2 py-2 rounded-md cursor-pointer transition-colors duration-300";
-    const selectedClass = selectedMenuItem === menuItem ? "bg-gray-300" : "";
+    const selectedClass = selectedMenuItem === path ? "bg-gray-300" : "";
     return `${baseClass} ${selectedClass}`;
   };
 
   const user = SessionHelper.getUser();
   const userName = user ? user.name : "Sude Nur Çevik";
   const userRole = user ? user.role : "ISG Uzmanı";
+
+  const toggleMenu = (name) => {
+    setExpandedMenus((prev) => ({ ...prev, [name]: !prev[name] }));
+  };
 
   return (
     <div
@@ -57,7 +132,7 @@ const Sidebar = () => {
           : "bg-white text-black"
       } shadow-lg ${
         isOpen ? "w-64 justify-start" : "w-20 justify-center"
-      }  transition-width duration-300 ease-in-out relative`}
+      } transition-width duration-300 ease-in-out relative`}
     >
       <div
         className={`flex items-center ${
@@ -89,92 +164,56 @@ const Sidebar = () => {
               darkMode ? "text-white" : "text-gray-600"
             }`}
           >
-            <li
-              className={getMenuItemClass("Dashboard")}
-              onClick={() => handleMenuItemClick("/dashboard", "Dashboard")}
-            >
-              <RiHome2Line size={24} />
-              {isOpen && <span>Dashboard</span>}
-            </li>
-            <li
-              className={getMenuItemClass("Records")}
-              onClick={() => handleMenuItemClick("/records", "Records")}
-            >
-              <RiFileList2Line size={24} />
-              {isOpen && <span>Records</span>}
-            </li>
-            <li
-              className={getMenuItemClass("Server Error Logs")}
-              onClick={() =>
-                handleMenuItemClick("/server-error-logs", "Server Error Logs")
-              }
-            >
-              <RiErrorWarningLine size={24} />
-              {isOpen && <span>Server Error Logs</span>}
-            </li>
-            <li
-              className={getMenuItemClass("History")}
-              onClick={() => handleMenuItemClick("/history", "History")}
-            >
-              <RiHistoryLine size={24} />
-              {isOpen && <span>History</span>}
-            </li>
+            {menuItems1.map((item) => (
+              <li
+                key={item.name}
+                className={getMenuItemClass(item.path)}
+                onClick={() => handleMenuItemClick(item.path)}
+              >
+                {item.icon}
+                {isOpen && <span>{item.name}</span>}
+              </li>
+            ))}
             <hr className="border-t border-gray-300" />
-
-            <li
-              className={getMenuItemClass("Users")}
-              onClick={() => handleMenuItemClick("/users", "Users")}
-            >
-              <RiTeamLine size={24} />
-              {isOpen && <span>Users</span>}
-            </li>
-            <li
-              className={getMenuItemClass("Companies")}
-              onClick={() => handleMenuItemClick("/companies", "Companies")}
-            >
-              <RiBuildingLine size={24} />
-              {isOpen && <span>Companies</span>}
-            </li>
-            <li
-              className={getMenuItemClass("Departments")}
-              onClick={() => handleMenuItemClick("/departments", "Departments")}
-            >
-              <RiBuilding2Line size={24} />
-              {isOpen && <span>Departments</span>}
-            </li>
-            <li
-              className={getMenuItemClass("Cities and Towns")}
-              onClick={() =>
-                handleMenuItemClick("/cities-and-towns", "Cities and Towns")
-              }
-            >
-              <RiMapPin2Line size={24} />
-              {isOpen && <span>Cities and Towns</span>}
-            </li>
-            <li
-              className={getMenuItemClass("Role-Authorization Matrixsi")}
-              onClick={() =>
-                handleMenuItemClick(
-                  "/role-auth-matrix",
-                  "Role-Authorization Matrix"
-                )
-              }
-            >
-              <SiAuthentik size={24} />
-              {isOpen && <span>Role-Authorization Matrix</span>}
-            </li>
-            <li
-              className={getMenuItemClass("Traninings")}
-              onClick={() => handleMenuItemClick("/trainings", "Traninings")}
-            >
-              <LuBookMinus size={24} />
-              {isOpen && <span>Traninings</span>}
-            </li>
+            {menuItems2.map((item) => (
+              <li key={item.name}>
+                <div
+                  className={getMenuItemClass(item.path)}
+                  onClick={() =>
+                    item.subItems
+                      ? toggleMenu(item.name)
+                      : handleMenuItemClick(item.path)
+                  }
+                >
+                  {item.icon}
+                  {isOpen && <span>{item.name}</span>}
+                  {item.subItems && expandedMenus[item.name] && isOpen ? (
+                    <BiCollapseHorizontal size={20} />
+                  ) : item.subItems && isOpen ? (
+                    <BiExpandHorizontal size={20} />
+                  ) : null}
+                </div>
+                {item.subItems && expandedMenus[item.name] && isOpen && (
+                  <ul className="pl-8">
+                    {item.subItems.map((subItem) => (
+                      <li
+                        key={subItem.name}
+                        className={getMenuItemClass(subItem.path)}
+                        onClick={() => handleMenuItemClick(subItem.path)}
+                      >
+                        {subItem.icon}
+                        {isOpen && <span>{subItem.name}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
           </ul>
         </nav>
       </div>
       <div
-        className={`p-4 ${
+        className={`p-3 ${
           !darkMode ? "bg-gray-100" : " bg-signupButtonStrokeColor"
         }  flex flex-col items-center transition-all ease-in-out`}
       >

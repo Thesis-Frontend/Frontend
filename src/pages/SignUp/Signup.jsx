@@ -105,7 +105,11 @@ export default function Signup() {
             onPrevious={prevStep}
             placeholder="Enter company name"
             type="select"
-            options={["EDC", "WATER", "ENERGY"]}
+            options={[
+              { id: 1, name: "EDC" },
+              { id: 2, name: "WATER" },
+              { id: 3, name: "ENERGY" },
+            ]}
           />
         );
       // Part of the Signup component

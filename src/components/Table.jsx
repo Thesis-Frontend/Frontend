@@ -12,22 +12,20 @@ import {
   FaSortDown,
 } from "react-icons/fa";
 import SessionHelper from "../helpers/SessionHelper";
-import DeleteModal from "./Modal/DeleteModal"; // Adjust the path as necessary
+import DeleteModal from "./Modal/DeleteModal";
 
 const Table = ({
   title,
   columns,
-  onCreate,
-  onUpdate,
-  onDelete,
-  ModalComponent,
+  handleCreate,
+  handleEdit,
+  handleDelete,
   fetchData,
+  rowStyle,
 }) => {
   const user = SessionHelper.getUser();
   const role = user?.role ? user.role : "admin";
 
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [modalData, setModalData] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -36,8 +34,6 @@ const Table = ({
   const [snackbar, setSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [severity, setSeverity] = useState("");
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [deleteRowId, setDeleteRowId] = useState(null);
 
   const rowsPerPage = 10; // Number of rows per page
 
@@ -50,42 +46,18 @@ const Table = ({
       search: searchQuery,
     };
 
-    fetchData(query, setSnackbar, setSnackbarMessage, setSeverity, setTotalCount, "companies", {}).then(
-      (fetchedData) => {
-        setData(fetchedData.data);
-      }
-    );
+    fetchData(
+      query,
+      setSnackbar,
+      setSnackbarMessage,
+      setSeverity,
+      setTotalCount,
+      "companies",
+      {}
+    ).then((fetchedData) => {
+      setData(fetchedData.data);
+    });
   }, [currentPage, searchQuery, sortConfig]);
-
-  const handleCreate = () => {
-    setModalData({});
-    setModalOpen(true);
-  };
-
-  const handleEdit = (row) => {
-    setModalData(row);
-    setModalOpen(true);
-  };
-
-  const handleDelete = (id) => {
-    setDeleteRowId(id);
-    setDeleteModalOpen(true);
-  };
-
-  const confirmDelete = () => {
-    onDelete(deleteRowId);
-    setDeleteModalOpen(false);
-    setDeleteRowId(null);
-  };
-
-  const handleSave = (data) => {
-    if (data.id) {
-      onUpdate(data);
-    } else {
-      onCreate(data);
-    }
-    setModalOpen(false);
-  };
 
   const handleSort = (columnKey) => {
     let direction = "ASC";
@@ -160,10 +132,17 @@ const Table = ({
             </thead>
             <tbody>
               {data.map((row, rowIndex) => (
-                <tr key={rowIndex} className="h-16">
+                <tr
+                  key={rowIndex}
+                  className="h-16"
+                  style={rowStyle ? rowStyle(row) : {}}
+                >
                   {columns.map((column) => (
-                    <td key={column.id} className="py-2 px-4 border-b text-center">
-                      {row[column.id]}
+                    <td
+                      key={column.id}
+                      className="py-2 px-4 border-b text-center"
+                    >
+                      {column.render ? column.render(row) : row[column.id]}
                     </td>
                   ))}
                   {role === "admin" && (
@@ -187,7 +166,10 @@ const Table = ({
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan={columns.length + 1} className="py-2 px-4 bg-white border-t">
+                <td
+                  colSpan={columns.length + 1}
+                  className="py-2 px-4 bg-white border-t"
+                >
                   <div className="flex justify-between items-center">
                     <button
                       onClick={() => handlePageChange(currentPage - 1)}
@@ -213,17 +195,6 @@ const Table = ({
           </table>
         </div>
       </main>
-      <ModalComponent
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
-        onSave={handleSave}
-        data={modalData}
-      />
-      <DeleteModal
-        isOpen={deleteModalOpen}
-        onRequestClose={() => setDeleteModalOpen(false)}
-        onDelete={confirmDelete}
-      />
     </div>
   );
 };
