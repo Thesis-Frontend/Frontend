@@ -7,7 +7,8 @@ const mockRoles = [
     created_at: "22.05.2024",
     deleted_at: "",
     active: true,
-    policyIds: [{ id: 1, name: "policy1" }],
+    // policyIds: [{ id: 1, name: "policy1" }],
+    policyIds: [1],
   },
   {
     id: 2,
@@ -15,10 +16,7 @@ const mockRoles = [
     created_at: "22.05.2024",
     deleted_at: "",
     active: true,
-    policyIds: [
-      { id: 2, name: "policy2" },
-      { id: 3, name: "policy3" },
-    ],
+    policyIds: [2, 3],
   },
   {
     id: 3,

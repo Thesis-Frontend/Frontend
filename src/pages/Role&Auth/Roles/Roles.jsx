@@ -15,10 +15,6 @@ const Roles = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const [formData, setFormData] = useState({
-    roleName: "",
-    policyIds: [],
-  });
 
   const options = {
     policies: [
@@ -27,6 +23,7 @@ const Roles = () => {
       { id: 3, name: "policy3" },
     ],
   };
+  
   const columns = [
     { id: "id", label: "ID", minWidth: 170 },
     { id: "roleName", label: "Name", minWidth: 170 },
@@ -71,7 +68,6 @@ const Roles = () => {
   };
 
   const handleEdit = (role) => {
-    console.log(role);
     setModalData(role);
     setModalOpen(true);
   };
@@ -90,10 +86,6 @@ const Roles = () => {
 
   const handleModalClose = () => {
     setModalOpen(false);
-    setFormData({
-      roleName: "",
-      policyIds: [],
-    });
   };
 
   const handleSave = (role) => {
@@ -126,8 +118,6 @@ const Roles = () => {
         onSave={handleSave}
         data={modalData}
         options={options}
-        formData={formData}
-        setFormData={setFormData}
       />
       <DeleteModal
         isOpen={isDeleteModalOpen}

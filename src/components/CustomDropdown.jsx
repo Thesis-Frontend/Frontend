@@ -20,12 +20,15 @@ export default function CustomDropdown({
 
   const handleOptionClick = (opt) => {
     if (isMultiple) {
+      console.log(selected);
+      console.log(opt);
       const isSelected = selected.some((item) => item.id === opt.id);
       let newSelected;
       if (isSelected) {
         newSelected = selected.filter((item) => item.id !== opt.id);
       } else {
         newSelected = [...selected, opt];
+        console.log(newSelected);
       }
       setSelected(newSelected);
       setInputValue("");
@@ -40,6 +43,7 @@ export default function CustomDropdown({
 
   const displayText = () => {
     if (isMultiple) {
+      console.log(selected);
       return selected.length
         ? selected
             .map((item) => item.name)

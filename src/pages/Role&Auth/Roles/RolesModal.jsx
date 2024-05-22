@@ -1,27 +1,28 @@
 import React, { useState, useEffect } from "react";
 import CustomDropdown from "../../../components/CustomDropdown";
 
-const RolesModal = ({
-  isOpen,
-  onClose,
-  onSave,
-  data,
-  options,
-  formData,
-  setFormData,
-}) => {
+const RolesModal = ({ isOpen, onClose, onSave, data, options }) => {
+  const [formData, setFormData] = useState({
+    roleName: "",
+    policyIds: [],
+  });
+
   useEffect(() => {
-    console.log(data);
-    if (data) {
+    if (isOpen && data) {
       setFormData({
         roleName: data.roleName || "",
         policyIds: data.policyIds || [],
       });
     }
-  }, [data]);
+    if (isOpen && !data) {
+      setFormData({
+        roleName: "",
+        policyIds: [],
+      });
+    }
+  }, [data, isOpen]);
 
   const handleChange = (name, value) => {
-    console.log(name, value);
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -34,6 +35,10 @@ const RolesModal = ({
       ...formData,
     };
     onSave(newRole);
+  };
+
+  const handleCancel = () => {
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -58,20 +63,19 @@ const RolesModal = ({
               <CustomDropdown
                 title={"Policy"}
                 options={options.policies}
-                selectedValue={formData.policyIds.map((policy) =>
-                  options.policies.find((policy) => policy.id === policy.id)
+                selectedValue={formData.policyIds.map((policyId) =>
+                  options.policies.find((policy) => policy.id === policyId)
                 )}
                 onChange={(value) => handleChange("policyIds", value)}
                 isMultiple={true}
               />
-              
             </div>
           </div>
         </div>
         <div className="flex justify-end mt-6 w-full">
           <button
             className="bg-signupButtonStrokeColor text-white px-4 py-2 rounded-xl mr-2 w-1/2"
-            onClick={onClose}
+            onClick={handleCancel}
           >
             Cancel
           </button>
