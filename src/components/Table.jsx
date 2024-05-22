@@ -71,7 +71,7 @@ const Table = ({
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="flex flex-col h-full p-4 bg-gray-100">
+    <div className="flex flex-col p-4 bg-gray-100" style={{ height: "95vh" }}>
       <header className="flex justify-between items-center bg-white p-4 shadow-md">
         <h1 className="text-2xl font-bold text-gray-800">{title}</h1>
         <div className="flex items-center space-x-4">
@@ -160,15 +160,16 @@ const Table = ({
                       >
                         <FaTrash />
                       </button>
-                      {actions && actions.map((action, index) => (
-                        <button
-                          key={index}
-                          onClick={() => action.onClick(row.id)}
-                          className={`text-${action.color}-500 ml-2`}
-                        >
-                          {action.icon}
-                        </button>
-                      ))}
+                      {actions &&
+                        actions.map((action, index) => (
+                          <button
+                            key={index}
+                            onClick={() => action.onClick(row.id)}
+                            className={`text-${action.color}-500 ml-2`}
+                          >
+                            {action.icon}
+                          </button>
+                        ))}
                     </td>
                   )}
                 </tr>

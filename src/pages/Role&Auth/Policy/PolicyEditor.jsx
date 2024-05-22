@@ -202,7 +202,7 @@ const PolicyEditor = () => {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="p-8 bg-white shadow-md h-full flex flex-col rounded-lg max-w-4xl mx-auto">
+    <div className="p-8 bg-white shadow-md h-full flex flex-col rounded-lg max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Policy Editor</h2>
         {isValid ? (
@@ -215,7 +215,7 @@ const PolicyEditor = () => {
           </div>
         )}
       </div>
-      <div className="relative flex mb-4">
+      <div className="relative flex mb-4" style={{ height: "80%" }}>
         <div
           className="bg-gray-200 text-center pr-2 z-10"
           style={{ lineHeight: "1.5rem" }}
