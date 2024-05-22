@@ -23,7 +23,12 @@ const UpdatePwd = lazy(() => import("./pages/ForgetPwd/UpdatePwd"));
 const Companies = lazy(() => import("./pages/Companies/Companies"));
 const Roles = lazy(() => import("./pages/Role&Auth/Roles/Roles"));
 const Policies = lazy(() => import("./pages/Role&Auth/Policy/Policies"));
-const PolicyEditor = lazy(() => import("./pages/Role&Auth/Policy/PolicyEditor"));
+const PolicyEditor = lazy(() =>
+  import("./pages/Role&Auth/Policy/PolicyEditor")
+);
+const AccountActivated = lazy(() => import("./pages/AccountActivated"));
+const Payment = lazy(() => import("./pages/Payment/Payment"));
+const Checkout = lazy(() => import("./pages/Payment/Checkout"));
 
 const publicRoutes = [
   {
@@ -38,6 +43,19 @@ const publicRoutes = [
   {
     path: "/sign-up",
     element: <Signup />,
+  },
+  {
+    path: "/account-activated/:token",
+    element: <AccountActivated />,
+    exact: true,
+  },
+  {
+    path: "/payment/:token",
+    element: <Payment />,
+  },
+  {
+    path: "/checkout/:token",
+    element: <Checkout />,
   },
 ];
 

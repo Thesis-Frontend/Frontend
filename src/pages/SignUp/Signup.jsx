@@ -1,13 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SubscriptionPackages from "./SubscriptionPackages";
 import GenericFormComponent from "../../components/GenericForm";
 import ReviewInformation from "./ReviewInformation";
 import SuccessPage from "../../components/SuccessModal";
 import NotFound from "../../components/NotFound";
+import Snackbar from "../../components/Snackbar"; // Import your custom Snackbar
 import pic1 from "../../assets/Giriş1-removebg-preview.png";
 import pic2 from "../../assets/Giriş2-removebg-preview.png";
 import pic3 from "../../assets/Giriş3-removebg-preview.png";
-import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -20,6 +21,14 @@ export default function Signup() {
     password: "",
     sectorName: "",
   });
+
+  const [snackbar, setSnackbar] = useState({
+    show: false,
+    message: "",
+    severity: "",
+  });
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const options = [
     { id: 1, name: "EDC" },
@@ -34,6 +43,30 @@ export default function Signup() {
 
   const handleDataChange = (field, value) => {
     setSignupData({ ...signupData, [field]: value });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(signupData),
+      });
+
+      if (response.status === 200) {
+        setShowSuccessModal(true);
+      } else {
+        throw new Error("Signup failed");
+      }
+    } catch (error) {
+      setSnackbar({
+        show: true,
+        message: "An error occurred during signup. Please try again.",
+        severity: "error",
+      });
+    }
   };
 
   const renderStep = () => {
@@ -99,7 +132,7 @@ export default function Signup() {
             }}
             onNext={nextStep}
             onPrevious={prevStep}
-            placeholder="Enter company name"
+            placeholder="Enter company email"
             type="email"
           />
         );
@@ -127,39 +160,21 @@ export default function Signup() {
             }}
             onNext={nextStep}
             onPrevious={prevStep}
-            placeholder="Enter company name"
+            placeholder="Enter sector name"
             type="select"
             options={options}
           />
         );
-      // Part of the Signup component
-
       case 8:
         return (
           <ReviewInformation
             data={signupData}
             onEdit={() => setCurrentStep(1)} // This could be set to go back to any specific step
-            onSubmit={() => {
-              console.log("Submit all data here", signupData);
-              nextStep(); // Assuming nextStep leads to the success or confirmation page
-            }}
+            onSubmit={handleSubmit}
             onPrevious={prevStep}
             options={options}
           />
         );
-
-      // case 8:
-      //   return (
-      //     <SuccessPage
-      //       message="Ödeminiz başarıyla gerçekleşmiştir. Mailinize gelen kullanıcı adı ve şifre ile sisteme giriş yapabilirsiniz."
-      //       onReturnHome={() => {
-      //         navigate("/");
-      //       }}
-      //       title={"Teşekkürler!"}
-      //       buttonName={"Ana sayfaya dön"}
-      //     />
-      //   );
-
       default:
         return <NotFound />;
     }
@@ -167,6 +182,21 @@ export default function Signup() {
 
   return (
     <div className="relative max-h-screen overflow-hidden bg-landingBackgroundColor">
+      <Snackbar
+        message={snackbar.message}
+        show={snackbar.show}
+        severity={snackbar.severity}
+      />
+      {showSuccessModal && (
+        <SuccessPage
+          message="An activation link has been sent to your email account."
+          title="Congratulations"
+          onReturnHome={() => {
+            navigate("/welcome");
+          }}
+          buttonName={"Go to Home Page"}
+        />
+      )}
       <img
         src={pic1}
         alt="Left Image 1"

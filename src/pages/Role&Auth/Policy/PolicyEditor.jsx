@@ -32,7 +32,7 @@ const PolicyEditor = () => {
     const fetchPolicy = async () => {
       try {
         const response = await fetch(`/api/policies/${id}`);
-        if (response.ok) {
+        if (response.status === 200) {
           const data = await response.json();
           setPolicy(data);
           setPolicyString(JSON.stringify(data, null, 2));
@@ -87,7 +87,7 @@ const PolicyEditor = () => {
         },
         body: JSON.stringify(policy),
       });
-      if (response.ok) {
+      if (response.status === 200) {
         setSnackbar({
           show: true,
           message: "Policy saved successfully",
@@ -162,7 +162,7 @@ const PolicyEditor = () => {
     setIsDownloading(true);
     try {
       const response = await fetch("/api/download-handbook");
-      if (response.ok) {
+      if (response.status === 200) {
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
