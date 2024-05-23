@@ -1,22 +1,25 @@
 import React, { useState } from "react";
-import { MdClose } from "react-icons/md";
-import "../Login/Login.css";
+import Request from "../../helpers/Request";
+// import Snackbar 
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
+  const [customerNo, setCustomerNo] = React.useState("");
+
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Simulating an asynchronous operation (e.g., sending email)
-    setTimeout(() => {
-      // Here you can add your logic to send the email or handle the forgot password process
-      console.log("Email submitted:", email);
-      // Close the modal or navigate back to the previous page
-      onClose();
-      setLoading(false);
-    }, 2000); // Simulating a 2-second delay
+    let body = {
+      email:email,
+      customerNo:customerNo
+    }
+    const res = await Request("post","/api/customer/reset-password",body);
+    if (res.status === 200) {
+      
+    }
+    setLoading(false);
   };
 
   return (
@@ -34,6 +37,18 @@ const ForgotPasswordPage = () => {
             className="px-4 py-3 border rounded"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <label htmlFor="customerNo" className="font-bold text-lg">
+            Customer No
+          </label>
+          <input
+            type="text"
+            id="customerNo"
+            placeholder="Enter your customer no"
+            className="px-4 py-3 border rounded"
+            value={customerNo}
+            onChange={(e) => setCustomerNo(e.target.value)}
             required
           />
           <button

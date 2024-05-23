@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Request from "../../helpers/Request";
 import { MdClose } from "react-icons/md";
-import "./Login.css";
 
 const Login = ({ isOpen, onClose, isUserLogin }) => {
   if (!isOpen) return null;
@@ -18,7 +17,7 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
     const user = {
       email: email,
       password: password,
-      customerString: customerString,
+      customerNo: customerNo,
     };
     const res = await Request("post", "", user);
     if (res?.status === 200) {
@@ -75,21 +74,18 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
               onChange={(e) => setPassword(e.target.value)}
               onKeyDown={handleKeyPress}
             />
-            <p className="text-blue-500 text-sm text-right hover:underline">
-              <Link to="/forgot-password">Forgot your password?</Link>
-            </p>
           </section>
           <section className="flex flex-col gap-2">
-            <label htmlFor="password" className="font-medium text-lg">
-              Password
+            <label htmlFor="customerNo" className="font-medium text-lg">
+              Customer No
             </label>
             <input
-              type="password"
-              id="password"
-              placeholder="Enter your password"
+              type="text"
+              id="customerNo"
+              placeholder="Enter your customer no"
               className="px-4 py-3 border rounded w-full"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={customerNo}
+              onChange={(e) => setCustomerNo(e.target.value)}
               onKeyDown={handleKeyPress}
             />
             <p className="text-blue-500 text-sm text-right hover:underline">
