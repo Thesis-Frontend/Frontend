@@ -31,10 +31,10 @@ export default function Payment() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-200">
+    <div className="min-h-screen flex items-center justify-center bg-gray-200 relative overflow-hidden">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6"
+        className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative"
       >
         <div className="w-full pt-1 pb-5">
           <div className="bg-indigo-500 text-white rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg flex items-center justify-center">
@@ -141,10 +141,22 @@ export default function Payment() {
         <button className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold" type="submit">
           <i className="mdi mdi-lock-outline mr-1"></i> PAY NOW
         </button>
-        <img src={pic1} alt="Left Image 1" className="absolute -bottom-16 -left-20" />
-        <img src={pic2} alt="Right Image 1" className="absolute -bottom-16 -right-12" />
-        <img src={pic3} alt="Right Image 1" className="absolute -top-32 -left-12" />
       </form>
+      <img
+        src={pic1}
+        alt="Left Image 1"
+        className="absolute bottom-0 left-0 h-2/5 w-auto"
+      />
+      <img
+        src={pic2}
+        alt="Right Image 1"
+        className="absolute bottom-0 right-0 h-2/5 w-auto"
+      />
+      <img
+        src={pic3}
+        alt="Top Image 1"
+        className="absolute top-0 left-0 h-2/5 w-auto"
+      />
     </div>
   );
 }
