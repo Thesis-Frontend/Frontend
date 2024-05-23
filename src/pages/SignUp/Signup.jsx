@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import SubscriptionPackages from "./SubscriptionPackages";
 import GenericFormComponent from "../../components/GenericForm";
@@ -9,22 +9,24 @@ import Snackbar from "../../components/Snackbar"; // Import your custom Snackbar
 import pic1 from "../../assets/Giriş1-removebg-preview.png";
 import pic2 from "../../assets/Giriş2-removebg-preview.png";
 import pic3 from "../../assets/Giriş3-removebg-preview.png";
+import Request from "../../helpers/Request";
 
 export default function Signup() {
   const [currentStep, setCurrentStep] = useState(1);
   const [signupData, setSignupData] = useState({
-    subscriptionPackage: {},
+    subscriptionPackageId: 0,
     name: "",
     surname: "",
     companyName: "",
     email: "",
     password: "",
-    sectorName: "",
+    sector: 0,
   });
 
   const [showSnackbar, setShowSnackbar] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
   const [severity, setSeverity] = React.useState("");
+  const [loading, setLoading] = useState(false);
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -44,22 +46,17 @@ export default function Signup() {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
-      const response = await fetch("/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(signupData),
-      });
+      console.log(signupData);
+      const response = await Request(
+        "post",
+        "/api/customer/register",
+        signupData
+      );
 
       if (response.status === 200) {
         setShowSuccessModal(true);
-        setSnackbarMessage(
-          `An error occurred during signup. Please try again.`
-        );
-        setShowSnackbar(true);
-        setSeverity("success");
       } else {
         throw new Error("Signup failed");
       }
@@ -68,6 +65,7 @@ export default function Signup() {
       setShowSnackbar(true);
       setSeverity("error");
     }
+    setLoading(false);
   };
 
   const renderStep = () => {
@@ -76,7 +74,7 @@ export default function Signup() {
         return (
           <SubscriptionPackages
             onSelectPackage={(pkg) => {
-              handleDataChange("subscriptionPackage", pkg);
+              handleDataChange("subscriptionPackageId", pkg);
               nextStep();
             }}
           />
@@ -155,9 +153,9 @@ export default function Signup() {
         return (
           <GenericFormComponent
             title="Sector Name"
-            value={signupData.sectorName}
+            value={signupData.sector}
             onChange={(val) => {
-              handleDataChange("sectorName", val);
+              handleDataChange("sector", val);
             }}
             onNext={nextStep}
             onPrevious={prevStep}
@@ -170,10 +168,10 @@ export default function Signup() {
         return (
           <ReviewInformation
             data={signupData}
-            onEdit={() => setCurrentStep(1)} // This could be set to go back to any specific step
             onSubmit={handleSubmit}
             onPrevious={prevStep}
             options={options}
+            loading={loading}
           />
         );
       default:

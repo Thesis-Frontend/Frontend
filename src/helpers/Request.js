@@ -1,7 +1,7 @@
 import axios from "axios";
 import SessionHelper from "./SessionHelper";
 
-const url = ""; // base url is not determined yet
+const url = "https://x0ei5h2lsl.execute-api.eu-west-2.amazonaws.com"; // base url is not determined yet
 
 /**
  * Manages the requests made to the REST api.
@@ -16,7 +16,7 @@ const Request = async (action, urlExtension, body, params, headers) => {
   // check if user is logged in and session time is expired
   if (SessionHelper.getUser()) {
     if (isSessionTimeExpired()) {
-      window.location.href = "/login";
+      window.location.href = "/welcome";
       SessionHelper.deleteUser(); // logout
       return;
     } else {
@@ -49,7 +49,7 @@ const Request = async (action, urlExtension, body, params, headers) => {
     .catch((error) => {
       fetch = error.response;
       if (fetch?.status === 401) {
-        window.location = "/login";
+        window.location = "/weldome";
         SessionHelper.deleteUser();
       }
     });
@@ -92,7 +92,7 @@ export const RequestAll = async (requests) => {
     .catch((error) => {
       fetch = error.response;
       if (fetch.status === 401) {
-        window.location = "/login";
+        window.location = "/welcome";
         SessionHelper.deleteUser();
       }
     });

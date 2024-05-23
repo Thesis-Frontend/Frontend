@@ -10,6 +10,7 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
   const [loading, setLoading] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [customerNo, setCustomerNo] = React.useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -17,6 +18,7 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
     const user = {
       email: email,
       password: password,
+      customerString: customerString,
     };
     const res = await Request("post", "", user);
     if (res?.status === 200) {
@@ -59,6 +61,23 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
               onChange={(e) => setEmail(e.target.value)}
               onKeyDown={handleKeyPress}
             />
+          </section>
+          <section className="flex flex-col gap-2">
+            <label htmlFor="password" className="font-medium text-lg">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              className="px-4 py-3 border rounded w-full"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={handleKeyPress}
+            />
+            <p className="text-blue-500 text-sm text-right hover:underline">
+              <Link to="/forgot-password">Forgot your password?</Link>
+            </p>
           </section>
           <section className="flex flex-col gap-2">
             <label htmlFor="password" className="font-medium text-lg">

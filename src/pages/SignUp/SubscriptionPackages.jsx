@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import SubscriptionCard from "../../components/SubscriptionCard";
+import Request from "../../helpers/Request";
 
 const data = {
   "2 years": [
     {
-      title: "Bronze",
+      id:1,
+      name: "Bronze",
       price: 17,
       features: [
         "User quota: 1000",
@@ -14,7 +16,8 @@ const data = {
       currency: "$",
     },
     {
-      title: "Silver",
+      id:2,
+      name: "Silver",
       price: 34,
       features: [
         "User quota: 5000",
@@ -25,7 +28,8 @@ const data = {
       featured: true,
     },
     {
-      title: "Gold",
+      id:3,
+      name: "Gold",
       price: 50,
       features: [
         "User quota: 10000",
@@ -37,7 +41,8 @@ const data = {
   ],
   "1 year": [
     {
-      title: "Bronze",
+      id:4,
+      name: "Bronze",
       price: 10,
       features: [
         "User quota: 1000",
@@ -47,7 +52,8 @@ const data = {
       currency: "$",
     },
     {
-      title: "Silver",
+      id:5,
+      name: "Silver",
       price: 20,
       features: [
         "User quota: 5000",
@@ -58,7 +64,8 @@ const data = {
       featured: true,
     },
     {
-      title: "Gold",
+      id:6,
+      name: "Gold",
       price: 30,
       features: [
         "User quota: 10000",
@@ -72,6 +79,22 @@ const data = {
 
 const SubscriptionPackages = ({ onSelectPackage }) => {
   const [subscriptionDuration, setSubscriptionDuration] = useState("1 year");
+  // const [data, setData] = useState(null);
+
+  const init = useCallback(async () => {
+    const res = await Request(
+      "get",
+      "/api/subscription-package/all",
+      null,
+      null
+    );
+    console.log(res);
+    // setData(res.data);
+  }, []);
+
+  useEffect(() => {
+    init();
+  }, [init]);
 
   const handleToggleDuration = () => {
     setSubscriptionDuration((prevDuration) =>
@@ -96,7 +119,6 @@ const SubscriptionPackages = ({ onSelectPackage }) => {
             className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs"
             style={{ fontSize: "0.75rem" }}
           >
-            {" "}
             {/* Adjusted font size here */}
             {subscriptionDuration}
           </span>

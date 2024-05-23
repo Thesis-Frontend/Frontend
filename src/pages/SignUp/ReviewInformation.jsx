@@ -6,7 +6,7 @@ import {
   RiEyeOffLine,
 } from "react-icons/ri";
 
-const ReviewInformation = ({ data, onEdit, onSubmit, onPrevious, options }) => {
+const ReviewInformation = ({ data, onSubmit, onPrevious, options, loading }) => {
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
 
   const toggleShowPassword = () => {
@@ -58,7 +58,7 @@ const ReviewInformation = ({ data, onEdit, onSubmit, onPrevious, options }) => {
           <div>
             <strong>5. Sector Name</strong>
             <div className="opacity-75">
-              {options.find((opt) => opt.id === data.sectorName)?.name ||
+              {options.find((opt) => opt.id === data.sector)?.name ||
                 "Sector Not Found"}
             </div>
           </div>

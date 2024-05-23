@@ -2,14 +2,15 @@ import React from "react";
 import { CheckIcon } from "@heroicons/react/16/solid";
 
 const SubscriptionCard = ({
-  title,
+  id,
+  name,
   price,
   features,
   currency,
   featured = false,
   onSelectPackage,
 }) => {
-  const titleToBackgroundColor = {
+  const nameToBackgroundColor = {
     Bronze: "bg-cardBronze",
     Silver: "bg-cardSilver",
     Gold: "bg-cardGold",
@@ -18,8 +19,9 @@ const SubscriptionCard = ({
   return (
     // <div className="h-full flex justify-center items-center">
     <div
+      id={id}
       className={`${
-        titleToBackgroundColor[title]
+        nameToBackgroundColor[name]
       } border-neutral-400 rounded-md shadow-xl cursor-pointer relative ${
         featured ? "border-2" : "border border-opacity-10"
       }`}
@@ -30,7 +32,7 @@ const SubscriptionCard = ({
         </span>
       ) : null}
       <div className="text-white px-6 py-12 border-b-2 border-gray-200">
-        <p className="text-3xl font-semibold text-center mb-4">{title}</p>
+        <p className="text-3xl font-semibold text-center mb-4">{name}</p>
         <div className="flex justify-center items-center">
           <div className="flex items-start">
             <p className="text-4xl font-medium">{currency}</p>
@@ -55,7 +57,7 @@ const SubscriptionCard = ({
               : "bg-white text-indigo-600 hover:bg-gray-50"
           }`}
           onClick={() => {
-            onSelectPackage({ title: title, price: price });
+            onSelectPackage(id);
           }}
         >
           Buy
