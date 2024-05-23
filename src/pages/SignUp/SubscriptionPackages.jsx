@@ -5,32 +5,32 @@ const data = {
   "2 years": [
     {
       title: "Bronze",
-      price: 10,
+      price: 17,
       features: [
-        "feature deneme2 111",
-        "feature deneme2 222",
-        "feature deneme2 333",
+        "User quota: 1000",
+        "Data storage limit: 5GB",
+        "Basic customer support (email support, response within 48 hours)",
       ],
       currency: "$",
     },
     {
       title: "Silver",
-      price: 20,
+      price: 34,
       features: [
-        "feature deneme2 111",
-        "feature deneme2 222",
-        "feature deneme2 333",
+        "User quota: 5000",
+        "Data storage limit: 15GB",
+        "Priority customer support (email and phone support, response within 24 hours)",
       ],
       currency: "$",
       featured: true,
     },
     {
       title: "Gold",
-      price: 30,
+      price: 50,
       features: [
-        "feature deneme2 111",
-        "feature deneme2 222",
-        "feature deneme2 333",
+        "User quota: 10000",
+        "Data storage limit: 30GB",
+        "Premium customer support (24/7 support, dedicated account manager)",
       ],
       currency: "$",
     },
@@ -40,9 +40,9 @@ const data = {
       title: "Bronze",
       price: 10,
       features: [
-        "feature deneme 111",
-        "feature deneme 222",
-        "feature denem 333",
+        "User quota: 1000",
+        "Data storage limit: 5GB",
+        "Basic customer support (email support, response within 48 hours)",
       ],
       currency: "$",
     },
@@ -50,9 +50,9 @@ const data = {
       title: "Silver",
       price: 20,
       features: [
-        "feature deneme 111",
-        "feature deneme 222",
-        "feature denem 333",
+        "User quota: 5000",
+        "Data storage limit: 15GB",
+        "Priority customer support (email and phone support, response within 24 hours)",
       ],
       currency: "$",
       featured: true,
@@ -61,16 +61,16 @@ const data = {
       title: "Gold",
       price: 30,
       features: [
-        "feature deneme 111",
-        "feature deneme 222",
-        "feature denem 333",
+        "User quota: 10000",
+        "Data storage limit: 30GB",
+        "Premium customer support (24/7 support, dedicated account manager)",
       ],
       currency: "$",
     },
   ],
 };
 
-const SubscriptionPackages = ({onSelectPackage}) => {
+const SubscriptionPackages = ({ onSelectPackage }) => {
   const [subscriptionDuration, setSubscriptionDuration] = useState("1 year");
 
   const handleToggleDuration = () => {
@@ -92,7 +92,12 @@ const SubscriptionPackages = ({onSelectPackage}) => {
           onClick={handleToggleDuration}
         />
         <span className="text-white text-center w-2/3 h-4/5 bg-indigo-400 absolute rounded-full left-2 top-1 peer-checked:bg-indigo-600 peer-checked:left-11 transition-all duration-500">
-          <span className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <span
+            className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs"
+            style={{ fontSize: "0.75rem" }}
+          >
+            {" "}
+            {/* Adjusted font size here */}
             {subscriptionDuration}
           </span>
         </span>
