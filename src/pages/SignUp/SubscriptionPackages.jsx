@@ -83,7 +83,7 @@ const SubscriptionPackages = ({ onSelectPackage }) => {
     <div className="h-screen flex-col gap-y-32 lg:flex lg:justify-center lg:items-center">
       <label
         htmlFor="checkbox"
-        className="bg-gray-100 cursor-pointer relative w-40 h-10 rounded-full border border-solid border-2"
+        className="bg-gray-100 cursor-pointer relative w-40 h-10 rounded-full border-solid border-2"
       >
         <input
           type="checkbox"
