@@ -110,17 +110,17 @@ export default function Checkout() {
       <img
         src={pic1}
         alt="Left Image 1"
-        className="absolute -bottom-16 -left-20"
+        className="absolute bottom-0 left-0 h-2/5 w-auto"
       />
       <img
         src={pic2}
         alt="Right Image 1"
-        className="absolute -bottom-16 -right-12"
+        className="absolute bottom-0 right-0 h-2/5 w-auto"
       />
       <img
         src={pic3}
-        alt="Right Image 1"
-        className="absolute -top-32 -left-12"
+        alt="Top Image 1"
+        className="absolute top-0 left-0 h-2/5 w-auto"
       />
     </div>
   );
