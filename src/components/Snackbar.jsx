@@ -6,9 +6,11 @@ const Snackbar = ({
   show,
   setShow,
   severity,
-  onClose,
   autoDuration = 4000,
 }) => {
+  const onClose = () => {
+    setShow(false);
+  };
   React.useEffect(() => {
     if (show && autoDuration) {
       const timer = setTimeout(onClose, autoDuration);
@@ -29,10 +31,7 @@ const Snackbar = ({
       }`}
     >
       {message}
-      <button
-        className="ml-4 text-white hover:text-gray-300"
-        onClick={onClose ? onclose : setShow(false)}
-      >
+      <button className="ml-4 text-white hover:text-gray-300" onClick={onClose}>
         &times;
       </button>
     </div>

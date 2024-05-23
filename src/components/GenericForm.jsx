@@ -114,7 +114,7 @@ const GenericFormComponent = ({
         message={snackbarMessage}
         show={showSnackbar}
         setShow={setShowSnackbar}
-        severity={"error"}
+        severity={severity}
       />
     </div>
   );
