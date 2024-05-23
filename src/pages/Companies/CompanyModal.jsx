@@ -1,22 +1,30 @@
 import React, { useState, useEffect } from "react";
+import CustomDropdown from "../../components/CustomDropdown";
 
 const CompanyModal = ({ isOpen, onClose, onSave, data }) => {
   const [formData, setFormData] = useState({
-    companyName: "",
-    city: "",
+    name: "",
+    shortName: "",
     companyType: "",
     taxOffice: "",
-    taxNumber: "",
+    taxIdentificationNumber: "",
+    manager: null,
   });
+
+  const options = [
+    { id: 1, name: "Ben" },
+    { id: 2, name: "Sen" },
+  ];
 
   useEffect(() => {
     if (data) {
       setFormData({
-        companyName: data.companyName || "",
-        city: data.city || "",
+        name: data.name || "",
+        shortName: data.shortName || "",
         companyType: data.companyType || "",
         taxOffice: data.taxOffice || "",
-        taxNumber: data.taxNumber || "",
+        taxIdentificationNumber: data.taxIdentificationNumber || "",
+        manager: data.manager || null,
       });
     }
   }, [data]);
@@ -44,7 +52,9 @@ const CompanyModal = ({ isOpen, onClose, onSave, data }) => {
       <div className="bg-gray-200 rounded-xl shadow-lg p-8 w-1/4">
         <div className="space-y-4">
           <div>
-            <label className="block text-gray-700 font-bold">Company Name</label>
+            <label className="block text-gray-700 font-bold">
+              Company Name
+            </label>
             <input
               type="text"
               name="companyName"
@@ -54,17 +64,21 @@ const CompanyModal = ({ isOpen, onClose, onSave, data }) => {
             />
           </div>
           <div>
-            <label className="block text-gray-700 font-bold">City</label>
+            <label className="block text-gray-700 font-bold">
+              Company Short Name
+            </label>
             <input
               type="text"
-              name="city"
+              name="Company Short Name"
               className="w-full border border-gray-300 p-2 rounded-xl"
-              value={formData.city}
+              value={formData.shortName}
               onChange={handleChange}
             />
           </div>
           <div>
-            <label className="block text-gray-700 font-bold">Company Type</label>
+            <label className="block text-gray-700 font-bold">
+              Company Type
+            </label>
             <input
               type="text"
               name="companyType"
@@ -87,10 +101,24 @@ const CompanyModal = ({ isOpen, onClose, onSave, data }) => {
             <label className="block text-gray-700 font-bold">Tax ID</label>
             <input
               type="text"
-              name="taxNumber"
+              name="taxIdentificationNumber"
               className="w-full border border-gray-300 p-2 rounded-xl"
-              value={formData.taxNumber}
+              value={formData.taxIdentificationNumber}
               onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-bold">Manager</label>
+            <CustomDropdown
+              title={"Manager"}
+              options={options}
+              selectedValue={formData.manager}
+              onChange={(value) => {
+                setFormData((prevData) => ({
+                  ...prevData,
+                  ["manager"]: value,
+                }));
+              }}
             />
           </div>
         </div>

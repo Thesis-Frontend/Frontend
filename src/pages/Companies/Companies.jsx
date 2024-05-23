@@ -16,10 +16,12 @@ const Companies = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   useEffect(() => {
-    FetchData({ page: currentPage, rowsPerPage, searchQuery, sortConfig }, "companies")
-      .then(data => {
-        setCompanies(data); // Assuming data is directly usable or adjust based on API response structure
-      });
+    FetchData(
+      { page: currentPage, rowsPerPage, searchQuery, sortConfig },
+      "companies"
+    ).then((data) => {
+      setCompanies(data); // Assuming data is directly usable or adjust based on API response structure
+    });
   }, [currentPage, rowsPerPage, searchQuery, sortConfig]);
 
   const handleCreate = () => {
@@ -39,7 +41,9 @@ const Companies = () => {
 
   const confirmDelete = () => {
     // Delete logic (API call, then update local state or directly remove from state if not using a backend)
-    setCompanies(companies.filter(company => company.id !== deleteCandidateId));
+    setCompanies(
+      companies.filter((company) => company.id !== deleteCandidateId)
+    );
     setDeleteModalOpen(false);
   };
 
@@ -54,11 +58,26 @@ const Companies = () => {
 
   const columns = [
     { id: "id", label: "ID", minWidth: 170 },
-    { id: "companyName", label: "Company Name", minWidth: 170 },
-    { id: "city", label: "City", minWidth: 100 },
-    { id: "companyType", label: "Company Type", minWidth: 100 },
+    { id: "name", label: "Company Name", minWidth: 170 },
+    { id: "shortName", label: "Company Short Name", minWidth: 170 },
+    {
+      id: "companyType",
+      label: "Company Type",
+      minWidth: 100,
+      render: (rowData) => rowData.name,
+    },
+    {
+      id: "taxIdentificationNumber",
+      label: "Tax ID",
+      minWidth: 100,
+    },
     { id: "taxOffice", label: "Tax Office", minWidth: 100 },
-    { id: "taxNumber", label: "Tax ID", minWidth: 100 },
+    {
+      id: "manager",
+      label: "Manager",
+      minWidth: 100,
+      render: (rowData) => rowData.name + " " + rowData.surname,
+    },
   ];
 
   return (

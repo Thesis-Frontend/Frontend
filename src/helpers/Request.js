@@ -1,7 +1,7 @@
 import axios from "axios";
 import SessionHelper from "./SessionHelper";
 
-const url = "https://x0ei5h2lsl.execute-api.eu-west-2.amazonaws.com"; // base url is not determined yet
+const url = "https://x0ei5h2lsl.execute-api.eu-west-2.amazonaws.com/v1"; // base url is not determined yet
 
 /**
  * Manages the requests made to the REST api.

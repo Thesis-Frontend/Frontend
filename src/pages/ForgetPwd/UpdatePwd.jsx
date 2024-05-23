@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { MdClose, MdVisibility, MdVisibilityOff } from "react-icons/md";
-import "../Login/Login.css";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 const UpdatePassword = () => {
   const { token } = useParams();

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SubscriptionPackages from "./SubscriptionPackages";
 import GenericFormComponent from "../../components/GenericForm";
@@ -10,6 +10,7 @@ import pic1 from "../../assets/Giriş1-removebg-preview.png";
 import pic2 from "../../assets/Giriş2-removebg-preview.png";
 import pic3 from "../../assets/Giriş3-removebg-preview.png";
 import Request from "../../helpers/Request";
+import GetOptions from "./GetOptions";
 
 export default function Signup() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -21,14 +22,24 @@ export default function Signup() {
     email: "",
     password: "",
     sector: 0,
+    domain: "aaa"
   });
 
   const [showSnackbar, setShowSnackbar] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
   const [severity, setSeverity] = React.useState("");
   const [loading, setLoading] = useState(false);
-
+  // const [options, setOptions] = useState([]);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const init = useCallback(async () => {
+    const opt = await GetOptions();
+    // setOptions(opt);
+  }, []);
+
+  useEffect(() => {
+    init();
+  }, [init]);
 
   const options = [
     { id: 1, name: "EDC" },
@@ -47,6 +58,7 @@ export default function Signup() {
 
   const handleSubmit = async () => {
     setLoading(true);
+    signupData["sector"] = "WATER";
     try {
       console.log(signupData);
       const response = await Request(
@@ -159,7 +171,7 @@ export default function Signup() {
             }}
             onNext={nextStep}
             onPrevious={prevStep}
-            placeholder="Enter sector name"
+            placeholder="Enter sector"
             type="select"
             options={options}
           />

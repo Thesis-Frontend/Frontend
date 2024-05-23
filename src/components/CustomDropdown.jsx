@@ -59,7 +59,7 @@ export default function CustomDropdown({
         className={`bg-white w-full p-2 flex items-center justify-between rounded ${
           isMultiple
             ? !selected.length && "text-gray-700"
-            : !selected.name && "text-gray-700"
+            : !selected?.name && "text-gray-700"
         }`}
       >
         {displayText()}
@@ -88,7 +88,7 @@ export default function CustomDropdown({
                 isMultiple
                   ? selected.some((item) => item.id === opt.id) &&
                     "bg-sky-600 text-white"
-                  : selected.id === opt.id && "bg-sky-600 text-white"
+                  : selected?.id === opt.id && "bg-sky-600 text-white"
               }
               ${
                 opt?.name?.toLowerCase().startsWith(inputValue)
