@@ -21,6 +21,7 @@ const GenericFormComponent = ({
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [severity, setSeverity] = React.useState("");
 
   const isValidEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,13 +30,13 @@ const GenericFormComponent = ({
 
   const handleNext = (e) => {
     if (!value) {
+      setSeverity("error");
       setSnackbarMessage(`${title} field is required`);
       setShowSnackbar(true);
-      setTimeout(() => setShowSnackbar(false), 3000); // Hide snackbar after 3 seconds
     } else if (type === "email" && !isValidEmail(value)) {
       setSnackbarMessage("Please enter a valid email address");
       setShowSnackbar(true);
-      setTimeout(() => setShowSnackbar(false), 3000); // Hide snackbar after 3 seconds
+      setSeverity("error");
     } else {
       onNext(e);
     }
@@ -70,7 +71,11 @@ const GenericFormComponent = ({
             <div className="relative">
               <input
                 type={
-                  type !== "password" ? "text" : showPassword ? "text" : "password"
+                  type !== "password"
+                    ? "text"
+                    : showPassword
+                    ? "text"
+                    : "password"
                 }
                 placeholder={placeholder}
                 value={value}
@@ -108,6 +113,7 @@ const GenericFormComponent = ({
       <Snackbar
         message={snackbarMessage}
         show={showSnackbar}
+        setShow={setShowSnackbar}
         severity={"error"}
       />
     </div>

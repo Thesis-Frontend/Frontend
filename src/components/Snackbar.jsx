@@ -1,7 +1,14 @@
 // Snackbar.js
 import React from "react";
 
-const Snackbar = ({ message, show, severity, onClose, autoDuration = 4000 }) => {
+const Snackbar = ({
+  message,
+  show,
+  setShow,
+  severity,
+  onClose,
+  autoDuration = 4000,
+}) => {
   React.useEffect(() => {
     if (show && autoDuration) {
       const timer = setTimeout(onClose, autoDuration);
@@ -24,7 +31,7 @@ const Snackbar = ({ message, show, severity, onClose, autoDuration = 4000 }) => 
       {message}
       <button
         className="ml-4 text-white hover:text-gray-300"
-        onClick={onClose}
+        onClick={onClose ? onclose : setShow(false)}
       >
         &times;
       </button>

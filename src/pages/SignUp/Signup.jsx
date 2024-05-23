@@ -22,11 +22,9 @@ export default function Signup() {
     sectorName: "",
   });
 
-  const [snackbar, setSnackbar] = useState({
-    show: false,
-    message: "",
-    severity: "",
-  });
+  const [showSnackbar, setShowSnackbar] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
+  const [severity, setSeverity] = React.useState("");
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -57,15 +55,18 @@ export default function Signup() {
 
       if (response.status === 200) {
         setShowSuccessModal(true);
+        setSnackbarMessage(
+          `An error occurred during signup. Please try again.`
+        );
+        setShowSnackbar(true);
+        setSeverity("success");
       } else {
         throw new Error("Signup failed");
       }
     } catch (error) {
-      setSnackbar({
-        show: true,
-        message: "An error occurred during signup. Please try again.",
-        severity: "error",
-      });
+      setSnackbarMessage(`An error occurred during signup. Please try again.`);
+      setShowSnackbar(true);
+      setSeverity("error");
     }
   };
 
@@ -183,9 +184,10 @@ export default function Signup() {
   return (
     <div className="relative max-h-screen overflow-hidden bg-landingBackgroundColor">
       <Snackbar
-        message={snackbar.message}
-        show={snackbar.show}
-        severity={snackbar.severity}
+        message={snackbarMessage}
+        show={showSnackbar}
+        setShow={setShowSnackbar}
+        severity={severity}
       />
       {showSuccessModal && (
         <SuccessPage

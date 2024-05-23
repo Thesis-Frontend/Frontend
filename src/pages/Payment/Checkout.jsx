@@ -6,11 +6,9 @@ import SuccessPage from "../../components/SuccessModal";
 export default function Checkout() {
   const location = useLocation();
   const [formData, setFormData] = useState(location.state || {});
-  const [snackbar, setSnackbar] = useState({
-    show: false,
-    message: "",
-    severity: "",
-  });
+  const [showSnackbar, setShowSnackbar] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
+  const [severity, setSeverity] = React.useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const navigate = useNavigate();
@@ -28,30 +26,30 @@ export default function Checkout() {
       });
 
       if (response.status === 200) {
-        setSnackbar({
-          show: true,
-          message: "Payment successful!",
-          severity: "success",
-        });
+        setSnackbarMessage(`Payment successful!`);
+        setShowSnackbar(true);
+        setSeverity("success");
+
         setShowSuccessModal(true);
       } else {
         throw new Error("Checkout failed");
       }
     } catch (error) {
-      setSnackbar({
-        show: true,
-        message: "An error occurred during checkout. Please try again.",
-        severity: "error",
-      });
+      setSnackbarMessage(
+        `An error occurred during checkout. Please try again.`
+      );
+      setShowSnackbar(true);
+      setSeverity("error");
     }
   };
 
   return (
     <div className=" w-full h-screen grid bg-gray-100">
       <Snackbar
-        message={snackbar.message}
-        show={snackbar.show}
-        severity={snackbar.severity}
+        message={snackbarMessage}
+        show={showSnackbar}
+        setShow={setShowSnackbar}
+        severity={severity}
       />
       {showSuccessModal && (
         <SuccessPage

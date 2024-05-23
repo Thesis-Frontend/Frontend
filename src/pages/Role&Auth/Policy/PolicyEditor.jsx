@@ -21,11 +21,9 @@ const PolicyEditor = () => {
   const [isValid, setIsValid] = useState(true);
   const [errors, setErrors] = useState([]);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [snackbar, setSnackbar] = useState({
-    show: false,
-    message: "",
-    severity: "info",
-  });
+  const [showSnackbar, setShowSnackbar] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
+  const [severity, setSeverity] = React.useState("");
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -72,11 +70,12 @@ const PolicyEditor = () => {
 
   const handleSubmit = async () => {
     if (!isValid) {
-      setSnackbar({
-        show: true,
-        message: "The JSON is invalid. Please fix the errors and try again.",
-        severity: "error",
-      });
+      setSnackbarMessage(
+        `The JSON is invalid. Please fix the errors and try again.`
+      );
+      setShowSnackbar(true);
+      setSeverity("error");
+
       return;
     }
     try {
@@ -88,25 +87,19 @@ const PolicyEditor = () => {
         body: JSON.stringify(policy),
       });
       if (response.status === 200) {
-        setSnackbar({
-          show: true,
-          message: "Policy saved successfully",
-          severity: "success",
-        });
+        setSnackbarMessage(`Policy saved successfully`);
+        setShowSnackbar(true);
+        setSeverity("success");
       } else {
-        setSnackbar({
-          show: true,
-          message: "Failed to save policy",
-          severity: "error",
-        });
+        setSnackbarMessage(`Failed to save policy`);
+        setShowSnackbar(true);
+        setSeverity("error");
       }
     } catch (error) {
       console.error("Error saving policy:", error);
-      setSnackbar({
-        show: true,
-        message: "Failed to save policy",
-        severity: "error",
-      });
+      setSnackbarMessage(`Failed to save policy`);
+      setShowSnackbar(true);
+      setSeverity("error");
     }
   };
 
@@ -137,11 +130,11 @@ const PolicyEditor = () => {
       const formatted = JSON.stringify(JSON.parse(policyString), null, 2);
       setPolicyString(formatted);
     } catch (error) {
-      setSnackbar({
-        show: true,
-        message: "The JSON is invalid. Please fix the errors and try again.",
-        severity: "error",
-      });
+      ssetSnackbarMessage(
+        `The JSON is invalid. Please fix the errors and try again.`
+      );
+      setShowSnackbar(true);
+      setSeverity("error");
     }
   };
 
@@ -150,11 +143,11 @@ const PolicyEditor = () => {
       const minified = JSON.stringify(JSON.parse(policyString));
       setPolicyString(minified);
     } catch (error) {
-      setSnackbar({
-        show: true,
-        message: "The JSON is invalid. Please fix the errors and try again.",
-        severity: "error",
-      });
+      setSnackbarMessage(
+        `The JSON is invalid. Please fix the errors and try again.`
+      );
+      setShowSnackbar(true);
+      setSeverity("error");
     }
   };
 
@@ -171,32 +164,22 @@ const PolicyEditor = () => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        setSnackbar({
-          show: true,
-          message: "Handbook downloaded successfully",
-          severity: "success",
-        });
+        setSnackbarMessage(`Handbook downloaded successfully`);
+        setShowSnackbar(true);
+        setSeverity("success");
       } else {
-        setSnackbar({
-          show: true,
-          message: "Failed to download handbook",
-          severity: "error",
-        });
+        setSnackbarMessage(`Failed to download handbook`);
+        setShowSnackbar(true);
+        setSeverity("error");
       }
     } catch (error) {
       console.error("Error downloading handbook:", error);
-      setSnackbar({
-        show: true,
-        message: "Failed to download handbook",
-        severity: "error",
-      });
+      setSnackbarMessage(`Failed to download handbook`);
+      setShowSnackbar(true);
+      set;
     } finally {
       setIsDownloading(false);
     }
-  };
-
-  const closeSnackbar = () => {
-    setSnackbar({ ...snackbar, show: false });
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -284,10 +267,10 @@ const PolicyEditor = () => {
         Save
       </button>
       <Snackbar
-        message={snackbar.message}
-        show={snackbar.show}
-        severity={snackbar.severity}
-        onClose={closeSnackbar}
+        message={snackbarMessage}
+        show={showSnackbar}
+        setShow={setShowSnackbar}
+        severity={severity}
       />
     </div>
   );

@@ -54,12 +54,10 @@ export default function Contact() {
       setSnackbarMessage(`Your message is successfully sent!`);
       setShowSnackbar(true);
       setSeverity("success");
-      setTimeout(() => setShowSnackbar(false), 5000); // Hide the snackbar after 3 seconds
     } else {
       setSnackbarMessage(`Your message has not been sent :(`);
       setShowSnackbar(true);
       setSeverity("error");
-      setTimeout(() => setShowSnackbar(false), 5000); // Hide the snackbar after 3 seconds
     }
     setLoading(false);
   };
@@ -68,6 +66,7 @@ export default function Contact() {
       <Snackbar
         message={snackbarMessage}
         show={showSnackbar}
+        setShow={setShowSnackbar}
         severity={severity}
       />
 
