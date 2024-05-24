@@ -142,7 +142,7 @@ const Sidebar = () => {
       className={`flex flex-col h-screen bg-white dark:bg-[#161A23] dark:text-[#8A8C91]
       shadow-lg ${
         isOpen ? "w-64 justify-start" : "w-20 justify-center"
-      } transition-width duration-300 ease-in-out relative`}
+      } relative`}
     >
       <div
         className={`flex items-center ${
@@ -157,7 +157,7 @@ const Sidebar = () => {
           />
         </div>
         <button
-          className="text-white focus:outline-none absolute right-0 top-24 transform translate-x-1/2 rounded-lg bg-white dark:bg-[#2D2F39] border-solid border-gray-400 border"
+          className="text-white focus:outline-none absolute pl-2 h-12 right-1 top-24 transform translate-x-1/2 rounded-lg bg-white dark:bg-[#2D2F39] border-solid border-gray-400 border"
           onClick={toggleSidebar}
         >
           {isOpen ? (
@@ -222,7 +222,7 @@ const Sidebar = () => {
       </div>
       
       <div
-        className={`p-3 flex flex-col items-center transition-all ease-in-out`}
+        className={`p-3 flex flex-col items-center`}
       >
         {isOpen && (
           <div className="text-center mb-4">
