@@ -76,6 +76,9 @@ const Sidebar = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState(path);
   const [expandedMenus, setExpandedMenus] = useState({});
+  const [theme, setTheme] = useState("light");
+
+  const element = document.documentElement;
 
   useEffect(() => {
     const totalArr = [...menuItems1, ...menuItems2];
@@ -97,7 +100,17 @@ const Sidebar = () => {
     }
   };
 
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+  const toggleDarkMode = () => {
+    if (theme == "light") {
+      setTheme("dark");
+      element.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      setTheme("light");
+      element.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
 
   const handleLogout = () => {
     SessionHelper.deleteUser();
@@ -124,13 +137,16 @@ const Sidebar = () => {
     setExpandedMenus((prev) => ({ ...prev, [name]: !prev[name] }));
   };
 
+  // ${
+  //   darkMode
+  //     ? "bg-signupButtonStrokeColor text-white"
+  //     : "bg-white text-black"
+  // }
+
   return (
     <div
-      className={`flex flex-col h-screen ${
-        darkMode
-          ? "bg-signupButtonStrokeColor text-white"
-          : "bg-white text-black"
-      } shadow-lg ${
+      className={`flex flex-col h-screen  bg-white dark:bg-signupButtonStrokeColor dark:text-white
+      shadow-lg ${
         isOpen ? "w-64 justify-start" : "w-20 justify-center"
       } transition-width duration-300 ease-in-out relative`}
     >
@@ -160,9 +176,8 @@ const Sidebar = () => {
       <div className="flex-1 overflow-y-auto">
         <nav className="p-4">
           <ul
-            className={`space-y-6 ${!isOpen ? "items-center" : ""} ${
-              darkMode ? "text-white" : "text-gray-600"
-            }`}
+            className={`space-y-6 ${!isOpen ? "items-center" : ""} text-gray-600
+              dark:text-white`}
           >
             {menuItems1.map((item) => (
               <li
@@ -234,7 +249,7 @@ const Sidebar = () => {
           onClick={toggleDarkMode}
           className="w-full py-2 bg-gray-300 rounded-md text-center flex items-center justify-center space-x-2"
         >
-          {darkMode ? <CiLight size={26} /> : <CiDark size={26} />}
+          {theme !== "light" ? <CiLight size={26} /> : <CiDark size={26} />}
         </button>
       </div>
     </div>
