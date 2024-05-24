@@ -18,6 +18,8 @@ export default function CustomDropdown({
   }, [selectedValue]);
 
   const handleOptionClick = (opt) => {
+    console.log(opt);
+    console.log(selected);
     if (isMultiple) {
       const isSelected = selected.some((item) => item.id === opt.id);
       let newSelected;
@@ -47,7 +49,7 @@ export default function CustomDropdown({
         : `Select ${title}`;
     } else {
       return selected
-        ? options.filter((opt) => opt.id === selected)[0]?.name
+        ? options?.filter((opt) => opt.id === selected)[0]?.name
         : `Select ${title}`;
     }
   };

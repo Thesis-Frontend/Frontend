@@ -4,35 +4,59 @@ import CustomDropdown from "../../components/CustomDropdown";
 const UserModal = ({ isOpen, onClose, onSave, data, options }) => {
   const [formData, setFormData] = useState({
     name: "",
-    departmentType: null,
-    activityType: null,
-    company: null,
-    socialSecurityNumber: "",
-    town: null,
+    surname: "",
+    title: "",
+    email: "",
+    identityNumber: "",
+    phoneNumber: "",
+    department: null,
     manager: null,
+    company: null,
+    educationStatus: null,
+    marital: null,
+    gender: null,
+    startDateOfWork: null,
+    endDateOfWork: null,
+    responsibleRegions: [],
   });
 
   useEffect(() => {
     if (isOpen && data) {
       setFormData({
         name: data.name || "",
-        departmentType: data.departmentType || null,
-        activityType: data.activityType || null,
-        company: data.company || null,
-        town: data.town || null,
-        socialSecurityNumber: data.socialSecurityNumber || "",
+        surname: data.surname || "",
+        title: data.title || "",
+        email: data.email || "",
+        identityNumber: data.identityNumber || "",
+        phoneNumber: data.phoneNumber || "",
+        department: data.department || null,
         manager: data.manager || null,
+        company: data.company || null,
+        educationStatus: data.educationStatus || null,
+        marital: data.marital || null,
+        gender: data.gender || null,
+        startDateOfWork: data.startDateOfWork || null,
+        endDateOfWork: data.endDateOfWork || null,
+        responsibleRegions: data.responsibleRegions || [],
       });
     }
     if (isOpen && !data) {
       setFormData({
         name: "",
-        departmentType: "",
-        activityType: "",
-        company: "",
-        town: null,
-        socialSecurityNumber: "",
+        surname: "",
+        title: "",
+        email: "",
+        identityNumber: "",
+        phoneNumber: "",
+        department: null,
         manager: null,
+        company: null,
+        educationStatus: null,
+        marital: null,
+        gender: null,
+        startDateOfWork: null,
+        endDateOfWork: null,
+        responsibleRegions: [],
       });
     }
   }, [data, isOpen]);

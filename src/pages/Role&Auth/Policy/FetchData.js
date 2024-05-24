@@ -59,12 +59,13 @@ export default function FetchData(
       params.search = query.search;
     }
 
-    const resp = await Request("get", "/api/roles", null, params);
-    if (resp.status !== 200) {
-      setSeverity("error");
-      setSnackbarMessage(language.etc.fetchingError + resp?.data?.message);
-      setSnackbar(true);
-    } else {
+    // const resp = await Request("get", "/api/roles", null, params);
+    // if (resp.status !== 200) {
+    //   setSeverity("error");
+    //   setSnackbarMessage(language.etc.fetchingError + resp?.data?.message);
+    //   setSnackbar(true);
+    // } 
+    else {
       //   let otherData = resp.data;
       //   let data = otherData.content;
       //   const userContent = data.content;

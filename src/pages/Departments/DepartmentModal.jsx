@@ -107,17 +107,6 @@ const DepartmentModal = ({ isOpen, onClose, onSave, data, options }) => {
                 }}
               />
             </div> */}
-
-          <div>
-            <label className="block text-gray-700 font-bold">Tax Office</label>
-            <input
-              type="text"
-              name="taxOffice"
-              className="w-full border border-gray-300 p-2 rounded-xl"
-              value={formData.taxOffice}
-              onChange={handleChange}
-            />
-          </div>
           <div>
             <label className="block text-gray-700 font-bold">
               Social Security Number

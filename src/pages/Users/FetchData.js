@@ -1,4 +1,5 @@
 import Request from "../../helpers/Request";
+import moment from "moment";
 
 export default function FetchData(
   query,
@@ -33,7 +34,7 @@ export default function FetchData(
     // if (query.search !== "") {
     //   params.search = query.search;
     // }
-    const resp = await Request("get", "/api/fundamental/department", null);
+    const resp = await Request("get", "/api/fundamental/user", null);
     console.log(resp);
     if (resp.status !== 200) {
       setSeverity("error");
@@ -47,15 +48,24 @@ export default function FetchData(
         const edit = {
           id: data[i].id,
           name: data[i].name,
-          shortName: data[i].shortName,
-          departmentType: data[i].departmentType,
-          company: data[i].company,
-          socialSecurityNumber: data[i].socialSecurityNumber,
-          town: data[i].town,
+          surname: data[i].surname,
+          department: data[i].department,
+          company: data[i].department?.company,
+          title: data[i].title,
+          email: data[i].email,
           manager: data[i].manager,
-          activityType: data[i].activityType,
-          activityTowns: data[i].activityTowns,
-          parentDepartments: data[i].parentDepartments,
+          identityNumber: data[i].identityNumber,
+          phoneNumber: data[i].phoneNumber,
+          educationStatus: data[i].educationStatus,
+          marital: data[i].marital,
+          gender: data[i].gender,
+          startDateOfWork: data[i].startDateOfWork
+            ? new moment(data[i].startDateOfWork).format("DD-MM-YYYY")
+            : "-",
+          endDateOfWork: data[i].endDateOfWork
+            ? new moment(data[i].endDateOfWork).format("DD-MM-YYYY")
+            : "-",
+          responsibleRegions: data[i].responsibleRegions,
         };
         temp.push(edit);
       }

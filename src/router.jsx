@@ -30,6 +30,7 @@ const PolicyEditor = lazy(() =>
 const AccountActivated = lazy(() => import("./pages/AccountActivated"));
 const Payment = lazy(() => import("./pages/Payment/Payment"));
 const Checkout = lazy(() => import("./pages/Payment/Checkout"));
+const Users = lazy(() => import("./pages/Users/Users"));
 
 const publicRoutes = [
   {
@@ -99,6 +100,10 @@ const privateRoutes = [
   {
     path: "/policies/:id",
     element: <PolicyEditor />,
+  },
+  {
+    path: "/users",
+    element: <Users />,
   },
 ];
 

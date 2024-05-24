@@ -17,6 +17,7 @@
     "codemirror": "^5.65.16",
     "framer-motion": "^11.2.5",
     "jsoneditor": "^10.0.3",
+    "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-codemirror2": "^8.0.0",
     "react-dom": "^18.2.0",

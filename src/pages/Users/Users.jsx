@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Table from "../../components/Table";
-import DepartmentModal from "./DepartmentModal";
+import UserModal from "./UserModal";
 import FetchData from "./FetchData"; // Assuming this function exists and is correct
 import DeleteModal from "../../components/Modal/DeleteModal";
 import GetOptions from "./GetOptions";
 
-const Departments = () => {
+const Users = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
@@ -63,12 +63,13 @@ const Departments = () => {
 
   const columns = [
     { id: "id", label: "ID", minWidth: 170 },
-    { id: "name", label: "Department Name", minWidth: 170 },
+    { id: "name", label: "Name", minWidth: 170 },
+    { id: "surname", label: "Surname", minWidth: 170 },
     {
-      id: "departmentType",
-      label: "Department Type",
+      id: "department",
+      label: "Department Name",
       minWidth: 100,
-      render: (rowData) => rowData.departmentType.name,
+      render: (rowData) => rowData.department.name,
     },
     {
       id: "company",
@@ -78,21 +79,14 @@ const Departments = () => {
     },
 
     {
-      id: "socialSecurityNumber",
-      label: "Tax ID",
+      id: "title",
+      label: "Title",
       minWidth: 100,
     },
     {
-      id: "activityType",
-      label: "Activity Type",
+      id: "email",
+      label: "Email",
       minWidth: 100,
-      render: (rowData) => rowData.name,
-    },
-    {
-      id: "town",
-      label: "Town",
-      minWidth: 100,
-      render: (rowData) => rowData.town.name,
     },
     {
       id: "manager",
@@ -104,19 +98,50 @@ const Departments = () => {
           : "-",
     },
     {
-      id: "activityTowns",
-      label: "Activity Towns",
-      render: (rowData) =>
-        rowData.activityTowns.length > 0
-          ? getNames(rowData.activityTowns)
-          : ["-"],
+      id: "identityNumber",
+      label: "Identity Number",
+      minWidth: 100,
     },
     {
-      id: "parentDepartments",
-      label: "Parent Departments",
+      id: "phoneNumber",
+      label: "Phone Number",
+      minWidth: 100,
+    },
+    {
+      id: "educationStatus",
+      label: "Education Status",
+      minWidth: 100,
+      render: (rowData) => rowData.educationStatus.name,
+    },
+    {
+      id: "marital",
+      label: "Marital",
+      minWidth: 100,
+      render: (rowData) => rowData.marital ? "Married" : "Single",
+    },
+    {
+      id: "gender",
+      label: "Gender",
+      minWidth: 100,
+      render: (rowData) => rowData.gender ? "Woman" : "Man",
+    },
+    {
+      id: "startDateOfWork",
+      label: "Start Date of Work",
+      minWidth: 100,
+    },
+    {
+      id: "endDateOfWork",
+      label: "End Date of Work",
+      minWidth: 100,
+    },
+    {
+      id: "responsibleRegions",
+      label: "Responsible Regions",
+      minWidth: 100,
       render: (rowData) =>
-        rowData.parentDepartments.length > 0
-          ? getNames(rowData.parentDepartments)
+        rowData.responsibleRegions.length > 0
+          ? getNames(rowData.responsibleRegions)
           : ["-"],
     },
   ];
@@ -124,14 +149,14 @@ const Departments = () => {
   return (
     <div>
       <Table
-        title="Departments"
+        title="Users"
         columns={columns}
         fetchData={FetchData}
         handleCreate={handleCreate}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
       />
-      <DepartmentModal
+      <UserModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         onSave={handleSave}
@@ -147,4 +172,4 @@ const Departments = () => {
   );
 };
 
-export default Departments;
+export default Users;
