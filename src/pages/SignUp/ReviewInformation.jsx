@@ -58,7 +58,7 @@ const ReviewInformation = ({ data, onSubmit, onPrevious, options, loading }) => 
           <div>
             <strong>5. Sector Name</strong>
             <div className="opacity-75">
-              {options.find((opt) => opt.id === data.sector)?.name ||
+              {options.companyTypes.find((opt) => opt.id === data.sector)?.name ||
                 "Sector Not Found"}
             </div>
           </div>

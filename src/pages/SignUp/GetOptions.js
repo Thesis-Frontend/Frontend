@@ -3,7 +3,7 @@ import Request from "../../helpers/Request";
 export const getCompanyTypes = async () => {
   const resp = await Request("get", "/api/fundamental/company-type");
   console.log(resp);
-  const data = resp.data;
+  const data = resp.data.data;
   const content = data.content;
   //   let arr = [];
   //   for (let i = 0; i < content.length; i++) {

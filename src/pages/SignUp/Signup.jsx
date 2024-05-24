@@ -29,23 +29,23 @@ export default function Signup() {
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
   const [severity, setSeverity] = React.useState("");
   const [loading, setLoading] = useState(false);
-  // const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState([]);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const init = useCallback(async () => {
     const opt = await GetOptions();
-    // setOptions(opt);
+    setOptions(opt);
   }, []);
 
   useEffect(() => {
     init();
   }, [init]);
 
-  const options = [
-    { id: 1, name: "EDC" },
-    { id: 2, name: "WATER" },
-    { id: 3, name: "ENERGY" },
-  ];
+  // const options = [
+  //   { id: 1, name: "EDC" },
+  //   { id: 2, name: "WATER" },
+  //   { id: 3, name: "ENERGY" },
+  // ];
 
   const nextStep = () => setCurrentStep(currentStep + 1);
   const prevStep = () => setCurrentStep(currentStep - 1);
@@ -58,7 +58,6 @@ export default function Signup() {
 
   const handleSubmit = async () => {
     setLoading(true);
-    signupData["sector"] = "WATER";
     try {
       console.log(signupData);
       const response = await Request(
@@ -173,7 +172,7 @@ export default function Signup() {
             onPrevious={prevStep}
             placeholder="Enter sector"
             type="select"
-            options={options}
+            options={options.companyTypes}
           />
         );
       case 8:

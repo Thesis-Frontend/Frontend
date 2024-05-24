@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   FaPlus,
   FaFileExport,
@@ -38,7 +38,7 @@ const Table = ({
 
   const rowsPerPage = 10; // Number of rows per page
 
-  useEffect(() => {
+  const init = useCallback(async () => {
     const query = {
       page: currentPage,
       pageSize: rowsPerPage,
@@ -47,18 +47,40 @@ const Table = ({
       search: searchQuery,
     };
 
-    fetchData(
+    const data = await fetchData(
       query,
       setSnackbar,
       setSnackbarMessage,
       setSeverity,
-      setTotalCount,
-      "companies",
-      {}
-    ).then((fetchedData) => {
-      setData(fetchedData.data);
-    });
-  }, [currentPage, searchQuery, sortConfig]);
+      setTotalCount
+    );
+    setData(data.data);
+  }, [currentPage, searchQuery, sortConfig, columns]);
+
+  useEffect(() => {
+    init();
+  }, [init]);
+
+  // useEffect( () => {
+  //   const query = {
+  //     page: currentPage,
+  //     pageSize: rowsPerPage,
+  //     orderBy: { field: sortConfig.key },
+  //     orderDirection: sortConfig.direction,
+  //     search: searchQuery,
+  //   };
+
+  //   async function fetchData(
+  //     query,
+  //     setSnackbar,
+  //     setSnackbarMessage,
+  //     setSeverity,
+  //     setTotalCount
+  //   ).then((fetchedData) => {
+  //     setData(fetchedData.data);
+  //     console.log(fetchData);
+  //   });
+  // }, [currentPage, searchQuery, sortConfig, fetchData]);
 
   const handleSort = (columnKey) => {
     let direction = "ASC";

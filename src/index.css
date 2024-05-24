@@ -29,7 +29,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-
 .loader {
   border: 3px solid rgba(0, 0, 0, 0.1);
   border-top: 3px solid #3182ce; /* Adjust color as needed */
@@ -47,4 +46,15 @@ input[type="number"] {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.policy-list {
+  max-height: 100px; /* Adjust as needed */
+  overflow-y: auto;
+  padding: 5px;
+  border-radius: 5px;
+  color: #666; /* A lighter color */
+}
+.policy-list div {
+  margin: 7px 0;
 }

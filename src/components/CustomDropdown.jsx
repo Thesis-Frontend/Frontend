@@ -47,7 +47,7 @@ export default function CustomDropdown({
         : `Select ${title}`;
     } else {
       return selected
-        ? options.filter((opt) => opt.id === selected)[0].name
+        ? options.filter((opt) => opt.id === selected)[0]?.name
         : `Select ${title}`;
     }
   };
@@ -76,7 +76,7 @@ export default function CustomDropdown({
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value.toLowerCase())}
-            placeholder={`Enter ${title} name`}
+            placeholder={`Enter ${title}`}
             className="placeholder:text-gray-700 p-2 outline-none"
           />
         </div>
