@@ -108,7 +108,7 @@ const PrivateRoute = ({ element }) => {
   return !isLoggedIn ? (
     <div className="flex">
       <Sidebar />
-      <main className="flex-1 p-4">{element}</main>
+      <main className="flex-1 p-4 dark:bg-[#424551]">{element}</main>
     </div>
   ) : (
     <Navigate to="/welcome" replace />

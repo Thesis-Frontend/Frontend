@@ -55,11 +55,11 @@ const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50 rounded-lg">
       <div className="bg-gray-200 rounded-xl shadow-lg p-8 w-1/4">
-        <div className="space-y-4">
+        <div className="space-y-4 ">
           <div>
-            <label className="block text-gray-700 font-bold">
+            <label className="block text-gray-700 font-bold ">
               Company Name
             </label>
             <input

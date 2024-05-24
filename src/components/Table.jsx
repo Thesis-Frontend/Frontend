@@ -93,16 +93,16 @@ const Table = ({
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="flex flex-col p-4 bg-gray-100" style={{ height: "95vh" }}>
-      <header className="flex justify-between items-center bg-white p-4 shadow-md">
-        <h1 className="text-2xl font-bold text-gray-800">{title}</h1>
+    <div className="flex flex-col p-4 bg-gray-100 dark:bg-[#161A23] rounded-lg" style={{ height: "95vh" }}>
+      <header className="flex justify-between items-center bg-white p-4 shadow-md dark:bg-[#2D2F39] rounded-lg">
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-[#8A8C91] ">{title}</h1>
         <div className="flex items-center space-x-4">
           <input
             type="text"
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="border border-gray-300 rounded-md px-4 py-2"
+            className="border border-gray-300 rounded-md px-4 py-2 dark:bg-[#2D2F39] dark:text-[#8A8C91]"
           />
           <button className="bg-green-500 text-white px-4 py-2 rounded-md flex items-center space-x-2">
             <FaFileExport />
@@ -124,8 +124,8 @@ const Table = ({
         </div>
       </header>
       <main className="flex-1 overflow-y-auto p-4">
-        <div className="overflow-x-auto h-full">
-          <table className="min-w-full bg-white border">
+        <div className="overflow-x-auto h-full dark:text-[#8A8C91] dark:bg-[#2D2F39] rounded-b-lg">
+          <table className="min-w-full bg-white border dark:bg-[#2D2F39] ">
             <thead>
               <tr>
                 {columns.map((column) => (
@@ -201,9 +201,9 @@ const Table = ({
               <tr>
                 <td
                   colSpan={columns.length + 1}
-                  className="py-2 px-4 bg-white border-t"
+                  className="py-2 px-4 bg-white border-t dark:bg-[#2D2F39] dark:text-[#8A8C91]"
                 >
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center dark:bg-[#2D2F39]">
                     <button
                       onClick={() => handlePageChange(currentPage - 1)}
                       disabled={currentPage === 1}

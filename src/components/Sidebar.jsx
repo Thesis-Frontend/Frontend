@@ -101,7 +101,7 @@ const Sidebar = () => {
   };
 
   const toggleDarkMode = () => {
-    if (theme == "light") {
+    if (theme === "light") {
       setTheme("dark");
       element.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -125,7 +125,7 @@ const Sidebar = () => {
   const getMenuItemClass = (path) => {
     const baseClass =
       "flex items-center space-x-2 px-2 py-2 rounded-md cursor-pointer transition-colors duration-300";
-    const selectedClass = selectedMenuItem === path ? "bg-gray-300" : "";
+    const selectedClass = selectedMenuItem === path ? "bg-gray-300 dark:bg-gray-600" : "";
     return `${baseClass} ${selectedClass}`;
   };
 
@@ -137,15 +137,9 @@ const Sidebar = () => {
     setExpandedMenus((prev) => ({ ...prev, [name]: !prev[name] }));
   };
 
-  // ${
-  //   darkMode
-  //     ? "bg-signupButtonStrokeColor text-white"
-  //     : "bg-white text-black"
-  // }
-
   return (
     <div
-      className={`flex flex-col h-screen  bg-white dark:bg-signupButtonStrokeColor dark:text-white
+      className={`flex flex-col h-screen bg-white dark:bg-[#161A23] dark:text-[#8A8C91]
       shadow-lg ${
         isOpen ? "w-64 justify-start" : "w-20 justify-center"
       } transition-width duration-300 ease-in-out relative`}
@@ -153,9 +147,9 @@ const Sidebar = () => {
       <div
         className={`flex items-center ${
           isOpen ? "justify-between" : "justify-center"
-        } p-4 bg-gray-100 text-white`}
+        } p-4 bg-gray-100 dark:bg-[#2D2F39] text-white`}
       >
-        <div className="flex items-center ">
+        <div className="flex items-center">
           <img
             src={isOpen ? logo : logoCollapsed}
             alt="Logo"
@@ -163,21 +157,20 @@ const Sidebar = () => {
           />
         </div>
         <button
-          className="text-white focus:outline-none absolute right-0 top-24 transform translate-x-1/2 rounded-lg bg-white border-solid border-gray-400 border"
+          className="text-white focus:outline-none absolute right-0 top-24 transform translate-x-1/2 rounded-lg bg-white dark:bg-[#2D2F39] border-solid border-gray-400 border"
           onClick={toggleSidebar}
         >
           {isOpen ? (
-            <BiCollapseHorizontal className="text-black" size={20} />
+            <BiCollapseHorizontal className="text-black dark:text-[#8A8C91]" size={20} />
           ) : (
-            <BiExpandHorizontal className="text-black" size={20} />
+            <BiExpandHorizontal className="text-black dark:text-[#8A8C91]" size={20} />
           )}
         </button>
       </div>
       <div className="flex-1 overflow-y-auto">
         <nav className="p-4">
           <ul
-            className={`space-y-6 ${!isOpen ? "items-center" : ""} text-gray-600
-              dark:text-white`}
+            className={`space-y-6 ${!isOpen ? "items-center" : ""} text-gray-600 dark:text-[#8A8C91]`}
           >
             {menuItems1.map((item) => (
               <li
@@ -189,7 +182,7 @@ const Sidebar = () => {
                 {isOpen && <span>{item.name}</span>}
               </li>
             ))}
-            <hr className="border-t border-gray-300" />
+            <hr className="border-t border-gray-300 dark:border-gray-600" />
             {menuItems2.map((item) => (
               <li key={item.name}>
                 <div
@@ -227,27 +220,26 @@ const Sidebar = () => {
           </ul>
         </nav>
       </div>
+      
       <div
-        className={`p-3 ${
-          !darkMode ? "bg-gray-100" : " bg-signupButtonStrokeColor"
-        }  flex flex-col items-center transition-all ease-in-out`}
+        className={`p-3 flex flex-col items-center transition-all ease-in-out`}
       >
         {isOpen && (
           <div className="text-center mb-4">
             <p className="font-bold text-lg">{userName}</p>
-            <p className="text-sm text-gray-400">({userRole})</p>
+            <p className="text-sm text-gray-400 dark:text-[#8A8C91]">({userRole})</p>
           </div>
         )}
         <button
           onClick={handleLogout}
-          className="w-full py-2 bg-gray-300 rounded-md text-center flex items-center justify-center space-x-2 mb-4"
+          className="w-full py-2 bg-gray-300 dark:bg-gray-600 rounded-md text-center flex items-center justify-center space-x-2 mb-4"
         >
           <RiLogoutCircleLine size={26} />
           {isOpen && <span>Logout</span>}
         </button>
         <button
           onClick={toggleDarkMode}
-          className="w-full py-2 bg-gray-300 rounded-md text-center flex items-center justify-center space-x-2"
+          className="w-full py-2 bg-gray-300 dark:bg-gray-600 rounded-md text-center flex items-center justify-center space-x-2"
         >
           {theme !== "light" ? <CiLight size={26} /> : <CiDark size={26} />}
         </button>

@@ -11,9 +11,9 @@ const data = [
 
 const Dashboard = () => {
   return (
-    <div className="flex flex-col h-full p-4 bg-gray-100">
-      <header className="flex justify-between items-center bg-white p-4 shadow-md">
-        <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+    <div className="flex flex-col h-full p-4 bg-gray-100 dark:bg-[#161A23] rounded-lg">
+      <header className="flex justify-between items-center bg-white dark:bg-[#2D2F39] p-4 shadow-md rounded-lg">
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-[#8A8C91]">Dashboard</h1>
         <div className="flex items-center space-x-4">
           <RiDashboardLine size={24} className="text-gray-500" />
           <RiFileListLine size={24} className="text-gray-500" />
@@ -25,21 +25,21 @@ const Dashboard = () => {
       
       <main className="flex-1 overflow-y-auto p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white dark:bg-[#2D2F39] dark:text-[#8A8C91] p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4">Statistics</h2>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col items-center">
-                <span className="text-3xl font-bold text-gray-800">2400</span>
+                <span className="text-3xl font-bold text-gray-800 dark:text-[#8A8C91]">2400</span>
                 <span className="text-gray-500">Users</span>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-3xl font-bold text-gray-800">1200</span>
+                <span className="text-3xl font-bold text-gray-800 dark:text-[#8A8C91]">1200</span>
                 <span className="text-gray-500">Sessions</span>
               </div>
             </div>
           </div>
           
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white dark:bg-[#2D2F39] dark:text-[#8A8C91] p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4">Chart</h2>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={data}>
@@ -54,7 +54,7 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white dark:bg-[#2D2F39] dark:text-[#8A8C91] p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
             <ul className="divide-y divide-gray-200">
               <li className="py-2">User A logged in</li>
