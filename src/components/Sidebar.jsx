@@ -80,8 +80,6 @@ const Sidebar = () => {
 
   const element = document.documentElement;
 
-  console.log(element);
-
   useEffect(() => {
     if (theme === "dark") {
       setTheme("dark");
@@ -131,6 +129,10 @@ const Sidebar = () => {
   const handleMenuItemClick = (path) => {
     setSelectedMenuItem(path);
     navigate(path);
+  };
+
+  const handleUserNameClick = () => {
+    navigate("/account-info");
   };
 
   const getMenuItemClass = (path) => {
@@ -243,7 +245,7 @@ const Sidebar = () => {
 
       <div className={`p-3 flex flex-col items-center`}>
         {isOpen && (
-          <div className="text-center mb-4">
+          <div className="text-center mb-4 cursor-pointer" onClick={handleUserNameClick}>
             <p className="font-bold text-lg">{userName}</p>
             <p className="text-sm text-gray-400 dark:text-[#8A8C91]">
               ({userRole})
