@@ -34,7 +34,6 @@ export default function FetchData(
     //   params.search = query.search;
     // }
     const resp = await Request("get", "/api/fundamental/user", null);
-    console.log(resp);
     if (resp.status !== 200) {
       setSeverity("error");
       setSnackbarMessage(resp?.data?.message);

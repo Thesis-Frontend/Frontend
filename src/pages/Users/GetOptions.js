@@ -2,14 +2,12 @@ import Request from "../../helpers/Request";
 
 export const getDepartmentTypes = async () => { // department olacak
   const resp = await Request("get", "/api/fundamental/department-type");
-  console.log(resp);
   const data = resp.data.data;
   const content = data.content;
   return content;
 };
 export const getActivityTypes = async () => { // company olacak
   const resp = await Request("get", "/api/fundamental/activity-type");
-  console.log(resp);
   const data = resp.data.data;
   const content = data.content;
 
@@ -17,7 +15,6 @@ export const getActivityTypes = async () => { // company olacak
 };
 export const getTowns = async () => {
   const resp = await Request("get", "/api/fundamental/town");
-  console.log(resp);
   const data = resp.data.data;
   const content = data.content;
 
@@ -33,7 +30,6 @@ export const getTowns = async () => {
 
 export const getEducationStatus = async () => {
   const resp = await Request("get", "/api/fundamental/education-status");
-  console.log(resp);
   const data = resp.data.data;
   const content = data.content;
   return content;

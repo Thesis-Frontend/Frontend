@@ -17,6 +17,10 @@ const Users = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [options, setOptions] = useState([]);
 
+  const [snackbar, setSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [severity, setSeverity] = useState("");
+  
   const init = useCallback(async () => {
     const opt = await GetOptions();
     setOptions(opt);
@@ -164,6 +168,9 @@ const Users = () => {
         handleCreate={handleCreate}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
+        setSnackbar={setSnackbar}
+        setSnackbarMessage={setSnackbarMessage}
+        setSeverity={setSeverity}
       />
       <UserModal
         isOpen={isModalOpen}
