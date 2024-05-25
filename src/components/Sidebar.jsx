@@ -48,7 +48,7 @@ const menuItems2 = [
     icon: <RiMapPin2Line size={24} />,
   },
   {
-    name: "Role-Authorization Matrix",
+    name: "Roles and Policies",
     path: "",
     icon: <SiAuthentik size={24} />,
     subItems: [
