@@ -4,6 +4,7 @@ import UserModal from "./UserModal";
 import FetchData from "./FetchData"; // Assuming this function exists and is correct
 import DeleteModal from "../../components/Modal/DeleteModal";
 import GetOptions from "./GetOptions";
+import moment from "moment";
 
 const Users = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -117,23 +118,31 @@ const Users = () => {
       id: "marital",
       label: "Marital",
       minWidth: 100,
-      render: (rowData) => rowData.marital ? "Married" : "Single",
+      render: (rowData) => (rowData.marital ? "Married" : "Single"),
     },
     {
       id: "gender",
       label: "Gender",
       minWidth: 100,
-      render: (rowData) => rowData.gender ? "Woman" : "Man",
+      render: (rowData) => (rowData.gender ? "Woman" : "Man"),
     },
     {
       id: "startDateOfWork",
       label: "Start Date of Work",
       minWidth: 100,
+      render: (rowData) =>
+        rowData.startDateOfWork
+          ? new moment(rowData.startDateOfWork).format("DD-MM-YYYY")
+          : "-",
     },
     {
       id: "endDateOfWork",
       label: "End Date of Work",
       minWidth: 100,
+      render: (rowData) =>
+        rowData.endDateOfWork
+          ? new moment(rowData.endDateOfWork).format("DD-MM-YYYY")
+          : "-",
     },
     {
       id: "responsibleRegions",

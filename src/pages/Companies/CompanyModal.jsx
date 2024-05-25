@@ -56,7 +56,7 @@ const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50 rounded-lg">
-      <div className="bg-gray-200 rounded-xl shadow-lg p-8 w-1/4">
+      <div className="bg-gray-200 rounded shadow-lg p-8 w-1/4">
         <div className="space-y-4 ">
           <div>
             <label className="block text-gray-700 font-bold ">
@@ -65,7 +65,7 @@ const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
             <input
               type="text"
               name="name"
-              className="w-full border border-gray-300 p-2 rounded-xl"
+              className="w-full border border-gray-300 p-2 rounded"
               value={formData.name}
               onChange={handleChange}
             />
@@ -77,7 +77,7 @@ const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
             <input
               type="text"
               name="Company Short Name"
-              className="w-full border border-gray-300 p-2 rounded-xl"
+              className="w-full border border-gray-300 p-2 rounded"
               value={formData.shortName}
               onChange={handleChange}
             />
@@ -103,7 +103,7 @@ const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
             <input
               type="text"
               name="taxOffice"
-              className="w-full border border-gray-300 p-2 rounded-xl"
+              className="w-full border border-gray-300 p-2 rounded"
               value={formData.taxOffice}
               onChange={handleChange}
             />
@@ -113,7 +113,7 @@ const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
             <input
               type="text"
               name="taxIdentificationNumber"
-              className="w-full border border-gray-300 p-2 rounded-xl"
+              className="w-full border border-gray-300 p-2 rounded"
               value={formData.taxIdentificationNumber}
               onChange={handleChange}
             />
@@ -135,7 +135,7 @@ const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
         </div>
         <div className="flex justify-end mt-6 w-full">
           <button
-            className="bg-signupButtonStrokeColor text-white px-4 py-2 rounded-xl mr-2 w-1/2"
+            className="bg-signupButtonStrokeColor text-white px-4 py-2 rounded mr-2 w-1/2"
             onClick={onClose}
           >
             Cancel
@@ -143,7 +143,7 @@ const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
           <button
             className={`${
               data?.id ? "bg-updateButton" : "bg-createButtons"
-            } text-white px-4 py-2 rounded-xl w-1/2`}
+            } text-white px-4 py-2 rounded w-1/2`}
             onClick={handleSave}
           >
             {data?.id ? "Update" : "Submit"}

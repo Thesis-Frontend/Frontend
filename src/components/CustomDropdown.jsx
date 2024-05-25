@@ -4,22 +4,17 @@ import { AiOutlineSearch } from "react-icons/ai";
 
 export default function CustomDropdown({
   title,
-  options,
+  options = [],
   onChange,
-  selectedValue = [],
+  selectedValue,
   isMultiple = false,
 }) {
   const [inputValue, setInputValue] = useState("");
   const [selected, setSelected] = useState(selectedValue);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    setSelected(selectedValue);
-  }, [selectedValue]);
 
   const handleOptionClick = (opt) => {
-    console.log(opt);
-    console.log(selected);
     if (isMultiple) {
       const isSelected = selected.some((item) => item.id === opt.id);
       let newSelected;
@@ -41,7 +36,7 @@ export default function CustomDropdown({
 
   const displayText = () => {
     if (isMultiple) {
-      return selected.length
+      return selected?.length
         ? selected
             .map((item) => item.name)
             .join(", ")
@@ -60,7 +55,7 @@ export default function CustomDropdown({
         onClick={() => setOpen(!open)}
         className={`bg-white w-full p-2 flex items-center justify-between rounded ${
           isMultiple
-            ? !selected.length && "text-gray-700"
+            ? !selected?.length && "text-gray-700"
             : !selected?.name && "text-gray-700"
         }`}
       >

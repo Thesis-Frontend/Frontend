@@ -1,13 +1,13 @@
 import Request from "../../helpers/Request";
 
-export const getDepartmentTypes = async () => {
+export const getDepartmentTypes = async () => { // department olacak
   const resp = await Request("get", "/api/fundamental/department-type");
   console.log(resp);
   const data = resp.data.data;
   const content = data.content;
   return content;
 };
-export const getActivityTypes = async () => {
+export const getActivityTypes = async () => { // company olacak
   const resp = await Request("get", "/api/fundamental/activity-type");
   console.log(resp);
   const data = resp.data.data;
@@ -31,17 +31,43 @@ export const getTowns = async () => {
   return arr;
 };
 
+export const getEducationStatus = async () => {
+  const resp = await Request("get", "/api/fundamental/education-status");
+  console.log(resp);
+  const data = resp.data.data;
+  const content = data.content;
+  return content;
+};
+
 const managers = [
   { id: 1, name: "Ben" },
-  { id: 2, name: "Sen" },
+  { id: 2, name: "Sen" }
+];
+const marital = [
+  { id: 1, name: "Married" },
+  { id: 2, name: "Single" },
+];
+const gender = [
+  { id: 1, name: "Woman" },
+  { id: 2, name: "Man" },
 ];
 
 export default async function GetOptions() {
-  const [departmentTypes, activityTypes, towns] = await Promise.all([
-    getDepartmentTypes(),
-    getActivityTypes(),
-    getTowns(),
-  ]);
-  const options = { departmentTypes, activityTypes, towns, managers };
+  const [departmentTypes, activityTypes, towns, educationStatus] =
+    await Promise.all([
+      getDepartmentTypes(),
+      getActivityTypes(),
+      getTowns(),
+      getEducationStatus(),
+    ]);
+  const options = {
+    departmentTypes,
+    activityTypes,
+    towns,
+    managers,
+    educationStatus,
+    marital,
+    gender
+  };
   return options;
 }

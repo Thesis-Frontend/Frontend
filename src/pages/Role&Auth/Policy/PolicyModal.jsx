@@ -42,14 +42,14 @@ const PolicyModal = ({ isOpen, onClose, onSave, data }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-gray-200 rounded-xl shadow-lg p-8 w-1/4">
+      <div className="bg-gray-200 rounded shadow-lg p-8 w-1/4">
         <div className="space-y-4">
           <div>
             <label className="block text-gray-700 font-bold">Policy Name</label>
             <input
               type="text"
               name="name"
-              className="w-full border border-gray-300 p-2 rounded-xl"
+              className="w-full border border-gray-300 p-2 rounded"
               value={formData.name}
               onChange={(e) => handleChange(e.target.name, e.target.value)}
             />
@@ -57,7 +57,7 @@ const PolicyModal = ({ isOpen, onClose, onSave, data }) => {
         </div>
         <div className="flex justify-end mt-6 w-full">
           <button
-            className="bg-signupButtonStrokeColor text-white px-4 py-2 rounded-xl mr-2 w-1/2"
+            className="bg-signupButtonStrokeColor text-white px-4 py-2 rounded mr-2 w-1/2"
             onClick={handleCancel}
           >
             Cancel
@@ -65,7 +65,7 @@ const PolicyModal = ({ isOpen, onClose, onSave, data }) => {
           <button
             className={`${
               data?.id ? "bg-updateButton" : "bg-createButtons"
-            } text-white px-4 py-2 rounded-xl w-1/2`}
+            } text-white px-4 py-2 rounded w-1/2`}
             onClick={handleSave}
           >
             {data?.id ? "Update" : "Submit"}

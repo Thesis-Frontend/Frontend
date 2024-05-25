@@ -47,7 +47,6 @@ export default function FetchData(
         const edit = {
           id: data[i].id,
           name: data[i].name,
-          shortName: data[i].shortName,
           departmentType: data[i].departmentType,
           company: data[i].company,
           socialSecurityNumber: data[i].socialSecurityNumber,

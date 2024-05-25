@@ -1,5 +1,4 @@
 import Request from "../../helpers/Request";
-import moment from "moment";
 
 export default function FetchData(
   query,
@@ -59,12 +58,8 @@ export default function FetchData(
           educationStatus: data[i].educationStatus,
           marital: data[i].marital,
           gender: data[i].gender,
-          startDateOfWork: data[i].startDateOfWork
-            ? new moment(data[i].startDateOfWork).format("DD-MM-YYYY")
-            : "-",
-          endDateOfWork: data[i].endDateOfWork
-            ? new moment(data[i].endDateOfWork).format("DD-MM-YYYY")
-            : "-",
+          startDateOfWork: data[i].startDateOfWork,
+          endDateOfWork: data[i].endDateOfWork,
           responsibleRegions: data[i].responsibleRegions,
         };
         temp.push(edit);
