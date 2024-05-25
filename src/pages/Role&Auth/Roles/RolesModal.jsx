@@ -74,14 +74,14 @@ const RolesModal = ({ isOpen, onClose, onSave, data, options }) => {
         </div>
         <div className="flex justify-end mt-6 w-full">
           <button
-            className="bg-signupButtonStrokeColor text-white px-4 py-2 rounded mr-2 w-1/2"
+            className="bg-loginUnsuccess hover:bg-[#CA7E7D] text-white px-4 py-2 rounded mr-2 w-1/2"
             onClick={handleCancel}
           >
             Cancel
           </button>
           <button
             className={`${
-              data?.id ? "bg-updateButton" : "bg-createButtons"
+              data?.id ? "bg-loginSuccess hover:bg-[#98E292]" : "bg-createButtons"
             } text-white px-4 py-2 rounded w-1/2`}
             onClick={handleSave}
           >

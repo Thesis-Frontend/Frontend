@@ -18,13 +18,13 @@ const DeleteModal = ({ isOpen, onRequestClose, onDelete }) => {
         <div className="flex justify-end space-x-4 mt-4">
           <button
             onClick={onRequestClose}
-            className="bg-signupButtonStrokeColor text-white px-4 py-2 rounded-md"
+            className="bg-loginUnsuccess text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#CA7E7D]"
           >
             No
           </button>
           <button
             onClick={onDelete}
-            className="bg-createButtons text-white px-4 py-2 rounded-md"
+            className="bg-loginSuccess text-white px-4 py-2 rounded-md hover:bg-[#98E292]"
           >
             Yes
           </button>
