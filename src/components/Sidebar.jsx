@@ -76,11 +76,20 @@ const Sidebar = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState(path);
   const [expandedMenus, setExpandedMenus] = useState({});
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(localStorage.getItem("theme"));
 
   const element = document.documentElement;
 
   useEffect(() => {
+    if (theme === "dark") {
+      setTheme("dark");
+      element.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      setTheme("light");
+      element.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
     const totalArr = [...menuItems1, ...menuItems2];
     totalArr.forEach((item) => {
       if (item.subItems) {
@@ -125,7 +134,8 @@ const Sidebar = () => {
   const getMenuItemClass = (path) => {
     const baseClass =
       "flex items-center space-x-2 px-2 py-2 rounded-md cursor-pointer transition-colors duration-300";
-    const selectedClass = selectedMenuItem === path ? "bg-gray-300 dark:bg-gray-600" : "";
+    const selectedClass =
+      selectedMenuItem === path ? "bg-gray-300 dark:bg-gray-600" : "";
     return `${baseClass} ${selectedClass}`;
   };
 
@@ -161,16 +171,24 @@ const Sidebar = () => {
           onClick={toggleSidebar}
         >
           {isOpen ? (
-            <BiCollapseHorizontal className="text-black dark:text-[#8A8C91]" size={20} />
+            <BiCollapseHorizontal
+              className="text-black dark:text-[#8A8C91]"
+              size={20}
+            />
           ) : (
-            <BiExpandHorizontal className="text-black dark:text-[#8A8C91]" size={20} />
+            <BiExpandHorizontal
+              className="text-black dark:text-[#8A8C91]"
+              size={20}
+            />
           )}
         </button>
       </div>
       <div className="flex-1 overflow-y-auto">
         <nav className="p-4">
           <ul
-            className={`space-y-6 ${!isOpen ? "items-center" : ""} text-gray-600 dark:text-[#8A8C91]`}
+            className={`space-y-6 ${
+              !isOpen ? "items-center" : ""
+            } text-gray-600 dark:text-[#8A8C91]`}
           >
             {menuItems1.map((item) => (
               <li
@@ -220,14 +238,14 @@ const Sidebar = () => {
           </ul>
         </nav>
       </div>
-      
-      <div
-        className={`p-3 flex flex-col items-center`}
-      >
+
+      <div className={`p-3 flex flex-col items-center`}>
         {isOpen && (
           <div className="text-center mb-4">
             <p className="font-bold text-lg">{userName}</p>
-            <p className="text-sm text-gray-400 dark:text-[#8A8C91]">({userRole})</p>
+            <p className="text-sm text-gray-400 dark:text-[#8A8C91]">
+              ({userRole})
+            </p>
           </div>
         )}
         <button
