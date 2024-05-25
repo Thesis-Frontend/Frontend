@@ -1,58 +1,38 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Table from "../../components/Table";
-import CompanyModal from "./CompanyModal";
-import FetchData from "./FetchData"; // Assuming this function exists and is correct
-import DeleteModal from "../../components/Modal/DeleteModal";
-import GetOptions from "./GetOptions";
-import Snackbar from "../../components/Snackbar";
+import Request from "../../../helpers/Request";
+import Table from "../../../components/Table";
+import Snackbar from "../../../components/Snackbar";
+import DeleteModal from "../../../components/Modal/DeleteModal";
+import TownsModal from "./TownsModal";
 
 const columns = [
   { id: "id", label: "ID", minWidth: 170 },
-  { id: "name", label: "Company Name", minWidth: 170 },
-  { id: "shortName", label: "Company Short Name", minWidth: 170 },
-  {
-    id: "companyType",
-    label: "Company Type",
-    minWidth: 100,
-    render: (rowData) => rowData.companyType.name,
-  },
-  {
-    id: "taxIdentificationNumber",
-    label: "Tax ID",
-    minWidth: 100,
-  },
-  { id: "taxOffice", label: "Tax Office", minWidth: 100 },
-  {
-    id: "manager",
-    label: "Manager",
-    minWidth: 100,
-    render: (rowData) =>
-      rowData.manager
-        ? rowData.manager.name + " " + rowData.manager.surname
-        : "-",
-  },
+  { id: "name", label: "Region Name", minWidth: 170 },
 ];
 
-const Companies = () => {
+export default function Towns({
+  rowData,
+  setSnackbar,
+  setSnackbarMessage,
+  setSeverity,
+}) {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const [data, setData] = useState(null);
   const [deleteCandidateId, setDeleteCandidateId] = useState(null);
   const [companies, setCompanies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const [options, setOptions] = useState([]);
-
-  const [snackbar, setSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [severity, setSeverity] = useState("");
 
   const init = useCallback(async () => {
-    console.log("geliyo musun");
-    const opt = await GetOptions();
-    setOptions(opt);
+    const res = await Request("get", "/api/fundamental/town", null, {
+      regionId: rowData.id,
+    });
+    console.log(res);
+    setData(res.data.data.content);
   }, []);
 
   useEffect(() => {
@@ -93,29 +73,20 @@ const Companies = () => {
 
   return (
     <>
-      <Snackbar
-        message={snackbarMessage}
-        show={snackbar}
-        setShow={setSnackbar}
-        severity={severity}
-      />
       <Table
-        title="Companies"
+        title={"Towns"}
         columns={columns}
-        fetchData={FetchData}
+        dataParam={data}
         handleCreate={handleCreate}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
-        setSnackbar={setSnackbar}
-        setSnackbarMessage={setSnackbarMessage}
-        setSeverity={setSeverity}
+        isDetail={2}
       />
-      <CompanyModal
+      <TownsModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         onSave={handleSave}
         data={modalData}
-        options={options}
       />
       <DeleteModal
         isOpen={isDeleteModalOpen}
@@ -124,6 +95,4 @@ const Companies = () => {
       />
     </>
   );
-};
-
-export default Companies;
+}

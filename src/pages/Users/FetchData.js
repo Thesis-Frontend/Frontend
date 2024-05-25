@@ -40,6 +40,9 @@ export default function FetchData(
       setSnackbarMessage(resp?.data?.message);
       setSnackbar(true);
     } else {
+      setSeverity("success");
+      setSnackbarMessage(resp?.data?.message);
+      setSnackbar(true);
       let otherData = resp.data.data;
       let data = otherData.content;
       let temp = [];

@@ -31,6 +31,9 @@ const AccountActivated = lazy(() => import("./pages/AccountActivated"));
 const Payment = lazy(() => import("./pages/Payment/Payment"));
 const Checkout = lazy(() => import("./pages/Payment/Checkout"));
 const Users = lazy(() => import("./pages/Users/Users"));
+const CitiesAndTowns = lazy(() =>
+  import("./pages/Cities-Towns/CitiesAndTowns")
+);
 
 const publicRoutes = [
   {
@@ -105,6 +108,10 @@ const privateRoutes = [
     path: "/users",
     element: <Users />,
   },
+  {
+    path: "/cities-and-towns",
+    element: <CitiesAndTowns />,
+  },
 ];
 
 const PrivateRoute = ({ element }) => {
@@ -113,7 +120,9 @@ const PrivateRoute = ({ element }) => {
   return !isLoggedIn ? (
     <div className="flex">
       <Sidebar />
-      <main className="flex-1 p-4 dark:bg-[#424551] overflow-x-auto">{element}</main>
+      <main className="flex-1 p-4 dark:bg-[#424551] overflow-x-auto">
+        {element}
+      </main>
     </div>
   ) : (
     <Navigate to="/welcome" replace />

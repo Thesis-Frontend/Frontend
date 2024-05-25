@@ -1,39 +1,19 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Table from "../../components/Table";
-import CompanyModal from "./CompanyModal";
-import FetchData from "./FetchData"; // Assuming this function exists and is correct
-import DeleteModal from "../../components/Modal/DeleteModal";
-import GetOptions from "./GetOptions";
 import Snackbar from "../../components/Snackbar";
+import CitiesAndTownsModal from "./CitiesAndTownsModal";
+import DeleteModal from "../../components/Modal/DeleteModal";
+import FetchData from "./FetchData";
+import Regions from "./Details/Regions";
+
 
 const columns = [
   { id: "id", label: "ID", minWidth: 170 },
-  { id: "name", label: "Company Name", minWidth: 170 },
-  { id: "shortName", label: "Company Short Name", minWidth: 170 },
-  {
-    id: "companyType",
-    label: "Company Type",
-    minWidth: 100,
-    render: (rowData) => rowData.companyType.name,
-  },
-  {
-    id: "taxIdentificationNumber",
-    label: "Tax ID",
-    minWidth: 100,
-  },
-  { id: "taxOffice", label: "Tax Office", minWidth: 100 },
-  {
-    id: "manager",
-    label: "Manager",
-    minWidth: 100,
-    render: (rowData) =>
-      rowData.manager
-        ? rowData.manager.name + " " + rowData.manager.surname
-        : "-",
-  },
+  { id: "name", label: "City Name", minWidth: 170 },
 ];
 
-const Companies = () => {
+
+export default function CitiesAndTowns() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
@@ -43,21 +23,10 @@ const Companies = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const [options, setOptions] = useState([]);
 
   const [snackbar, setSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [severity, setSeverity] = useState("");
-
-  const init = useCallback(async () => {
-    console.log("geliyo musun");
-    const opt = await GetOptions();
-    setOptions(opt);
-  }, []);
-
-  useEffect(() => {
-    init();
-  }, [init]);
 
   const handleCreate = () => {
     setModalData(null);
@@ -100,7 +69,7 @@ const Companies = () => {
         severity={severity}
       />
       <Table
-        title="Companies"
+        title={"Cities"}
         columns={columns}
         fetchData={FetchData}
         handleCreate={handleCreate}
@@ -109,13 +78,20 @@ const Companies = () => {
         setSnackbar={setSnackbar}
         setSnackbarMessage={setSnackbarMessage}
         setSeverity={setSeverity}
+        detailsPanel={(rowData) => (
+          <Regions
+            rowData={rowData}
+            setSnackbar={setSnackbar}
+            setSnackbarMessage={setSnackbarMessage}
+            setSeverity={setSeverity}
+          />
+        )}
       />
-      <CompanyModal
+      <CitiesAndTownsModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         onSave={handleSave}
         data={modalData}
-        options={options}
       />
       <DeleteModal
         isOpen={isDeleteModalOpen}
@@ -124,6 +100,4 @@ const Companies = () => {
       />
     </>
   );
-};
-
-export default Companies;
+}

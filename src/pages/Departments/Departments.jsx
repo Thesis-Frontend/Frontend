@@ -5,6 +5,66 @@ import FetchData from "./FetchData"; // Assuming this function exists and is cor
 import DeleteModal from "../../components/Modal/DeleteModal";
 import GetOptions from "./GetOptions";
 
+const columns = [
+  { id: "id", label: "ID", minWidth: 170 },
+  { id: "name", label: "Department Name", minWidth: 170 },
+  {
+    id: "departmentType",
+    label: "Department Type",
+    minWidth: 100,
+    render: (rowData) => rowData.departmentType.name,
+  },
+  {
+    id: "company",
+    label: "Company Name",
+    minWidth: 170,
+    render: (rowData) => rowData.company.name,
+  },
+
+  {
+    id: "socialSecurityNumber",
+    label: "Tax ID",
+    minWidth: 100,
+  },
+  {
+    id: "activityType",
+    label: "Activity Type",
+    minWidth: 100,
+    render: (rowData) => rowData.name,
+  },
+  {
+    id: "town",
+    label: "Town",
+    minWidth: 100,
+    render: (rowData) => rowData.town.name,
+  },
+  {
+    id: "manager",
+    label: "Manager",
+    minWidth: 100,
+    render: (rowData) =>
+      rowData.manager
+        ? rowData.manager.name + " " + rowData.manager.surname
+        : "-",
+  },
+  {
+    id: "activityTowns",
+    label: "Activity Towns",
+    render: (rowData) =>
+      rowData.activityTowns.length > 0
+        ? getNames(rowData.activityTowns)
+        : ["-"],
+  },
+  {
+    id: "parentDepartments",
+    label: "Parent Departments",
+    render: (rowData) =>
+      rowData.parentDepartments.length > 0
+        ? getNames(rowData.parentDepartments)
+        : ["-"],
+  },
+];
+
 const Departments = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -60,66 +120,6 @@ const Departments = () => {
     }
     setModalOpen(false);
   };
-
-  const columns = [
-    { id: "id", label: "ID", minWidth: 170 },
-    { id: "name", label: "Department Name", minWidth: 170 },
-    {
-      id: "departmentType",
-      label: "Department Type",
-      minWidth: 100,
-      render: (rowData) => rowData.departmentType.name,
-    },
-    {
-      id: "company",
-      label: "Company Name",
-      minWidth: 170,
-      render: (rowData) => rowData.company.name,
-    },
-
-    {
-      id: "socialSecurityNumber",
-      label: "Tax ID",
-      minWidth: 100,
-    },
-    {
-      id: "activityType",
-      label: "Activity Type",
-      minWidth: 100,
-      render: (rowData) => rowData.name,
-    },
-    {
-      id: "town",
-      label: "Town",
-      minWidth: 100,
-      render: (rowData) => rowData.town.name,
-    },
-    {
-      id: "manager",
-      label: "Manager",
-      minWidth: 100,
-      render: (rowData) =>
-        rowData.manager
-          ? rowData.manager.name + " " + rowData.manager.surname
-          : "-",
-    },
-    {
-      id: "activityTowns",
-      label: "Activity Towns",
-      render: (rowData) =>
-        rowData.activityTowns.length > 0
-          ? getNames(rowData.activityTowns)
-          : ["-"],
-    },
-    {
-      id: "parentDepartments",
-      label: "Parent Departments",
-      render: (rowData) =>
-        rowData.parentDepartments.length > 0
-          ? getNames(rowData.parentDepartments)
-          : ["-"],
-    },
-  ];
 
   return (
     <div>

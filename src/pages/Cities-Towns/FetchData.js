@@ -33,7 +33,7 @@ export default function FetchData(
     if (query.search !== "") {
       params.search = query.search;
     }
-    const resp = await Request("get", "/api/fundamental/company", null);
+    const resp = await Request("get", "/api/fundamental/city", null);
     if (resp.status !== 200) {
       setSeverity("error");
       setSnackbarMessage(resp?.data?.message);
@@ -49,11 +49,6 @@ export default function FetchData(
         const edit = {
           id: data[i].id,
           name: data[i].name,
-          shortName: data[i].shortName,
-          companyType: data[i].companyType,
-          taxIdentificationNumber: data[i].taxIdentificationNumber,
-          taxOffice: data[i].taxOffice,
-          manager: data[i].manager,
         };
         temp.push(edit);
       }
