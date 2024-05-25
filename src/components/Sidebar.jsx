@@ -80,8 +80,6 @@ const Sidebar = () => {
 
   const element = document.documentElement;
 
-  console.log(element);
-
   useEffect(() => {
     if (theme === "dark") {
       setTheme("dark");

@@ -32,7 +32,6 @@ export default function Regions({
     const res = await Request("get", "/api/fundamental/region", null, {
       cityId: rowData.id,
     });
-    console.log(res);
     setData(res.data.data.content);
   }, []);
 
