@@ -66,7 +66,7 @@ const Table = ({
       );
       setData(response.data);
     }
-  }, [currentPage, searchQuery, sortConfig, columns, dataParam, fetchData]);
+  }, [currentPage, searchQuery, sortConfig, columns, dataParam, fetchData]);
 
   useEffect(() => {
     init();
