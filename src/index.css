@@ -15,7 +15,7 @@
   box-sizing: border-box;
   font-family: "Inter", sans-serif;
   scrollbar-width: thin;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 /* Webkit browsers */
 input[type="number"]::-webkit-outer-spin-button,

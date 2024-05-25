@@ -157,7 +157,7 @@ const Sidebar = () => {
           />
         </div>
         <button
-          className="text-white focus:outline-none absolute pl-2 h-12 right-1 top-24 transform translate-x-1/2 rounded-lg bg-white dark:bg-[#2D2F39] border-solid border-gray-400 border"
+          className="text-white focus:outline-none absolute h-10 w-auto right-0 top-24 transform translate-x-1/2 rounded-lg bg-white dark:bg-[#2D2F39] border-solid border-gray-400 border"
           onClick={toggleSidebar}
         >
           {isOpen ? (
