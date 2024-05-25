@@ -48,7 +48,7 @@ const Table = ({
     if (dataParam) {
       setData(dataParam);
       setTotalCount(dataParam.length);
-    } else {
+    } else if (fetchData) {
       const query = {
         page: currentPage,
         pageSize: rowsPerPage,
@@ -66,7 +66,7 @@ const Table = ({
       );
       setData(response.data);
     }
-  }, [currentPage, searchQuery, sortConfig, columns, dataParam]);
+  }, [currentPage, searchQuery, sortConfig, columns, dataParam, fetchData]);
 
   useEffect(() => {
     init();
