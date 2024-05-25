@@ -139,8 +139,8 @@ const Table = ({
           </div>
         </header>
         <main className="flex-1 overflow-auto p-4">
-          <div className="overflow-x-auto h-full dark:text-[#8A8C91] dark:bg-[#2D2F39] rounded-b-lg">
-            <table className="min-w-full bg-white border dark:bg-[#2D2F39]">
+          <div className="overflow-x-auto h-full dark:text-[#8A8C91] dark:bg-[#2D2F39] rounded-lg">
+            <table className="min-w-full bg-white border dark:border-gray-700 dark:bg-[#2D2F39]">
               <thead>
                 <tr>
                   {role === "admin" && (

@@ -185,7 +185,7 @@ const PolicyEditor = () => {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="p-8 bg-white shadow-md h-full flex flex-col rounded-lg max-w-6xl mx-auto">
+    <div className="p-8 bg-white shadow-md h-full flex flex-col rounded-lg max-w-6xl mx-auto dark:bg-[#2D2F39] dark:text-white">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Policy Editor</h2>
         {isValid ? (
@@ -200,14 +200,14 @@ const PolicyEditor = () => {
       </div>
       <div className="relative flex mb-4" style={{ height: "80%" }}>
         <div
-          className="bg-gray-200 text-center pr-2 z-10"
+          className="bg-gray-200 text-center pr-2 z-10 dark:bg-[#2D2F39] dark:text-[#8A8C91] border rounded-sm"
           style={{ lineHeight: "1.5rem" }}
         >
           <pre className="text-gray-500 z-10">{generateLineNumbers()}</pre>
         </div>
         <textarea
           ref={textareaRef}
-          className={`w-full overflow-hidden min-h-80 border text-lg ${
+          className={`w-full overflow-hidden min-h-80 border text-lg dark:bg-[#2D2F39] dark:text-white rounded-md${
             isValid ? "border-gray-300" : "border-red-500"
           } rounded border-l-0 rounded-l-none font-mono`}
           value={policyString}
