@@ -4,6 +4,7 @@ import DepartmentModal from "./DepartmentModal";
 import FetchData from "./FetchData"; // Assuming this function exists and is correct
 import DeleteModal from "../../components/Modal/DeleteModal";
 import GetOptions from "./GetOptions";
+import Snackbar from "../../components/Snackbar";
 
 const getNames = (list) => {
   return (
@@ -86,6 +87,11 @@ const Departments = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [options, setOptions] = useState([]);
 
+  const [snackbar, setSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [severity, setSeverity] = useState("");
+
+
   const init = useCallback(async () => {
     const opt = await GetOptions();
     setOptions(opt);
@@ -130,6 +136,9 @@ const Departments = () => {
         handleCreate={handleCreate}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
+        setSnackbar={setSnackbar}
+        setSnackbarMessage={setSnackbarMessage}
+        setSeverity={setSeverity}
       />
       <DepartmentModal
         isOpen={isModalOpen}

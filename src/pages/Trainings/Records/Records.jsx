@@ -6,12 +6,20 @@ import RecordsModal from "./RecordsModal";
 import GetOptions from "./GetOptions";
 import FetchData from "./FetchData";
 import moment from "moment";
+import { FaDownload } from "react-icons/fa";
+import Request from "../../../helpers/Request";
 
 const getNames = (list) => {
   return (
     <div className="policy-list">
       {list.map((item) => {
-        return item ? <div key={item.id}>{item.name} {item.surname}</div> : <div>-</div>;
+        return item ? (
+          <div key={item.id}>
+            {item.name} {item.surname}
+          </div>
+        ) : (
+          <div>-</div>
+        );
       })}
     </div>
   );
@@ -40,6 +48,15 @@ const columns = [
     render: (rowData) => (rowData.status ? rowData.status : "-"),
   },
   {
+    id: "plannedTime",
+    label: "Planned Time",
+    minWidth: 100,
+    render: (rowData) =>
+      rowData.plannedTime
+        ? new moment(rowData.plannedTime).format("DD-MM-YYYY")
+        : "-",
+  },
+  {
     id: "startTime",
     label: "Start Time",
     minWidth: 100,
@@ -57,7 +74,7 @@ const columns = [
   },
   {
     id: "isOnline",
-    label: "Channel",
+    label: "Is Online",
     minWidth: 170,
     render: (rowData) =>
       rowData.isOnline ? "True" : !rowData.isOnline ? "False" : "-",
@@ -72,17 +89,38 @@ const columns = [
     id: "instructors",
     label: "Instructors",
     render: (rowData) =>
-      rowData.instructors.length > 0
-        ? getNames(rowData.instructors)
-        : ["-"],
+      rowData.instructors.length > 0 ? getNames(rowData.instructors) : ["-"],
   },
   {
     id: "attendees",
     label: "Attendees",
     render: (rowData) =>
-      rowData.instructors.length > 0
-        ? getNames(rowData.instructors)
-        : ["-"],
+      rowData.attendees.length > 0 ? getNames(rowData.attendees) : ["-"],
+  },
+  {
+    id: "files",
+    label: "Files",
+    render: (rowData) =>
+      rowData.files.length > 0
+        ? rowData.files.map((file, index) => (
+            <div key={index} className="flex items-center space-x-2 m-4">
+              <span>{file.filename}</span>
+              <button
+                onClick={() => {
+                  const link = document.createElement("a");
+                  link.href = `data:application/octet-stream;base64,${file.base64}`;
+                  link.download = file.filename;
+                  link.target = "_blank";
+                  link.click();
+                }}
+                className="text-blue-500"
+                title={`Download ${file.filename}`}
+              >
+                <FaDownload />
+              </button>
+            </div>
+          ))
+        : "-",
   },
 ];
 
@@ -99,9 +137,26 @@ export default function Records() {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [options, setOptions] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   const [snackbar, setSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [severity, setSeverity] = useState("");
+
+  const [formData, setFormData] = useState({
+    name: "",
+    departmentId: null,
+    typeId: null,
+    status: null,
+    // startTime: "",
+    // endTime: "",
+    isOnline: null,
+    meetingLink: "",
+    instructors: [],
+    // attendees: [],
+    // files: [], // Add a new field for PDF files
+    plannedTime: "",
+  });
 
   const init = useCallback(async () => {
     const opt = await GetOptions();
@@ -117,8 +172,8 @@ export default function Records() {
     setModalOpen(true);
   };
 
-  const handleEdit = (company) => {
-    setModalData(company);
+  const handleEdit = (data) => {
+    setModalData(data);
     setModalOpen(true);
   };
 
@@ -135,12 +190,67 @@ export default function Records() {
     setDeleteModalOpen(false);
   };
 
-  const handleSave = (company) => {
-    if (company.id) {
-      // Update logic
+  const handleSave = async (data) => {
+    setLoading(true);
+    let id = data.id;
+    let params = {
+      departmentId: data.departmentId,
+      typeId: data.typeId,
+    };
+    delete data.departmentId;
+    delete data.typeId;
+
+    if (data.id) {
+      delete data.id;
+      delete data.departmentId;
+      delete data.typeId;
+      const res = await Request("patch", "/api/training/record", data, {
+        recordId: id,
+      });
+      if (res.status === 200) {
+        setSnackbarMessage(res.data.message);
+        setSnackbar(true);
+        setSeverity("success");
+        window.location.reload();
+      } else {
+        setSnackbarMessage(res.data.message);
+        setSnackbar(true);
+        setSeverity("error");
+      }
     } else {
-      // Create logic
+      delete data.id;
+      delete data.status;
+      const res = await Request("post", "/api/training/record", data, params);
+      window.location.reload();
+      if (res.status === 200) {
+        setSnackbarMessage(res.data.message);
+        setSnackbar(true);
+        setSeverity("success");
+        window.location.reload();
+      } else {
+        setSnackbarMessage(res.data.message);
+        setSnackbar(true);
+        setSeverity("error");
+      }
     }
+    setLoading(false);
+    setModalOpen(false);
+  };
+
+  const handleOnClose = () => {
+    setFormData({
+      name: "",
+      departmentId: null,
+      typeId: null,
+      status: null,
+      plannedTime: "",
+      // endTime: "",
+      isOnline: null,
+      meetingLink: "",
+      instructors: [],
+      // attendees: [],
+      // files: [], // Initialize PDF files array
+    });
     setModalOpen(false);
   };
 
@@ -165,10 +275,13 @@ export default function Records() {
       />
       <RecordsModal
         isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={handleOnClose}
         onSave={handleSave}
         data={modalData}
         options={options}
+        setFormData={setFormData}
+        formData={formData}
+        loading={loading}
       />
       <DeleteModal
         isOpen={isDeleteModalOpen}

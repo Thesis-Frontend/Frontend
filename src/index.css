@@ -205,3 +205,22 @@ html::-ms-scrollbar-button {
   max-height: 80vh;
   overflow: auto;
 }
+
+/* Add this CSS to your styles */
+select.custom-select {
+  color: #424242; /* Lighter text color */
+  padding: 12px; /* Increase padding for spacing */
+}
+
+select.custom-select option {
+  color: #424242; /* Lighter text color */
+  padding: 10px; /* Increase padding for spacing between options */
+}
+
+/* select option:checked, */
+select option:hover {
+  box-shadow: 0 0 10px 100px #000 inset;
+}
+select:focus > option:hover {
+  background: #000 !important;
+}
