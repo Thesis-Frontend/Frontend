@@ -1,42 +1,96 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Table from "../../components/Table";
-import CompanyModal from "./CompanyModal";
-import FetchData from "./FetchData"; // Assuming this function exists and is correct
-import DeleteModal from "../../components/Modal/DeleteModal";
+import Table from "../../../components/Table";
+import Snackbar from "../../../components/Snackbar";
+import DeleteModal from "../../../components/Modal/DeleteModal";
+import RecordsModal from "./RecordsModal";
 import GetOptions from "./GetOptions";
-import Snackbar from "../../components/Snackbar";
+import FetchData from "./FetchData";
+import moment from "moment";
+
+const getNames = (list) => {
+  return (
+    <div className="policy-list">
+      {list.map((item) => {
+        return item ? <div key={item.id}>{item.name} {item.surname}</div> : <div>-</div>;
+      })}
+    </div>
+  );
+};
 
 const columns = [
   { id: "id", label: "ID", minWidth: 170 },
-  { id: "name", label: "Company Name", minWidth: 170 },
-  { id: "shortName", label: "Company Short Name", minWidth: 170 },
+  { id: "name", label: "Record Name", minWidth: 170 },
   {
-    id: "companyType",
-    label: "Company Type",
-    minWidth: 100,
-    render: (rowData) => rowData.companyType.name,
+    id: "department",
+    label: "Department",
+    minWidth: 170,
+    render: (rowData) => (rowData.department ? rowData.department.name : "-"),
   },
   {
-    id: "taxIdentificationNumber",
-    label: "Tax ID",
-    minWidth: 100,
+    id: "trainingTypeResponse",
+    label: "Training Type",
+    minWidth: 170,
+    render: (rowData) =>
+      rowData.trainingTypeResponse ? rowData.trainingTypeResponse.name : "-",
   },
-  { id: "taxOffice", label: "Tax Office", minWidth: 100 },
   {
-    id: "manager",
-    label: "Manager",
+    id: "status",
+    label: "Status",
+    minWidth: 170,
+    render: (rowData) => (rowData.status ? rowData.status : "-"),
+  },
+  {
+    id: "startTime",
+    label: "Start Time",
     minWidth: 100,
     render: (rowData) =>
-      rowData.manager
-        ? rowData.manager.name + " " + rowData.manager.surname
+      rowData.startTime
+        ? new moment(rowData.startTime).format("DD-MM-YYYY")
         : "-",
+  },
+  {
+    id: "endTime",
+    label: "End Time",
+    minWidth: 100,
+    render: (rowData) =>
+      rowData.endTime ? new moment(rowData.endTime).format("DD-MM-YYYY") : "-",
+  },
+  {
+    id: "isOnline",
+    label: "Channel",
+    minWidth: 170,
+    render: (rowData) =>
+      rowData.isOnline ? "True" : !rowData.isOnline ? "False" : "-",
+  },
+  {
+    id: "meetingLink",
+    label: "Status",
+    minWidth: 170,
+    render: (rowData) => (rowData.meetingLink ? rowData.meetingLink : "-"),
+  },
+  {
+    id: "instructors",
+    label: "Instructors",
+    render: (rowData) =>
+      rowData.instructors.length > 0
+        ? getNames(rowData.instructors)
+        : ["-"],
+  },
+  {
+    id: "attendees",
+    label: "Attendees",
+    render: (rowData) =>
+      rowData.instructors.length > 0
+        ? getNames(rowData.instructors)
+        : ["-"],
   },
 ];
 
-const Companies = () => {
+export default function Records() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const [data, setData] = useState(null);
   const [deleteCandidateId, setDeleteCandidateId] = useState(null);
   const [companies, setCompanies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -99,7 +153,7 @@ const Companies = () => {
         severity={severity}
       />
       <Table
-        title="Companies"
+        title={"Records"}
         columns={columns}
         fetchData={FetchData}
         handleCreate={handleCreate}
@@ -109,7 +163,7 @@ const Companies = () => {
         setSnackbarMessage={setSnackbarMessage}
         setSeverity={setSeverity}
       />
-      <CompanyModal
+      <RecordsModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         onSave={handleSave}
@@ -123,6 +177,4 @@ const Companies = () => {
       />
     </>
   );
-};
-
-export default Companies;
+}

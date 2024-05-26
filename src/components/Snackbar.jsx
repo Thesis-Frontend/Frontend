@@ -6,7 +6,7 @@ const Snackbar = ({
   show,
   setShow,
   severity,
-  autoDuration = 4000,
+  autoDuration = 3000,
 }) => {
   const onClose = () => {
     setShow(false);

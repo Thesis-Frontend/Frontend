@@ -64,7 +64,23 @@ const menuItems2 = [
       },
     ],
   },
-  { name: "Trainings", path: "/trainings", icon: <LuBookMinus size={24} /> },
+  {
+    name: "Trainings",
+    path: "/trainings",
+    icon: <LuBookMinus size={24} />,
+    subItems: [
+      {
+        name: "Training Types",
+        path: "/training-types",
+        icon: <IoIosMenu size={20} />,
+      },
+      {
+        name: "Training Records",
+        path: "/training-records",
+        icon: <IoIosMenu size={20} />,
+      },
+    ],
+  },
 ];
 
 const Sidebar = () => {

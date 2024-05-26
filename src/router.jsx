@@ -30,6 +30,10 @@ const PolicyEditor = lazy(() =>
 const AccountActivated = lazy(() => import("./pages/AccountActivated"));
 const Payment = lazy(() => import("./pages/Payment/Payment"));
 const Checkout = lazy(() => import("./pages/Payment/Checkout"));
+const TrainingTypes = lazy(() =>
+  import("./pages/Trainings/TrainingsTypes/TrainingsTypes")
+);
+const TrainingRecords = lazy(() => import("./pages/Trainings/Records/Records"));
 const Users = lazy(() => import("./pages/Users/Users"));
 const CitiesAndTowns = lazy(() =>
   import("./pages/Cities-Towns/CitiesAndTowns")
@@ -111,6 +115,14 @@ const privateRoutes = [
   {
     path: "/cities-and-towns",
     element: <CitiesAndTowns />,
+  },
+  {
+    path: "/training-types",
+    element: <TrainingTypes />,
+  },
+  {
+    path: "/training-records",
+    element: <TrainingRecords />,
   },
 ];
 

@@ -40,7 +40,7 @@ export default function CustomDropdown({
         ? selected
             .map((item) => item.name)
             .join(", ")
-            .substring(0, 25) + "..."
+            .substring(0, 25)
         : `Select ${title}`;
     } else {
       return selected
