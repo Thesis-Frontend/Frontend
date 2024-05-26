@@ -10,6 +10,7 @@ const AccountInfo = () => {
     companyName: "SCT",
     sectorName: "Energy",
     password: "12345678",
+    package: "Silver",
   };
 
   const handleEditClick = () => {
@@ -33,7 +34,6 @@ const AccountInfo = () => {
         </h1>
       </header>
 
-
       <div className="space-y-4 bg-white p-4 rounded-lg dark:bg-[#2D2F39] dark:text-white">
         <div>
           <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">Fullname</label>
@@ -54,6 +54,12 @@ const AccountInfo = () => {
         <div>
           <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">Password</label>
           <p>*******</p>
+        </div>
+        <div>
+          <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">Selected Package</label>
+          <p>
+            {user?.package}
+          </p>
         </div>
         <button
           onClick={handleEditClick}

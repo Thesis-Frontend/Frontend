@@ -1,5 +1,10 @@
 import React from "react";
-import { FaFacebook, FaInstagram, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaEnvelope,
+} from "react-icons/fa";
 
 const Footer = () => {
   const iconSize = 24; // Icon boyutu
@@ -9,19 +14,19 @@ const Footer = () => {
       <div className="flex items-center justify-between">
         <div className="text-white">
           <span className="mr-16 hover:text-blue-200 cursor-pointer text-black font-bold">
-            Hüküm ve Koşullar
+            Terms and Conditions
           </span>
           <span className="mr-16 hover:text-blue-200 cursor-pointer text-black font-bold">
-            Gizlilik Politikası
+            Privacy Policy
           </span>
           <span className="mr-16 hover:text-blue-200 cursor-pointer text-black font-bold">
-            Güvenlik
+            Security
           </span>
           <span className="mr-16 hover:text-blue-200 cursor-pointer text-black font-bold">
-            Erişilebilirlik Beyanı
+            Accessibility Statement
           </span>
           <span className="hover:text-blue-200 cursor-pointer text-black font-bold">
-            KVKK Aydınlatma Metni
+            LPPD Clarification Text
           </span>
         </div>
         <div className="text-black flex">

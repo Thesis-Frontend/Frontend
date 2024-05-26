@@ -1,20 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Request from "../../helpers/Request";
 import { MdClose } from "react-icons/md";
+import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import Snackbar from "../../components/Snackbar";
 import SessionHelper from "../../helpers/SessionHelper";
+import Request from "../../helpers/Request";
 
 const Login = ({ isOpen, onClose, isUserLogin }) => {
   if (!isOpen) return null;
 
-  const [loading, setLoading] = React.useState(false);
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [customerNo, setCustomerNo] = React.useState("");
-  const [showSnackbar, setShowSnackbar] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = React.useState("");
-  const [severity, setSeverity] = React.useState("");
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [customerNo, setCustomerNo] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [severity, setSeverity] = useState("");
 
   const navigate = useNavigate();
 
@@ -64,7 +66,7 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
         <form className="flex flex-col gap-8">
           <section className="flex flex-col gap-2">
             <label htmlFor="username" className="text-lg font-medium">
-              {!isUserLogin ? "Yönetici " : "Kullanıcı "}adı veya E-postası
+              {!isUserLogin ? "Yönetici " : "Kullanıcı "}name or E-mail
             </label>
             <input
               type="text"
@@ -76,19 +78,28 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
               onKeyDown={handleKeyPress}
             />
           </section>
-          <section className="flex flex-col gap-2">
+          <section className="flex flex-col gap-2 relative">
             <label htmlFor="password" className="font-medium text-lg">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Enter your password"
-              className="px-4 py-3 border rounded w-full"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={handleKeyPress}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                placeholder="Enter your password"
+                className="px-4 py-3 border rounded w-full pr-10"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={handleKeyPress}
+              />
+              <button
+                type="button"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <RiEyeOffLine size={24} /> : <RiEyeLine size={24} />}
+              </button>
+            </div>
           </section>
           <section className="flex flex-col gap-2">
             <label htmlFor="customerNo" className="font-medium text-lg">
@@ -109,7 +120,7 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
           </section>
           <button
             type="submit"
-            className="bg-green-500 flex justify-center text-center  text-white px-4 py-2 rounded hover:bg-green-300 transition-colors w-full"
+            className="bg-green-500 flex justify-center text-center text-white px-4 py-2 rounded hover:bg-green-300 transition-colors w-full"
             onClick={handleLogin}
           >
             {loading ? <div className="loader"></div> : "Login"}

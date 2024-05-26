@@ -7,7 +7,9 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
     companyName: "",
     sectorName: "",
     password: "",
+    package: "Silver",
   });
+  const [hoveredPackage, setHoveredPackage] = useState(null);
 
   useEffect(() => {
     if (isOpen && data) {
@@ -17,15 +19,7 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
         companyName: data.companyName || "",
         sectorName: data.sectorName || "",
         password: "",
-      });
-    }
-    if (isOpen && !data) {
-      setFormData({
-        name: "",
-        email: "",
-        companyName: "",
-        sectorName: "",
-        password: "",
+        package: data.package || "Silver",
       });
     }
   }, [data, isOpen]);
@@ -36,6 +30,21 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handlePackageChange = (selectedPackage) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      package: selectedPackage,
+    }));
+  };
+
+  const handleMouseEnter = (pkg) => {
+    setHoveredPackage(pkg);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredPackage(null);
   };
 
   const handleSave = () => {
@@ -101,6 +110,58 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
               value={formData.password}
               onChange={handleChange}
             />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-bold">Select Package</label>
+            <div className="flex space-x-4 mt-2">
+              {["Bronze", "Silver", "Gold"].map((pkg) => (
+                <div
+                  key={pkg}
+                  className={`relative w-16 h-16 rounded-full flex justify-center items-center cursor-pointer transform transition-transform duration-300 hover:scale-125 hover:shadow-lg ${
+                    formData.package === pkg
+                      ? "border-4 border-green-500"
+                      : "border-4 border-transparent"
+                  } ${hoveredPackage === pkg ? "scale-110" : ""}`}
+                  style={{
+                    backgroundColor:
+                      pkg === "Bronze" ? "#CD7F32" : pkg === "Silver" ? "#C0C0C0" : "#FFD700",
+                  }}
+                  onClick={() => handlePackageChange(pkg)}
+                  onMouseEnter={() => handleMouseEnter(pkg)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  {formData.package === pkg && <span className="text-white font-bold">✓</span>}
+                  {hoveredPackage === pkg && (
+                    <div className="absolute top-full mt-2 w-48 p-4 bg-white rounded-lg shadow-xl text-gray-800 text-left z-10 transition-opacity duration-300 opacity-90">
+                      {pkg === "Bronze" && (
+                        <>
+                          <p className="font-semibold">User quota: 1000</p>
+                          <p>Data storage: 5GB</p>
+                          <p>Basic customer support</p>
+                          <p className="text-lg font-bold">$17</p>
+                        </>
+                      )}
+                      {pkg === "Silver" && (
+                        <>
+                          <p className="font-semibold">User quota: 5000</p>
+                          <p>Data storage: 15GB</p>
+                          <p>Priority customer support</p>
+                          <p className="text-lg font-bold">$34</p>
+                        </>
+                      )}
+                      {pkg === "Gold" && (
+                        <>
+                          <p className="font-semibold">User quota: 10000</p>
+                          <p>Data storage: 30GB</p>
+                          <p>Premium customer support</p>
+                          <p className="text-lg font-bold">$50</p>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="flex justify-end mt-6">
