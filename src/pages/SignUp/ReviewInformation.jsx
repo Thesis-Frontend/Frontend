@@ -6,7 +6,13 @@ import {
   RiEyeOffLine,
 } from "react-icons/ri";
 
-const ReviewInformation = ({ data, onSubmit, onPrevious, options, loading }) => {
+const ReviewInformation = ({
+  data,
+  onSubmit,
+  onPrevious,
+  options,
+  loading,
+}) => {
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
 
   const toggleShowPassword = () => {
@@ -58,8 +64,8 @@ const ReviewInformation = ({ data, onSubmit, onPrevious, options, loading }) => 
           <div>
             <strong>5. Sector Name</strong>
             <div className="opacity-75">
-              {options.companyTypes.find((opt) => opt.id === data.sector)?.name ||
-                "Sector Not Found"}
+              {options.companyTypes.find((opt) => opt.id === data.sectorId)
+                ?.name || "Sector Not Found"}
             </div>
           </div>
         </div>
@@ -76,7 +82,13 @@ const ReviewInformation = ({ data, onSubmit, onPrevious, options, loading }) => 
           onClick={onSubmit}
           className="bg-signupButtonStrokeColor text-right text-white px-4 py-4 w-1/2 rounded-lg rounded-l-none rounded-t-none hover:bg-gray-600 flex justify-end items-center"
         >
-          Send <RiArrowRightSLine className="ml-2" size="1.5em" />
+          {loading ? (
+            <div className="loader"></div>
+          ) : (
+            <>
+              Send <RiArrowRightSLine className="ml-2" size="1.5em" />
+            </>
+          )}
         </button>
       </div>
     </div>

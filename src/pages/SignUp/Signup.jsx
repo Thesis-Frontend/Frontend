@@ -21,8 +21,7 @@ export default function Signup() {
     companyName: "",
     email: "",
     password: "",
-    sector: 0,
-    domain: "aaa"
+    sectorId: 0,
   });
 
   const [showSnackbar, setShowSnackbar] = React.useState(false);
@@ -41,11 +40,6 @@ export default function Signup() {
     init();
   }, [init]);
 
-  // const options = [
-  //   { id: 1, name: "EDC" },
-  //   { id: 2, name: "WATER" },
-  //   { id: 3, name: "ENERGY" },
-  // ];
 
   const nextStep = () => setCurrentStep(currentStep + 1);
   const prevStep = () => setCurrentStep(currentStep - 1);
@@ -62,7 +56,7 @@ export default function Signup() {
       console.log(signupData);
       const response = await Request(
         "post",
-        "/api/customer/register",
+        "/api/subscription/customer/register",
         signupData
       );
 
@@ -164,9 +158,9 @@ export default function Signup() {
         return (
           <GenericFormComponent
             title="Sector Name"
-            value={signupData.sector}
+            value={signupData.sectorId}
             onChange={(val) => {
-              handleDataChange("sector", val);
+              handleDataChange("sectorId", val);
             }}
             onNext={nextStep}
             onPrevious={prevStep}

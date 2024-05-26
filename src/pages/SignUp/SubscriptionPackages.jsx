@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import SubscriptionCard from "../../components/SubscriptionCard";
 import Request from "../../helpers/Request";
+import GetOptions from "./GetOptions";
 
 const data = {
   "2 years": [
     {
-      id:1,
+      id: 1,
       name: "Bronze",
       price: 17,
       features: [
@@ -16,7 +17,7 @@ const data = {
       currency: "$",
     },
     {
-      id:2,
+      id: 2,
       name: "Silver",
       price: 34,
       features: [
@@ -28,7 +29,7 @@ const data = {
       featured: true,
     },
     {
-      id:3,
+      id: 3,
       name: "Gold",
       price: 50,
       features: [
@@ -41,7 +42,7 @@ const data = {
   ],
   "1 year": [
     {
-      id:4,
+      id: 4,
       name: "Bronze",
       price: 10,
       features: [
@@ -52,7 +53,7 @@ const data = {
       currency: "$",
     },
     {
-      id:5,
+      id: 5,
       name: "Silver",
       price: 20,
       features: [
@@ -64,7 +65,7 @@ const data = {
       featured: true,
     },
     {
-      id:6,
+      id: 6,
       name: "Gold",
       price: 30,
       features: [
@@ -79,17 +80,13 @@ const data = {
 
 const SubscriptionPackages = ({ onSelectPackage }) => {
   const [subscriptionDuration, setSubscriptionDuration] = useState("1 year");
+  const [options, setOptions] = useState([]);
+
   // const [data, setData] = useState(null);
 
   const init = useCallback(async () => {
-    const res = await Request(
-      "get",
-      "/api/subscription-package/all",
-      null,
-      null
-    );
-    console.log(res);
-    // setData(res.data);
+    const opt = await GetOptions();
+    setOptions(opt);
   }, []);
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import Request from "../../helpers/Request";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Snackbar from "../../components/Snackbar";
 import SuccessPage from "../../components/SuccessModal";
 import pic1 from "../../assets/Giriş1-removebg-preview.png";
@@ -13,37 +14,33 @@ export default function Checkout() {
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
   const [severity, setSeverity] = React.useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const { token } = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setShowSuccessModal(true);
+    setLoading(true);
     try {
-      const response = await fetch("/api/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await Request(
+        "post",
+        "/api/subscription/customer/activate",
+        null,
+        { key: token }
+      );
 
       if (response.status === 200) {
-        setSnackbarMessage(`Payment successful!`);
-        setShowSnackbar(true);
-        setSeverity("success");
-
         setShowSuccessModal(true);
       } else {
-        throw new Error("Checkout failed");
+        throw new Error("Signup failed");
       }
     } catch (error) {
-      setSnackbarMessage(
-        `An error occurred during checkout. Please try again.`
-      );
+      setSnackbarMessage(`An error occurred during signup. Please try again.`);
       setShowSnackbar(true);
       setSeverity("error");
     }
+    setLoading(false);
   };
 
   return (
@@ -75,37 +72,51 @@ export default function Checkout() {
           <label className="block text-sm font-bold text-signupButtonStrokeColor">
             Name On Card:
           </label>
-          <p className="block text-sm font-medium text-signupCardColor">{formData.cardName}</p>
+          <p className="block text-sm font-medium text-signupCardColor">
+            {formData.cardName}
+          </p>
         </div>
         <div className="mb-4 border-b pb-2">
           <label className="block text-sm font-bold text-signupButtonStrokeColor">
             Credit Card Number:
           </label>
-          <p className="block text-sm font-medium text-signupCardColor">{formData.cardNumber}</p>
+          <p className="block text-sm font-medium text-signupCardColor">
+            {formData.cardNumber}
+          </p>
         </div>
         <div className="mb-4 border-b pb-2">
           <label className="block text-sm font-bold text-signupButtonStrokeColor">
             Expiration Month:
           </label>
-          <p className="block text-sm font-medium text-signupCardColor">{formData.expMonth}</p>
+          <p className="block text-sm font-medium text-signupCardColor">
+            {formData.expMonth}
+          </p>
         </div>
         <div className="mb-4 border-b pb-2">
           <label className="block text-sm font-bold text-signupButtonStrokeColor">
             Expiration Year:
           </label>
-          <p className="block text-sm font-medium text-signupCardColor">{formData.expYear}</p>
+          <p className="block text-sm font-medium text-signupCardColor">
+            {formData.expYear}
+          </p>
         </div>
         <div className="mb-4 border-b pb-2">
           <label className="block text-sm font-bold text-signupButtonStrokeColor">
             CVV:
           </label>
-          <p className="block text-sm font-medium text-signupCardColor">{formData.cvv}</p>
+          <p className="block text-sm font-medium text-signupCardColor">
+            {formData.cvv}
+          </p>
         </div>
-        <input
-          type="submit"
-          value="Submit Payment"
-          className="mt-6 px-4 py-2 bg-loginSuccess text-white rounded-md hover:bg-green-700 text-lg cursor-pointer"
-        />
+        {loading ? (
+          <div className="loader"></div>
+        ) : (
+          <input
+            type="submit"
+            value="Submit Payment"
+            className="mt-6 px-4 py-2 bg-loginSuccess text-white rounded-md hover:bg-green-700 text-lg cursor-pointer"
+          />
+        )}
       </form>
       <img
         src={pic1}

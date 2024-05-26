@@ -55,7 +55,7 @@ const publicRoutes = [
     element: <Signup />,
   },
   {
-    path: "/account-activated/:token",
+    path: "/customer/activate/:token",
     element: <AccountActivated />,
     exact: true,
   },
