@@ -64,7 +64,7 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
         <form className="flex flex-col gap-8">
           <section className="flex flex-col gap-2">
             <label htmlFor="username" className="text-lg font-medium">
-              {!isUserLogin ? "Yönetici " : "Kullanıcı "}adı veya E-postası
+              {!isUserLogin ? "Yönetici " : "Kullanıcı "}name or E-mail
             </label>
             <input
               type="text"
