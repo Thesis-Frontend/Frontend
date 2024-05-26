@@ -147,6 +147,10 @@ const Sidebar = () => {
     navigate(path);
   };
 
+  const handleUserNameClick = () => {
+    navigate("/account-info");
+  };
+
   const getMenuItemClass = (path) => {
     const baseClass =
       "flex items-center space-x-2 px-2 py-2 rounded-md cursor-pointer transition-colors duration-300";
@@ -257,7 +261,7 @@ const Sidebar = () => {
 
       <div className={`p-3 flex flex-col items-center`}>
         {isOpen && (
-          <div className="text-center mb-4">
+          <div className="text-center mb-4 cursor-pointer" onClick={handleUserNameClick}>
             <p className="font-bold text-lg">{userName}</p>
             <p className="text-sm text-gray-400 dark:text-[#8A8C91]">
               ({userRole})

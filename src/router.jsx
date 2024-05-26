@@ -38,6 +38,7 @@ const Users = lazy(() => import("./pages/Users/Users"));
 const CitiesAndTowns = lazy(() =>
   import("./pages/Cities-Towns/CitiesAndTowns")
 );
+const AccountInfo = lazy(() => import("./pages/Account/AccountInfo"));
 
 const publicRoutes = [
   {
@@ -124,6 +125,10 @@ const privateRoutes = [
     path: "/training-records",
     element: <TrainingRecords />,
   },
+  {
+    path: "/account-info",
+    element: <AccountInfo />,
+  },
 ];
 
 const PrivateRoute = ({ element }) => {
@@ -140,7 +145,6 @@ const PrivateRoute = ({ element }) => {
     <Navigate to="/welcome" replace />
   );
 };
-
 const MainRoute = ({ element }) => {
   return (
     <div className="relative flex flex-col h-full">
@@ -150,6 +154,7 @@ const MainRoute = ({ element }) => {
     </div>
   );
 };
+
 const PublicRoute = ({ element }) => {
   return (
     <div className="relative flex flex-col h-full">
