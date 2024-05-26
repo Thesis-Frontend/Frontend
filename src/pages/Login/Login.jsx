@@ -1,7 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Request from "../../helpers/Request";
 import { MdClose } from "react-icons/md";
+import Snackbar from "../../components/Snackbar";
+import SessionHelper from "../../helpers/SessionHelper";
 
 const Login = ({ isOpen, onClose, isUserLogin }) => {
   if (!isOpen) return null;
@@ -10,6 +12,11 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [customerNo, setCustomerNo] = React.useState("");
+  const [showSnackbar, setShowSnackbar] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
+  const [severity, setSeverity] = React.useState("");
+
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -17,15 +24,23 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
     const user = {
       email: email,
       password: password,
-      customerNo: customerNo,
+      "customer-no": customerNo,
     };
-    const res = await Request("post", "", user);
+    const path = isUserLogin
+      ? "/api/auth/user/signin"
+      : "/api/auth/customer/signin";
+
+    const res = await Request("post", path, null, user);
     if (res?.status === 200) {
-      console.log(res.data);
-      SessionHelper.setUser(res?.data);
-      navigate("/companies");
+      SessionHelper.setUser(res?.data.data);
+      setSnackbarMessage(res.data.message);
+      setShowSnackbar(true);
+      setSeverity("success");
+      navigate("/dashboard");
     } else {
-      console.error("Login failed");
+      setSnackbarMessage(`An error occurred during signup. Please try again.`);
+      setShowSnackbar(true);
+      setSeverity("error");
     }
     setLoading(false);
   };

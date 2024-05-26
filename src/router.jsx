@@ -134,7 +134,7 @@ const privateRoutes = [
 const PrivateRoute = ({ element }) => {
   const isLoggedIn = SessionHelper.getIsLoggedIn();
 
-  return !isLoggedIn ? (
+  return isLoggedIn ? (
     <div className="flex">
       <Sidebar />
       <main className="flex-1 p-4 dark:bg-[#424551] overflow-x-auto">

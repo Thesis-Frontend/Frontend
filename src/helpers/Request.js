@@ -26,7 +26,7 @@ const Request = async (action, urlExtension, body, params, headers) => {
 
   let header = SessionHelper.getUser()
     ? {
-        Authorization: "Bearer " + SessionHelper.getUser().accessToken,
+        Authorization: "Bearer " + SessionHelper.getUser().token,
         "Accept-Language": "tr-TR",
       }
     : null;
