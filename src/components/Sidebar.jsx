@@ -20,7 +20,9 @@ import SessionHelper from "../helpers/SessionHelper";
 import logo from "../assets/logo.png";
 import logoCollapsed from "../assets/collapsed-logo.png";
 
-const menuItems1 = [
+const sections = SessionHelper.getUser().uiSections;
+
+const allMenuItems1 = [
   { name: "Dashboard", path: "/dashboard", icon: <RiHome2Line size={24} /> },
   { name: "Records", path: "/records", icon: <RiFileList2Line size={24} /> },
   {
@@ -30,7 +32,7 @@ const menuItems1 = [
   },
   { name: "History", path: "/history", icon: <RiHistoryLine size={24} /> },
 ];
-const menuItems2 = [
+const allMenuItems2 = [
   { name: "Users", path: "/users", icon: <RiTeamLine size={24} /> },
   {
     name: "Companies",
@@ -83,6 +85,19 @@ const menuItems2 = [
   },
 ];
 
+const filterMenuItems = (menuItems, sections) => {
+  return menuItems.filter((item) => {
+    const section = sections.find((sec) => sec.section === item.name);
+    if (!section) return false;
+    if (item.subItems && section.subsections) {
+      item.subItems = item.subItems.filter((subItem) =>
+        section.subsections.some((subSec) => subSec.name === subItem.name)
+      );
+    }
+    return true;
+  });
+};
+
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -106,7 +121,7 @@ const Sidebar = () => {
       element.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
-    const totalArr = [...menuItems1, ...menuItems2];
+    const totalArr = [...allMenuItems1, ...allMenuItems2];
     totalArr.forEach((item) => {
       if (item.subItems) {
         item.subItems.forEach((subItem) => {
@@ -166,6 +181,9 @@ const Sidebar = () => {
   const toggleMenu = (name) => {
     setExpandedMenus((prev) => ({ ...prev, [name]: !prev[name] }));
   };
+
+  const menuItems1 = filterMenuItems(allMenuItems1, sections);
+  const menuItems2 = filterMenuItems(allMenuItems2, sections);
 
   return (
     <div

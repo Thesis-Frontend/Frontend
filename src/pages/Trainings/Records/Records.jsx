@@ -153,7 +153,7 @@ export default function Records() {
         severity={severity}
       />
       <Table
-        title={"Records"}
+        title={"Training Records"}
         columns={columns}
         fetchData={FetchData}
         handleCreate={handleCreate}

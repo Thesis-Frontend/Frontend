@@ -34,6 +34,7 @@ const Table = ({
 }) => {
   const user = SessionHelper.getUser();
   const role = user?.role ? user.role : "admin";
+  const uiSections = user.uiSections;
 
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,7 +67,7 @@ const Table = ({
       );
       setData(response.data);
     }
-  }, [currentPage, searchQuery, sortConfig, columns, dataParam, fetchData]);
+  }, [currentPage, searchQuery, sortConfig, columns, dataParam, fetchData]);
 
   useEffect(() => {
     init();
@@ -88,6 +89,30 @@ const Table = ({
       [rowIndex]: !prevExpandedRows[rowIndex],
     }));
   };
+
+  const getAllowedOperations = (title, uiSections) => {
+    const section = uiSections.find(
+      (sec) =>
+        sec.section === title ||
+        (sec.subsections && sec.subsections.find((sub) => sub.name === title))
+    );
+    if (section) {
+      if (section.section === title && section.operations) {
+        return section.operations;
+      } else if (section.subsections) {
+        const subsection = section.subsections.find(
+          (sub) => sub.name === title
+        );
+        return subsection ? subsection.operations : [];
+      }
+    }
+    return [];
+  };
+
+  const allowedOperations = getAllowedOperations(title, uiSections);
+  const canCreate = allowedOperations.includes("C");
+  const canUpdate = allowedOperations.includes("U");
+  const canDelete = allowedOperations.includes("D");
 
   return (
     <>
@@ -127,7 +152,7 @@ const Table = ({
                 </button>
               </>
             )}
-            {role === "admin" && (
+            {canCreate && (
               <button
                 className="bg-orange-500 text-white px-4 py-2 rounded-md flex items-center space-x-2"
                 onClick={handleCreate}
@@ -193,18 +218,22 @@ const Table = ({
                               )}
                             </button>
                           )}
-                          <button
-                            onClick={() => handleEdit(row)}
-                            className="text-blue-500 mr-2"
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(row.id)}
-                            className="text-red-500"
-                          >
-                            <FaTrash />
-                          </button>
+                          {canUpdate && (
+                            <button
+                              onClick={() => handleEdit(row)}
+                              className="text-blue-500 mr-2"
+                            >
+                              <FaEdit />
+                            </button>
+                          )}
+                          {canDelete && (
+                            <button
+                              onClick={() => handleDelete(row.id)}
+                              className="text-red-500"
+                            >
+                              <FaTrash />
+                            </button>
+                          )}
                           {actions &&
                             actions.map((action, index) => (
                               <button
