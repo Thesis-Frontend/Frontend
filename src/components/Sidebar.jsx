@@ -10,6 +10,7 @@ import {
   RiBuilding2Line,
   RiMapPin2Line,
   RiLogoutCircleLine,
+  RiUser3Line,
 } from "react-icons/ri";
 import { BiCollapseHorizontal, BiExpandHorizontal } from "react-icons/bi";
 import { IoIosMenu } from "react-icons/io";
@@ -262,13 +263,16 @@ const Sidebar = () => {
       <div className={`p-3 flex flex-col items-center`}>
         {isOpen && (
           <div
-            className="text-center mb-4 cursor-pointer"
+            className="text-center mb-4 cursor-pointer flex items-center space-x-2"
             onClick={handleUserNameClick}
           >
-            <p className="font-bold text-lg">{userName}</p>
-            <p className="text-sm text-gray-400 dark:text-[#8A8C91]">
-              ({userRole})
-            </p>
+            <RiUser3Line size={24} />
+            <div>
+              <p className="font-bold text-lg">{userName}</p>
+              <p className="text-sm text-gray-400 dark:text-[#8A8C91]">
+                ({userRole})
+              </p>
+            </div>
           </div>
         )}
         <button
