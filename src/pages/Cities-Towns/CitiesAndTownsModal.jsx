@@ -53,14 +53,14 @@ const CitiesAndTownsModal = ({ isOpen, onClose, onSave, data }) => {
         </div>
         <div className="flex justify-end mt-6 w-full">
           <button
-            className="bg-loginUnsuccess hover:bg-[#CA7E7D] text-white px-4 py-2 rounded mr-2 w-1/2"
+            className="bg-loginUnsuccess hover:bg-cancelhover text-white px-4 py-2 rounded mr-2 w-1/2"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
             className={`${
-              data?.id ? "bg-loginSuccess hover:bg-[#98E292]" : "bg-createButtons"
+              data?.id ? "bg-updateButton hover:bg-updatehover" : "bg-createButtons"
             } text-white px-4 py-2 rounded w-1/2`}
             onClick={handleSave}
           >

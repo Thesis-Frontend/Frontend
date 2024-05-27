@@ -20,6 +20,8 @@ export default {
         createButtons: "#FF8C00",
         updateButton: "#1974D2",
         videoScreenShapes: "#7929FF",
+        updatehover: "#689CD2",
+        cancelhover: "#DD6563",
       },
       fontFamily: {
         inter: ["Inter", 'sans-serif'],
