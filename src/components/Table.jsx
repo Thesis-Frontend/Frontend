@@ -12,6 +12,7 @@ import {
   FaSortDown,
   FaChevronRight,
   FaChevronDown,
+  FaCheck,
 } from "react-icons/fa";
 import SessionHelper from "../helpers/SessionHelper";
 import Snackbar from "./Snackbar";
@@ -22,6 +23,7 @@ const Table = ({
   handleCreate,
   handleEdit,
   handleDelete,
+  handleComplete, // Add the handleComplete prop
   fetchData,
   rowStyle,
   actions,
@@ -33,7 +35,6 @@ const Table = ({
   isDetail,
 }) => {
   const user = SessionHelper.getUser();
-  const role = user?.role ? user.role : "admin";
   const uiSections = user.uiSections;
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -168,9 +169,10 @@ const Table = ({
             <table className="min-w-full bg-white border dark:border-gray-700 dark:bg-[#2D2F39]">
               <thead>
                 <tr>
-                  {role === "admin" && (
-                    <th className="py-2 px-4 border-b text-left">Actions</th>
-                  )}
+                  <th className="py-2 px-4 border-b text-left min-w-32">
+                    Actions
+                  </th>
+
                   {columns.map((column) => (
                     <th
                       key={column.id}
@@ -194,18 +196,20 @@ const Table = ({
                 </tr>
               </thead>
               <tbody>
-                {data.map((row, rowIndex) => (
-                  <React.Fragment key={rowIndex}>
-                    <tr
-                      className={`h-16 ${
-                        expandedRows[rowIndex]
-                          ? "bg-gray-200 dark:bg-gray-800"
-                          : ""
-                      }`}
-                      style={rowStyle ? rowStyle(row) : {}}
-                    >
-                      {role === "admin" && (
-                        <td className="py-2 px-4 border-b border-l text-left w-28">
+                {data.map((row, rowIndex) => {
+                  const isTodo = row.status === "TODO";
+                  const isDone = row.status === "DONE";
+                  return (
+                    <React.Fragment key={rowIndex}>
+                      <tr
+                        className={`h-16 ${
+                          expandedRows[rowIndex]
+                            ? "bg-gray-200 dark:bg-gray-800"
+                            : ""
+                        }`}
+                        style={rowStyle ? rowStyle(row) : {}}
+                      >
+                        <td className="py-2 px-4 border-b border-l text-left w-32">
                           {detailsPanel && (
                             <button
                               onClick={() => toggleRow(rowIndex)}
@@ -221,7 +225,10 @@ const Table = ({
                           {canUpdate && (
                             <button
                               onClick={() => handleEdit(row)}
-                              className="text-blue-500 mr-2"
+                              className={`text-blue-500 mr-2 ${
+                                isDone ? "opacity-50 cursor-not-allowed" : ""
+                              }`}
+                              disabled={isDone}
                             >
                               <FaEdit />
                             </button>
@@ -229,9 +236,22 @@ const Table = ({
                           {canDelete && (
                             <button
                               onClick={() => handleDelete(row.id)}
-                              className="text-red-500"
+                              className={`text-red-500 mr-2 ${
+                                isDone ? "opacity-50 cursor-not-allowed" : ""
+                              }`}
                             >
                               <FaTrash />
+                            </button>
+                          )}
+                          {handleComplete && (
+                            <button
+                              onClick={() => handleComplete(row)}
+                              className={`text-green-500 ${
+                                isDone ? "opacity-50 cursor-not-allowed" : ""
+                              }`}
+                              disabled={isDone}
+                            >
+                              <FaCheck />
                             </button>
                           )}
                           {actions &&
@@ -245,33 +265,36 @@ const Table = ({
                               </button>
                             ))}
                         </td>
-                      )}
-                      {columns.map((column) => (
-                        <td
-                          key={column.id}
-                          className="py-2 px-4 border-b text-center"
-                        >
-                          {column.render ? column.render(row) : row[column.id]}
-                        </td>
-                      ))}
-                    </tr>
-                    {detailsPanel && expandedRows[rowIndex] && (
-                      <tr>
-                        <td
-                          colSpan={columns.length + (role === "admin" ? 1 : 0)}
-                          className="bg-gray-200 dark:bg-gray-800"
-                        >
-                          {detailsPanel(row)}
-                        </td>
+
+                        {columns.map((column) => (
+                          <td
+                            key={column.id}
+                            className="py-2 px-4 border-b text-center"
+                          >
+                            {column.render
+                              ? column.render(row)
+                              : row[column.id]}
+                          </td>
+                        ))}
                       </tr>
-                    )}
-                  </React.Fragment>
-                ))}
+                      {detailsPanel && expandedRows[rowIndex] && (
+                        <tr>
+                          <td
+                            colSpan={columns.length}
+                            className="bg-gray-200 dark:bg-gray-800"
+                          >
+                            {detailsPanel(row)}
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
               </tbody>
               <tfoot>
                 <tr>
                   <td
-                    colSpan={columns.length + (role === "admin" ? 1 : 0)}
+                    colSpan={columns.length}
                     className="py-2 px-4 bg-white border-t dark:bg-[#2D2F39] dark:text-[#8A8C91]"
                   >
                     <div className="flex justify-between items-center dark:bg-[#2D2F39]">

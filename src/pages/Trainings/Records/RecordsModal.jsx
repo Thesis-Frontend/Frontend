@@ -22,13 +22,10 @@ const RecordsModal = ({
         typeId: data.typeId || null,
         status: data.status || null,
         plannedTime: data.plannedTime || "",
-        // startTime: data.startTime || "",
-        // endTime: data.endTime || "",
+
         isOnline: data.isOnline || null,
         meetingLink: data.meetingLink || "",
         instructors: data.instructors || [],
-        // attendees: data.attendees || [],
-        // files: data.files || [], // Load existing PDF files
       });
     }
     if (isOpen && !data) {
@@ -38,12 +35,9 @@ const RecordsModal = ({
         typeId: null,
         status: null,
         plannedTime: "",
-        // endTime: "",
         isOnline: null,
         meetingLink: "",
         instructors: [],
-        // attendees: [],
-        // files: [], // Initialize PDF files array
       });
     }
   }, [data, isOpen]);
@@ -53,20 +47,6 @@ const RecordsModal = ({
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-    }));
-  };
-
-  const handlePDFUpload = (fileContent) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      pdfFiles: [fileContent],
-    }));
-  };
-
-  const handlePDFDelete = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      pdfFiles: [],
     }));
   };
 
@@ -128,48 +108,23 @@ const RecordsModal = ({
               }}
             />
           </div>
-          {data?.id && (
-            <div>
-              <label className="block text-gray-700 font-bold">Status</label>
-              <input
-                type="text"
-                name="status"
-                className="w-full border border-gray-300 p-2 rounded"
-                value={formData.status}
-                onChange={handleChange}
-              />
-            </div>
-          )}
           <div>
             <label className="block text-gray-700 font-bold">
               Planned Time
             </label>
             <DatePicker
-              selected={formData.startTime}
+              selected={formData.plannedTime}
               onChange={(date) =>
                 setFormData((prevData) => ({
                   ...prevData,
-                  startTime: date,
+                  plannedTime: date,
                 }))
               }
               dateFormat="dd/MM/yyyy"
               className="w-full border border-gray-300 p-2 rounded"
             />
           </div>
-          {/* <div>
-            <label className="block text-gray-700 font-bold">End Time</label>
-            <DatePicker
-              selected={formData.endTime}
-              onChange={(date) =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  endTime: date,
-                }))
-              }
-              dateFormat="dd/MM/yyyy"
-              className="w-full border border-gray-300 p-2 rounded"
-            />
-          </div> */}
+
           <div>
             <label className="block text-gray-700 font-bold">Is Online?</label>
             <select
@@ -223,30 +178,6 @@ const RecordsModal = ({
               }}
             />
           </div>
-          {/* <div>
-            <label className="block text-gray-700 font-bold">Attendees</label>
-            <CustomDropdown
-              title={"attendees"}
-              isMultiple={true}
-              options={options.companies}
-              selectedValue={formData.attendees}
-              onChange={(value) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  attendees: value,
-                }));
-              }}
-            />
-          </div> */}
-          {/* <div>
-            <label className="block text-gray-700 font-bold">Upload PDF</label>
-            <PDFUploaderViewer
-              base64Files={formData.pdfFiles}
-              fileName={formData.fileName}
-              onUpload={handlePDFUpload}
-              onDelete={handlePDFDelete}
-            />
-          </div> */}
         </div>
         <div className="flex justify-end mt-6 w-full">
           <button

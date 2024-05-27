@@ -8,6 +8,7 @@ import FetchData from "./FetchData";
 import moment from "moment";
 import { FaDownload } from "react-icons/fa";
 import Request from "../../../helpers/Request";
+import CompleteModal from "./CompleteModal";
 
 const getNames = (list) => {
   return (
@@ -136,8 +137,10 @@ export default function Records() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [options, setOptions] = useState([]);
+  const [completeModal, setCompleteModal] = useState(false);
 
   const [loading, setLoading] = useState(false);
+  const [completeLoading, setCompleteLoading] = useState(false);
 
   const [snackbar, setSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -158,6 +161,13 @@ export default function Records() {
     plannedTime: "",
   });
 
+  const [completeData, setCompleteData] = useState({
+    startTime: "",
+    endTime: "",
+    attendees: [],
+    files: [],
+  });
+
   const init = useCallback(async () => {
     const opt = await GetOptions();
     setOptions(opt);
@@ -176,17 +186,32 @@ export default function Records() {
     setModalData(data);
     setModalOpen(true);
   };
+  const handleComplete = (data) => {
+    setModalData(data);
+    setCompleteModal(true);
+  };
 
   const handleDelete = (id) => {
     setDeleteCandidateId(id);
     setDeleteModalOpen(true);
   };
 
-  const confirmDelete = () => {
-    // Delete logic (API call, then update local state or directly remove from state if not using a backend)
-    setCompanies(
-      companies.filter((company) => company.id !== deleteCandidateId)
-    );
+  const confirmDelete = async () => {
+    const res = await Request("delete", `/api/training/record`, null, {
+      recordId: deleteCandidateId,
+    });
+
+    if (res.status === 200) {
+      setSnackbarMessage(res.data.message);
+      setSnackbar(true);
+      setSeverity("success");
+      window.location.reload();
+    } else {
+      setSnackbarMessage(res.data.message);
+      setSnackbar(true);
+      setSeverity("error");
+    }
+
     setDeleteModalOpen(false);
   };
 
@@ -221,7 +246,6 @@ export default function Records() {
       delete data.id;
       delete data.status;
       const res = await Request("post", "/api/training/record", data, params);
-      window.location.reload();
       if (res.status === 200) {
         setSnackbarMessage(res.data.message);
         setSnackbar(true);
@@ -235,6 +259,48 @@ export default function Records() {
     }
     setLoading(false);
     setModalOpen(false);
+  };
+
+  const handleCompleteSave = async (data) => {
+    setCompleteLoading(true);
+    console.log("Data to save:", data);
+
+    let body = {
+      request: {
+        startTime: data.startTime,
+        endTime: data.endTime,
+        attendees: data.attendees,
+      },
+      files: data.files,
+    };
+
+    console.log("Request body:", body);
+
+    try {
+      const res = await Request("post", "/api/training/record/complete", body, {
+        id: data.id,
+      });
+      console.log("Response from server:", res);
+
+      if (res.status === 200) {
+        setSnackbarMessage(res.data.message);
+        setSnackbar(true);
+        setSeverity("success");
+        window.location.reload();
+      } else {
+        setSnackbarMessage(res.data.message);
+        setSnackbar(true);
+        setSeverity("error");
+      }
+    } catch (error) {
+      console.error("Error completing the record:", error);
+      setSnackbarMessage("An error occurred. Please try again.");
+      setSnackbar(true);
+      setSeverity("error");
+    } finally {
+      setCompleteLoading(false);
+      setCompleteModal(false);
+    }
   };
 
   const handleOnClose = () => {
@@ -251,7 +317,18 @@ export default function Records() {
       // attendees: [],
       // files: [], // Initialize PDF files array
     });
+
     setModalOpen(false);
+  };
+
+  const handleCompleteClose = () => {
+    setCompleteData({
+      startTime: "",
+      endTime: "",
+      attendees: [],
+      files: [],
+    });
+    setCompleteModal(false);
   };
 
   return (
@@ -269,6 +346,7 @@ export default function Records() {
         handleCreate={handleCreate}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
+        handleComplete={handleComplete}
         setSnackbar={setSnackbar}
         setSnackbarMessage={setSnackbarMessage}
         setSeverity={setSeverity}
@@ -282,6 +360,16 @@ export default function Records() {
         setFormData={setFormData}
         formData={formData}
         loading={loading}
+      />
+      <CompleteModal
+        isOpen={completeModal}
+        onClose={handleCompleteClose}
+        onSave={handleCompleteSave}
+        data={modalData}
+        options={options}
+        setFormData={setCompleteData}
+        formData={completeData}
+        loading={completeLoading}
       />
       <DeleteModal
         isOpen={isDeleteModalOpen}
