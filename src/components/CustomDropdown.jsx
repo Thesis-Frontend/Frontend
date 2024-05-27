@@ -91,7 +91,7 @@ export default function CustomDropdown({
             className={`p-2 text-sm hover:bg-sky-600 hover:text-white
               ${
                 isMultiple
-                  ? selected.some((item) => item.id === opt.id) &&
+                  ? selected?.some((item) => item.id === opt.id) &&
                     "bg-sky-600 text-white"
                   : selected?.id === opt.id && "bg-sky-600 text-white"
               }

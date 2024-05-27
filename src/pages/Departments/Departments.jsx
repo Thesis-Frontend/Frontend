@@ -5,6 +5,7 @@ import FetchData from "./FetchData"; // Assuming this function exists and is cor
 import DeleteModal from "../../components/Modal/DeleteModal";
 import GetOptions from "./GetOptions";
 import Snackbar from "../../components/Snackbar";
+import Request from "../../helpers/Request";
 
 const getNames = (list) => {
   return (
@@ -86,14 +87,27 @@ const Departments = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [snackbar, setSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [severity, setSeverity] = useState("");
 
+  const [formData, setFormData] = useState({
+    name: "",
+    departmentTypeId: null,
+    activityTypeId: null,
+    companyId: null,
+    townId: null,
+    socialSecurityNumber: "",
+    manager: null,
+    activityTownIds: null,
+    parentDepartmentIds: null,
+  });
 
   const init = useCallback(async () => {
     const opt = await GetOptions();
+    console.log(opt);
     setOptions(opt);
   }, []);
 
@@ -118,15 +132,42 @@ const Departments = () => {
 
   const confirmDelete = () => {};
 
-  const handleSave = (company) => {
-    if (company.id) {
-      // Update logic
+  const handleSave = async (data) => {
+    setLoading(true);
+    const res = await Request(
+      "post",
+      "/api/fundamental/department/create",
+      data
+    );
+    if (res.status === 200) {
+      setSnackbarMessage(res.data.message);
+      setSnackbar(true);
+      setSeverity("success");
+      window.location.reload();
     } else {
-      // Create logic
+      setSnackbarMessage(res.data.message);
+      setSnackbar(true);
+      setSeverity("error");
     }
+    setLoading(false);
     setModalOpen(false);
   };
 
+  const handleOnClose = () => {
+    setFormData({
+      name: "",
+      departmentTypeId: null,
+      activityTypeId: null,
+      companyId: null,
+      townId: null,
+      socialSecurityNumber: "",
+      manager: null,
+      activityTownIds: null,
+      parentDepartmentIds: null,
+    });
+
+    setModalOpen(false);
+  };
   return (
     <div>
       <Table
@@ -142,10 +183,13 @@ const Departments = () => {
       />
       <DepartmentModal
         isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={handleOnClose}
         onSave={handleSave}
         data={modalData}
         options={options}
+        formData={formData}
+        setFormData={setFormData}
+        loading={loading}
       />
       <DeleteModal
         isOpen={isDeleteModalOpen}

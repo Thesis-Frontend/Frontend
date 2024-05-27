@@ -1,38 +1,41 @@
 import React, { useState, useEffect } from "react";
 import CustomDropdown from "../../components/CustomDropdown";
 
-const DepartmentModal = ({ isOpen, onClose, onSave, data, options }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    departmentType: null,
-    activityType: null,
-    company: null,
-    socialSecurityNumber: "",
-    town: null,
-    manager: null,
-  });
-
+const DepartmentModal = ({
+  isOpen,
+  onClose,
+  onSave,
+  data,
+  options,
+  formData,
+  setFormData,
+  loading,
+}) => {
   useEffect(() => {
     if (isOpen && data) {
       setFormData({
         name: data.name || "",
-        departmentType: data.departmentType || null,
-        activityType: data.activityType || null,
-        company: data.company || null,
-        town: data.town || null,
+        departmentTypeId: data.departmentType?.id || null,
+        activityTypeId: data.activityType?.id || null,
+        companyId: data.company?.id || null,
+        townId: data.town?.id || null,
         socialSecurityNumber: data.socialSecurityNumber || "",
         manager: data.manager || null,
+        activityTownIds: data.activityTowns || null,
+        parentDepartmentIds: data.parentDepartments || null,
       });
     }
     if (isOpen && !data) {
       setFormData({
         name: "",
-        departmentType: "",
-        activityType: "",
-        company: "",
-        town: null,
+        departmentTypeId: null,
+        activityTypeId: null,
+        companyId: null,
+        townId: null,
         socialSecurityNumber: "",
         manager: null,
+        activityTownIds: null,
+        parentDepartmentIds: null,
       });
     }
   }, [data, isOpen]);
@@ -68,7 +71,7 @@ const DepartmentModal = ({ isOpen, onClose, onSave, data, options }) => {
               type="text"
               name="name"
               className="w-full border border-gray-300 p-2 rounded"
-              value={formData.name}
+              value={formData?.name}
               onChange={handleChange}
             />
           </div>
@@ -78,12 +81,12 @@ const DepartmentModal = ({ isOpen, onClose, onSave, data, options }) => {
             </label>
             <CustomDropdown
               title={"department type"}
-              options={options.departmentTypes}
-              selectedValue={formData.departmentType?.id}
+              options={options?.departmentTypes}
+              selectedValue={formData?.departmentTypeId}
               onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
-                  ["departmentType"]: value,
+                  ["departmentTypeId"]: value,
                 }));
               }}
             />
@@ -93,12 +96,12 @@ const DepartmentModal = ({ isOpen, onClose, onSave, data, options }) => {
             <label className="block text-gray-700 font-bold">Company</label>
             <CustomDropdown
               title={"company"}
-              options={options.departmentTypes}
-              selectedValue={formData.company?.id}
+              options={options?.company}
+              selectedValue={formData?.companyId}
               onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
-                  ["company"]: value,
+                  ["companyId"]: value,
                 }));
               }}
             />
@@ -111,7 +114,7 @@ const DepartmentModal = ({ isOpen, onClose, onSave, data, options }) => {
               type="text"
               name="socialSecurityNumber"
               className="w-full border border-gray-300 p-2 rounded"
-              value={formData.socialSecurityNumber}
+              value={formData?.socialSecurityNumber}
               onChange={handleChange}
             />
           </div>
@@ -119,12 +122,12 @@ const DepartmentModal = ({ isOpen, onClose, onSave, data, options }) => {
             <label className="block text-gray-700 font-bold">Town</label>
             <CustomDropdown
               title={"town"}
-              options={options.towns}
-              selectedValue={formData.town?.id}
+              options={options?.towns}
+              selectedValue={formData?.townId}
               onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
-                  ["town"]: value,
+                  ["townId"]: value,
                 }));
               }}
             />
@@ -136,11 +139,30 @@ const DepartmentModal = ({ isOpen, onClose, onSave, data, options }) => {
             <CustomDropdown
               title={"activity type"}
               options={options.activityTypes}
-              selectedValue={formData.activityType?.id}
+              selectedValue={formData?.activityTypeId}
               onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
-                  ["activityType"]: value,
+                  ["activityTypeId"]: value,
+                }));
+              }}
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-bold">
+              Activity Towns
+            </label>
+            <CustomDropdown
+              title={"Activity Towns"}
+              isMultiple={true}
+              options={options.towns}
+              selectedValue={formData?.activityTownIds?.map((inst) =>
+                options?.towns?.find((opt) => opt.id === inst)
+              )}
+              onChange={(value) => {
+                setFormData((prevData) => ({
+                  ...prevData,
+                  activityTownIds: value,
                 }));
               }}
             />
@@ -150,11 +172,30 @@ const DepartmentModal = ({ isOpen, onClose, onSave, data, options }) => {
             <CustomDropdown
               title={"Manager"}
               options={options.managers}
-              selectedValue={formData.manager?.id}
+              selectedValue={formData?.managerId}
               onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
-                  ["manager"]: value,
+                  ["managerId"]: value,
+                }));
+              }}
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-bold">
+              Parent Departments
+            </label>
+            <CustomDropdown
+              title={"Parent Departments"}
+              isMultiple={true}
+              options={options.parentDepartments}
+              selectedValue={formData?.parentDepartmentIds?.map((inst) =>
+                options?.parentDepartments?.find((opt) => opt.id === inst)
+              )}
+              onChange={(value) => {
+                setFormData((prevData) => ({
+                  ...prevData,
+                  parentDepartmentIds: value,
                 }));
               }}
             />
@@ -169,7 +210,9 @@ const DepartmentModal = ({ isOpen, onClose, onSave, data, options }) => {
           </button>
           <button
             className={`${
-              data?.id ? "bg-loginSuccess hover:bg-[#98E292]" : "bg-createButtons"
+              data?.id
+                ? "bg-loginSuccess hover:bg-[#98E292]"
+                : "bg-createButtons"
             } text-white px-4 py-2 rounded w-1/2`}
             onClick={handleSave}
           >

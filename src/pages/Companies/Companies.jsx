@@ -82,9 +82,7 @@ const Companies = () => {
 
   const confirmDelete = () => {
     // Delete logic (API call, then update local state or directly remove from state if not using a backend)
-    setCompanies(
-      companies.filter((company) => company.id !== deleteCandidateId)
-    );
+  
     setDeleteModalOpen(false);
   };
 
