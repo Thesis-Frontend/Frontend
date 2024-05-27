@@ -62,7 +62,6 @@ const data = {
         "Priority customer support (email and phone support, response within 24 hours)",
       ],
       currency: "$",
-      featured: true,
     },
     {
       id: 6,
@@ -79,13 +78,14 @@ const data = {
 };
 
 const SubscriptionPackages = ({ onSelectPackage }) => {
-  const [subscriptionDuration, setSubscriptionDuration] = useState("1 year");
+  const [subscriptionDuration, setSubscriptionDuration] = useState("1 Year");
   const [options, setOptions] = useState([]);
 
   // const [data, setData] = useState(null);
 
   const init = useCallback(async () => {
     const opt = await GetOptions();
+    console.log(opt);
     setOptions(opt);
   }, []);
 
@@ -95,7 +95,7 @@ const SubscriptionPackages = ({ onSelectPackage }) => {
 
   const handleToggleDuration = () => {
     setSubscriptionDuration((prevDuration) =>
-      prevDuration === "1 year" ? "2 years" : "1 year"
+      prevDuration === "1 Year" ? "2 Year" : "1 Year"
     );
   };
 
@@ -123,17 +123,21 @@ const SubscriptionPackages = ({ onSelectPackage }) => {
       </label>
 
       <div className="grid lg:grid-cols-3 gap-12 lg:gap-0">
-        {data[subscriptionDuration].map((plan) => (
-          <div
-            className={`w-full max-w-md mx-auto ${
-              plan.featured
-                ? "order-first lg:order-none lg:scale-110 lg:transform lg:z-10"
-                : "lg:transform lg:scale-90"
-            }`}
-          >
-            <SubscriptionCard {...plan} onSelectPackage={onSelectPackage} />
-          </div>
-        ))}
+        {options.subscriptionPackages &&
+          options.subscriptionPackages[subscriptionDuration].map((plan) => {
+            plan.featured = plan.name == "Silver";
+            return (
+              <div
+                className={`w-full max-w-md mx-auto ${
+                  plan.featured
+                    ? "order-first lg:order-none lg:scale-110 lg:transform lg:z-10"
+                    : "lg:transform lg:scale-90"
+                }`}
+              >
+                <SubscriptionCard {...plan} onSelectPackage={onSelectPackage} />
+              </div>
+            );
+          })}
       </div>
     </div>
   );

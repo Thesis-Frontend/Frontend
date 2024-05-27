@@ -7,8 +7,8 @@ const SubscriptionCard = ({
   price,
   features,
   currency,
-  featured = false,
   onSelectPackage,
+  featured
 }) => {
   const nameToBackgroundColor = {
     Bronze: "bg-cardBronze",

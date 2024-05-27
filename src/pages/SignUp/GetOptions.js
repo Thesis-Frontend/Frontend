@@ -14,7 +14,8 @@ export const getSubscriptionPackages = async () => {
     null,
     null
   );
-  const data = resp.data;
+  console.log(resp);
+  const data = resp.data.data;
   return data;
 };
 

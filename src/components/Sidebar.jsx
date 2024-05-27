@@ -177,7 +177,8 @@ const Sidebar = () => {
 
   const user = SessionHelper.getUser();
   const userName = user ? user.name + " " + user.surname : "Sude Nur Çevik";
-  const userRole = user.title ? user.title : "ISG Uzmanı";
+  const userRole = user.title ? user.title : null;
+  const userSector = user.sector ? user.sector : null;
 
   const toggleMenu = (name) => {
     setExpandedMenus((prev) => ({ ...prev, [name]: !prev[name] }));
@@ -281,15 +282,20 @@ const Sidebar = () => {
       <div className={`p-3 flex flex-col items-center`}>
         {isOpen && (
           <div
-            className="text-center mb-4 cursor-pointer flex items-center space-x-2"
+            className={`text-center mb-4 flex items-center space-x-2 ${
+              userSector ? "cursor-pointer" : ""
+            }`}
+            // onClick={userSector ? handleUserNameClick : undefined}
             onClick={handleUserNameClick}
           >
-            <RiUser3Line size={24} />
+            {userSector && <RiUser3Line size={24} />}
             <div>
               <p className="font-bold text-lg">{userName}</p>
-              <p className="text-sm text-gray-400 dark:text-[#8A8C91]">
-                ({userRole})
-              </p>
+              {userRole && (
+                <p className="text-sm text-gray-400 dark:text-[#8A8C91]">
+                  ({userRole})
+                </p>
+              )}
             </div>
           </div>
         )}
