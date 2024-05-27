@@ -63,8 +63,8 @@ const columns = [
     id: "activityTownIds",
     label: "Activity Towns",
     render: (rowData) =>
-      rowData.activityTownIds?.length > 0
-        ? getNames(rowData.activityTownIds)
+      rowData.activityTownId?.length > 0
+        ? getNames(rowData.activityTownId)
         : ["-"],
   },
   {

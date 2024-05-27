@@ -21,8 +21,8 @@ const DepartmentModal = ({
         townId: data.town?.id || null,
         socialSecurityNumber: data.socialSecurityNumber || "",
         managerId: data.manager?.id || null,
-        activityTownIds: data.activityTownId || [],
-        parentDepartmentIds: data.parentDepartmentId || [],
+        activityTownIds: data.activityTowns?.map(region => region.id) || [],
+        parentDepartmentIds: data.parentDepartments?.map(region => region.id) || [],
       });
     }
     if (isOpen && !data) {

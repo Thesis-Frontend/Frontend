@@ -5,6 +5,7 @@ export const getCompany = async () => {
     "get",
     "/api/fundamental/dropdown/companies/for-department"
   );
+  console.log(resp);
   const content = resp.data;
   return content;
 };
