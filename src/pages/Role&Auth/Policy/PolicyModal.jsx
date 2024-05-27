@@ -77,7 +77,7 @@ const PolicyModal = ({
           <button
             className={`${
               data?.id
-                ? "bg-loginSuccess hover:bg-[#98E292]"
+                ? "bg-updateButton hover:bg-updatehover"
                 : "bg-createButtons"
             } text-white px-4 py-2 rounded w-1/2`}
             onClick={handleSave}
