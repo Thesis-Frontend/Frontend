@@ -63,7 +63,6 @@ export default function FetchData(
     // }
 
     const resp = await Request("get", "/api/auth/roles-and-policies/policies");
-    console.log(resp);
     if (resp.status !== 200) {
       setSeverity("error");
       setSnackbarMessage(resp?.data?.message);

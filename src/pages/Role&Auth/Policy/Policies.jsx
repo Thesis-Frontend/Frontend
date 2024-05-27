@@ -104,7 +104,6 @@ const Policies = () => {
 
   const handleSave = async (data) => {
     setLoading(true);
-    console.log(data);
     const res = await Request(
       "post",
       "/api/auth/roles-and-policies/policy/create",

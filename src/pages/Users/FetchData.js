@@ -55,6 +55,7 @@ export default function FetchData(
           title: data[i].title,
           email: data[i].email,
           manager: data[i].manager,
+          role: data[i].role,
           identityNumber: data[i].identityNumber,
           phoneNumber: data[i].phoneNumber,
           educationStatus: data[i].educationStatus,

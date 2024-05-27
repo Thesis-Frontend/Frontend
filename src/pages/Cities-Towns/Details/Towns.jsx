@@ -31,7 +31,6 @@ export default function Towns({
     const res = await Request("get", "/api/fundamental/town", null, {
       regionId: rowData.id,
     });
-    console.log(res);
     setData(res.data.data.content);
   }, []);
 

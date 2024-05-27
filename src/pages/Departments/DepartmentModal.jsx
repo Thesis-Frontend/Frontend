@@ -53,7 +53,6 @@ const DepartmentModal = ({
       ...data,
       ...formData,
     };
-    console.log(newCompany);
     onSave(newCompany);
   };
 
@@ -160,7 +159,6 @@ const DepartmentModal = ({
                 options?.towns?.find((opt) => opt.id === inst)
               )}
               onChange={(value) => {
-                console.log(value)
                 setFormData((prevData) => ({
                   ...prevData,
                   activityTownIds: value,
@@ -209,16 +207,22 @@ const DepartmentModal = ({
           >
             Cancel
           </button>
-          <button
-            className={`${
-              data?.id
-                ? "bg-updateButton hover:bg-updatehover"
-                : "bg-createButtons"
-            } text-white px-4 py-2 rounded w-1/2`}
-            onClick={handleSave}
-          >
-            {data?.id ? "Update" : "Submit"}
-          </button>
+          {loading ? (
+            <div className="w-1/2 flex justify-center">
+              <div className="loader"></div>
+            </div>
+          ) : (
+            <button
+              className={`${
+                data?.id
+                  ? "bg-updateButton hover:bg-updatehover"
+                  : "bg-createButtons"
+              } text-white px-4 py-2 rounded w-1/2`}
+              onClick={handleSave}
+            >
+              {data?.id ? "Update" : "Submit"}
+            </button>
+          )}
         </div>
       </div>
     </div>

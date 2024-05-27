@@ -3,25 +3,16 @@ import CustomDropdown from "../../components/CustomDropdown";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const UserModal = ({ isOpen, onClose, onSave, data, options }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    surname: "",
-    title: "",
-    email: "",
-    identityNumber: "",
-    phoneNumber: "",
-    department: null,
-    manager: null,
-    company: null,
-    educationStatus: null,
-    marital: null,
-    gender: null,
-    startDateOfWork: null,
-    endDateOfWork: null,
-    responsibleRegions: [],
-  });
-
+const UserModal = ({
+  isOpen,
+  onClose,
+  onSave,
+  data,
+  options,
+  formData,
+  setFormData,
+  loading,
+}) => {
   useEffect(() => {
     if (isOpen && data) {
       setFormData({
@@ -31,15 +22,15 @@ const UserModal = ({ isOpen, onClose, onSave, data, options }) => {
         email: data.email || "",
         identityNumber: data.identityNumber || "",
         phoneNumber: data.phoneNumber || "",
-        department: data.department || null,
-        manager: data.manager || null,
-        company: data.company || null,
-        educationStatus: data.educationStatus || null,
+        departmentId: data.department?.id || null,
+        managerId: data.manager?.id || null,
+        roleId: data.role?.id || null,
+        educationStatusId: data.educationStatus?.id || null,
         marital: data.marital || null,
         gender: data.gender || null,
-        startDateOfWork: data.startDateOfWork || null,
-        endDateOfWork: data.endDateOfWork || null,
-        responsibleRegions: data.responsibleRegions || [],
+        startDateOfWork: new Date(data.startDateOfWork) || null,
+        endDateOfWork: new Date(data.endDateOfWork) || null,
+        responsibleRegionIds: data.responsibleRegions || [],
       });
     }
     if (isOpen && !data) {
@@ -50,15 +41,15 @@ const UserModal = ({ isOpen, onClose, onSave, data, options }) => {
         email: "",
         identityNumber: "",
         phoneNumber: "",
-        department: null,
-        manager: null,
-        company: null,
-        educationStatus: null,
+        departmentId: null,
+        managerId: null,
+        roleId:null,
+        educationStatusId: null,
         marital: null,
         gender: null,
         startDateOfWork: null,
         endDateOfWork: null,
-        responsibleRegions: [],
+        responsibleRegionIds: [],
       });
     }
   }, [data, isOpen]);
@@ -82,7 +73,6 @@ const UserModal = ({ isOpen, onClose, onSave, data, options }) => {
         ? formData.endDateOfWork.toISOString()
         : null,
     };
-    console.log(newCompany);
     onSave(newCompany);
   };
 
@@ -112,7 +102,7 @@ const UserModal = ({ isOpen, onClose, onSave, data, options }) => {
               onChange={handleChange}
             />
           </div>
-          <div>
+          {/* <div>
             <label className="block text-gray-700 font-bold">Company</label>
             <CustomDropdown
               title={"department"}
@@ -127,37 +117,41 @@ const UserModal = ({ isOpen, onClose, onSave, data, options }) => {
                 }));
               }}
             />
-          </div>
+          </div> */}
           <div>
             <label className="block text-gray-700 font-bold">Department</label>
             <CustomDropdown
               title={"department"}
               options={options.departments}
-              selectedValue={
-                formData.department
-                  ? formData.department?.id
-                  : formData.department
-              }
+              selectedValue={formData.departmentId}
               onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
-                  ["department"]: value,
+                  ["departmentId"]: value,
                 }));
               }}
             />
           </div>
           <div>
             <label className="block text-gray-700 font-bold">Title</label>
+            <input
+              type="text"
+              name="title"
+              className="w-full border border-gray-300 p-2 rounded"
+              value={formData.title}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-bold">Role</label>
             <CustomDropdown
-              title={"title"}
-              options={options.title}
-              selectedValue={
-                formData.title ? formData.title?.id : formData.department
-              }
+              title={"Role"}
+              options={options.roles}
+              selectedValue={formData.roleId}
               onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
-                  ["title"]: value,
+                  ["roleId"]: value,
                 }));
               }}
             />
@@ -167,11 +161,11 @@ const UserModal = ({ isOpen, onClose, onSave, data, options }) => {
             <CustomDropdown
               title={"Manager"}
               options={options.managers}
-              selectedValue={formData.manager}
+              selectedValue={formData.managerId}
               onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
-                  ["manager"]: value,
+                  ["managerId"]: value,
                 }));
               }}
             />
@@ -217,50 +211,60 @@ const UserModal = ({ isOpen, onClose, onSave, data, options }) => {
             <CustomDropdown
               title={"education status"}
               options={options.educationStatus}
-              selectedValue={
-                formData.activityType
-                  ? formData.activityType?.id
-                  : formData.activityType
-              }
+              selectedValue={formData.educationStatusId}
               onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
-                  ["educationStatus"]: value,
+                  ["educationStatusId"]: value,
                 }));
               }}
             />
           </div>
           <div>
             <label className="block text-gray-700 font-bold">Marital</label>
-            <CustomDropdown
-              title={"marital"}
-              options={options.marital}
-              selectedValue={
-                formData.activityType
-                  ? formData.activityType?.id
-                  : formData.activityType
-              }
-              onChange={(value) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  ["marital"]: value,
-                }));
-              }}
-            />
+            <select
+              onfocus="this.size=10;"
+              onblur="this.size=0;"
+              onchange="this.size=1; this.blur();"
+              name="marital"
+              className="custom-select w-full border border-gray-300 p-2 rounded text-lg"
+              value={formData.marital}
+              onChange={handleChange}
+              style={{ boxShadow: "none" }} // Remove border when options are displayed
+            >
+              <option value="" className="p-4 text-lg">
+                Select marital
+              </option>
+              <option value="true" className="p-4 text-lg">
+                Married
+              </option>
+              <option value="false" className="p-4 text-lg">
+                Single
+              </option>
+            </select>
           </div>
           <div>
             <label className="block text-gray-700 font-bold">Gender</label>
-            <CustomDropdown
-              title={"gender"}
-              options={options.gender}
-              selectedValue={formData.gender}
-              onChange={(value) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  ["gender"]: value,
-                }));
-              }}
-            />
+            <select
+              onfocus="this.size=10;"
+              onblur="this.size=0;"
+              onchange="this.size=1; this.blur();"
+              name="gender"
+              className="custom-select w-full border border-gray-300 p-2 rounded text-lg"
+              value={formData.gender}
+              onChange={handleChange}
+              style={{ boxShadow: "none" }} // Remove border when options are displayed
+            >
+              <option value="" className="p-4 text-lg">
+                Select gender
+              </option>
+              <option value="true" className="p-4 text-lg">
+                Woman
+              </option>
+              <option value="false" className="p-4 text-lg">
+                Man
+              </option>
+            </select>
           </div>
           {/* TODO: burası düzeltilecek */}
           {/* <div>
@@ -317,12 +321,13 @@ const UserModal = ({ isOpen, onClose, onSave, data, options }) => {
               title={"responsible regions"}
               options={options.responsibleRegions}
               isMultiple
-              // selectedValue={
-              // }
+              selectedValue={formData?.responsibleRegionIds?.map((inst) =>
+                options?.responsibleRegions?.find((opt) => opt.id === inst)
+              )}
               onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
-                  ["responsibleRegions"]: value,
+                  ["responsibleRegionIds"]: value,
                 }));
               }}
             />
@@ -337,7 +342,9 @@ const UserModal = ({ isOpen, onClose, onSave, data, options }) => {
           </button>
           <button
             className={`${
-              data?.id ? "bg-updateButton hover:bg-updatehover" : "bg-createButtons" 
+              data?.id
+                ? "bg-updateButton hover:bg-updatehover"
+                : "bg-createButtons"
             } text-white px-4 py-2 rounded w-1/2`}
             onClick={handleSave}
           >

@@ -53,7 +53,6 @@ export default function Signup() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      console.log(signupData);
       const response = await Request(
         "post",
         "/api/subscription/customer/register",

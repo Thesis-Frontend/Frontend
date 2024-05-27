@@ -139,7 +139,7 @@ const RecordsModal = ({
               style={{ boxShadow: "none" }} // Remove border when options are displayed
             >
               <option value="" className="p-4 text-lg">
-                Enter is online
+                Select is online
               </option>
               <option value="true" className="p-4 text-lg">
                 True

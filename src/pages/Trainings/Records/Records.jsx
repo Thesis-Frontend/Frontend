@@ -269,7 +269,6 @@ export default function Records() {
 
   const handleCompleteSave = async (data) => {
     setCompleteLoading(true);
-    console.log("Data to save:", data);
 
     let body = {
       startTime: data.startTime,
@@ -298,7 +297,6 @@ export default function Records() {
           recordId: data.id,
         }
       );
-      console.log("Response from server:", res);
 
       if (res.status === 200) {
         setSnackbarMessage(res.data.message);

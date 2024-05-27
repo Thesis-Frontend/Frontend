@@ -19,8 +19,7 @@ export default function CustomDropdown({
   }, [selectedValue]);
 
   const handleOptionClick = (opt) => {
-    console.log(selected);
-    console.log(opt);
+  
     if (disabled) return; // Prevent option click when disabled
     if (isMultiple) {
       const isSelected = selected
@@ -28,7 +27,6 @@ export default function CustomDropdown({
             item.id ? item.id === opt.id : item === opt.id
           )
         : false;
-      console.log(isSelected);
       let newSelected;
       if (isSelected) {
         newSelected = selected?.filter((item) =>

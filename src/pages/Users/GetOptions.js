@@ -1,23 +1,41 @@
 import Request from "../../helpers/Request";
 
-export const getDepartmentTypes = async () => { // department olacak
-  const resp = await Request("get", "/api/fundamental/department-type");
-  const data = resp.data.data;
-  const content = data.content;
+export const getDepartments = async () => {
+  const resp = await Request(
+    "get",
+    "/api/fundamental/dropdown/departments/for-user"
+  );
+  const content = resp.data;
   return content;
 };
-export const getActivityTypes = async () => { // company olacak
-  const resp = await Request("get", "/api/fundamental/activity-type");
-  const data = resp.data.data;
-  const content = data.content;
-
+export const getManagers = async () => {
+  const resp = await Request(
+    "get",
+    "/api/fundamental/dropdown/managers/for-user"
+  );
+  const content = resp.data;
   return content;
 };
-export const getTowns = async () => {
-  const resp = await Request("get", "/api/fundamental/town");
-  const data = resp.data.data;
-  const content = data.content;
-
+export const getEducationStatus = async () => {
+  const resp = await Request(
+    "get",
+    "/api/fundamental/dropdown/education-statuses/for-user"
+  );
+  const content = resp.data;
+  return content;
+};
+export const getResponsibleRegions = async () => {
+  const resp = await Request(
+    "get",
+    "/api/fundamental/dropdown/regions/for-user"
+  );
+  const content = resp.data;
+  return content;
+};
+export const getRoles = async () => {
+  const resp = await Request("get", "/api/auth/roles-and-policies/roles/all");
+  const data = resp.data;
+  const content = data.data;
   let arr = [];
   for (let i = 0; i < content.length; i++) {
     let comp = {};
@@ -28,42 +46,21 @@ export const getTowns = async () => {
   return arr;
 };
 
-export const getEducationStatus = async () => {
-  const resp = await Request("get", "/api/fundamental/education-status");
-  const data = resp.data.data;
-  const content = data.content;
-  return content;
-};
-
-const managers = [
-  { id: 1, name: "Ben" },
-  { id: 2, name: "Sen" }
-];
-const marital = [
-  { id: 1, name: "Married" },
-  { id: 2, name: "Single" },
-];
-const gender = [
-  { id: 1, name: "Woman" },
-  { id: 2, name: "Man" },
-];
-
 export default async function GetOptions() {
-  const [departmentTypes, activityTypes, towns, educationStatus] =
+  const [departments, managers, educationStatus, responsibleRegions, roles] =
     await Promise.all([
-      getDepartmentTypes(),
-      getActivityTypes(),
-      getTowns(),
+      getDepartments(),
+      getManagers(),
       getEducationStatus(),
+      getResponsibleRegions(),
+      getRoles(),
     ]);
   const options = {
-    departmentTypes,
-    activityTypes,
-    towns,
+    departments,
     managers,
     educationStatus,
-    marital,
-    gender
+    responsibleRegions,
+    roles,
   };
   return options;
 }

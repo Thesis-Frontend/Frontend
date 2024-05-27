@@ -107,7 +107,6 @@ const Departments = () => {
 
   const init = useCallback(async () => {
     const opt = await GetOptions();
-    console.log(opt);
     setOptions(opt);
   }, []);
 

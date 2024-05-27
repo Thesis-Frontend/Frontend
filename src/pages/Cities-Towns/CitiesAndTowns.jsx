@@ -69,7 +69,7 @@ export default function CitiesAndTowns() {
         severity={severity}
       />
       <Table
-        title={"Cities"}
+        title={"Cities and Towns"}
         columns={columns}
         fetchData={FetchData}
         handleCreate={handleCreate}
