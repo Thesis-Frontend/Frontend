@@ -172,7 +172,6 @@ const Table = ({
                   <th className="py-2 px-4 border-b text-left min-w-32">
                     Actions
                   </th>
-
                   {columns.map((column) => (
                     <th
                       key={column.id}
@@ -222,7 +221,7 @@ const Table = ({
                               )}
                             </button>
                           )}
-                          {canUpdate && (
+                          {canUpdate && handleEdit && (
                             <button
                               onClick={() => handleEdit(row)}
                               className={`text-blue-500 mr-2 ${
@@ -233,7 +232,7 @@ const Table = ({
                               <FaEdit />
                             </button>
                           )}
-                          {canDelete && (
+                          {canDelete && handleDelete && (
                             <button
                               onClick={() => handleDelete(row.id)}
                               className={`text-red-500 mr-2 
@@ -265,7 +264,6 @@ const Table = ({
                               </button>
                             ))}
                         </td>
-
                         {columns.map((column) => (
                           <td
                             key={column.id}
@@ -280,8 +278,8 @@ const Table = ({
                       {detailsPanel && expandedRows[rowIndex] && (
                         <tr>
                           <td
-                            colSpan={columns.length}
-                            className="bg-gray-200 dark:bg-gray-800"
+                            colSpan={columns.length + 1} // Adjust colSpan to span the entire table width
+                            className="bg-gray-200 dark:bg-gray-800 w-full"
                           >
                             {detailsPanel(row)}
                           </td>
@@ -294,7 +292,7 @@ const Table = ({
               <tfoot>
                 <tr>
                   <td
-                    colSpan={columns.length}
+                    colSpan={columns.length + 1} // Adjust colSpan to span the entire table width
                     className="py-2 px-4 bg-white border-t dark:bg-[#2D2F39] dark:text-[#8A8C91]"
                   >
                     <div className="flex justify-between items-center dark:bg-[#2D2F39]">

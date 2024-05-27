@@ -1,23 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import Snackbar from "../../../components/Snackbar";
+import Request from "../../../helpers/Request";
 
 const PolicyEditor = () => {
   const { id } = useParams();
-  const [policy, setPolicy] = useState({
-    Version: "2012-10-17",
-    Statement: [
-      {
-        Effect: "Allow",
-        Action: ["lambda:InvokeFunction"],
-        Resource: [],
-      },
-    ],
-  });
+  const [policy, setPolicy] = useState({});
   const [policyString, setPolicyString] = useState(
     JSON.stringify(policy, null, 2)
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [errors, setErrors] = useState([]);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -26,28 +19,24 @@ const PolicyEditor = () => {
   const [severity, setSeverity] = React.useState("");
   const textareaRef = useRef(null);
 
-  useEffect(() => {
-    const fetchPolicy = async () => {
-      try {
-        const response = await fetch(`/api/policies/${id}`);
-        if (response.status === 200) {
-          const data = await response.json();
-          setPolicy(data);
-          setPolicyString(JSON.stringify(data, null, 2));
-        }
-      } catch (error) {
-        console.error("Error fetching policy:", error);
-      } finally {
-        setIsLoading(false);
+  const init = useCallback(async () => {
+    const res = await Request(
+      "get",
+      "/api/auth/roles-and-policies/policy",
+      null,
+      {
+        "policy-id": id,
       }
-    };
-
-    if (id !== "new") {
-      fetchPolicy();
-    } else {
-      setIsLoading(false);
-    }
+    );
+    delete res.data.data.id;
+    setPolicy(res.data.data);
+    setPolicyString(JSON.stringify(res.data.data, null, 2));
+    setIsLoading(false);
   }, [id]);
+
+  useEffect(() => {
+    init();
+  }, [init]);
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -69,6 +58,7 @@ const PolicyEditor = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     if (!isValid) {
       setSnackbarMessage(
         `The JSON is invalid. Please fix the errors and try again.`
@@ -79,17 +69,19 @@ const PolicyEditor = () => {
       return;
     }
     try {
-      const response = await fetch(`/api/policies/${id}`, {
-        method: id === "new" ? "POST" : "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(policy),
-      });
-      if (response.status === 200) {
+      const res = await Request(
+        "patch",
+        "/api/auth/roles-and-policies/policy/update/",
+        policy,
+        {
+          "policy-id": id,
+        }
+      );
+      if (res.status === 200) {
         setSnackbarMessage(`Policy saved successfully`);
         setShowSnackbar(true);
         setSeverity("success");
+        window.location.reload();
       } else {
         setSnackbarMessage(`Failed to save policy`);
         setShowSnackbar(true);
@@ -101,6 +93,7 @@ const PolicyEditor = () => {
       setShowSnackbar(true);
       setSeverity("error");
     }
+    setLoading(false);
   };
 
   const findErrorLines = (value) => {
@@ -130,7 +123,7 @@ const PolicyEditor = () => {
       const formatted = JSON.stringify(JSON.parse(policyString), null, 2);
       setPolicyString(formatted);
     } catch (error) {
-      ssetSnackbarMessage(
+      setSnackbarMessage(
         `The JSON is invalid. Please fix the errors and try again.`
       );
       setShowSnackbar(true);
@@ -254,12 +247,16 @@ const PolicyEditor = () => {
           </button>
         </div>
       </div>
-      <button
-        className="save-button self-end bg-blue-500 w-1/4 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
-        onClick={handleSubmit}
-      >
-        Save
-      </button>
+      {loading ? (
+        <div className="loader"></div>
+      ) : (
+        <button
+          className="save-button self-end bg-blue-500 w-1/4 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
+          onClick={handleSubmit}
+        >
+          Save
+        </button>
+      )}
       <Snackbar
         message={snackbarMessage}
         show={showSnackbar}

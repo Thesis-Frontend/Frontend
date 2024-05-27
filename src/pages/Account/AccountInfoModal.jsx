@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
   const [formData, setFormData] = useState({
     name: "",
+    surname: "",
     email: "",
     companyName: "",
     sectorName: "",
@@ -16,9 +17,10 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
     if (isOpen && data) {
       setFormData({
         name: data.name || "",
+        surname: data.surname || "",
         email: data.email || "",
         companyName: data.companyName || "",
-        sectorName: data.sectorName || "",
+        sectorName: data.sector || "",
         password: "",
         package: data.package || "Silver",
         duration: data.duration || "1 year",
@@ -119,12 +121,22 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
       <div className="bg-gray-200 rounded shadow-lg p-8 w-1/3">
         <div className="space-y-4">
           <div>
-            <label className="block text-gray-700 font-bold">Fullname</label>
+            <label className="block text-gray-700 font-bold">Name</label>
             <input
               type="text"
               name="name"
               className="w-full border border-gray-300 p-2 rounded"
               value={formData.name}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-bold">Surname</label>
+            <input
+              type="text"
+              name="surname"
+              className="w-full border border-gray-300 p-2 rounded"
+              value={formData.surname}
               onChange={handleChange}
             />
           </div>
@@ -139,7 +151,9 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
             />
           </div>
           <div>
-            <label className="block text-gray-700 font-bold">Company Name</label>
+            <label className="block text-gray-700 font-bold">
+              Company Name
+            </label>
             <input
               type="text"
               name="companyName"
@@ -159,17 +173,9 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
             />
           </div>
           <div>
-            <label className="block text-gray-700 font-bold">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="w-full border border-gray-300 p-2 rounded"
-              value={formData.password}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-bold">Select Package</label>
+            <label className="block text-gray-700 font-bold">
+              Select Package
+            </label>
             <div className="flex space-x-4 mt-2">
               {["Bronze", "Silver", "Gold"].map((pkg) => (
                 <div
@@ -181,22 +187,38 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
                   }`}
                   style={{
                     backgroundColor:
-                      pkg === "Bronze" ? "#CD7F32" : pkg === "Silver" ? "#C0C0C0" : "#FFD700",
+                      pkg === "Bronze"
+                        ? "#CD7F32"
+                        : pkg === "Silver"
+                        ? "#C0C0C0"
+                        : "#FFD700",
                   }}
                   onClick={() => handlePackageChange(pkg)}
                   onMouseEnter={() => handleMouseEnter(pkg)}
                   onMouseLeave={handleMouseLeave}
                 >
-                  {formData.package === pkg && <span className="text-white font-bold">✓</span>}
+                  {formData.package === pkg && (
+                    <span className="text-white font-bold">✓</span>
+                  )}
                   {hoveredPackage === pkg && (
-                    <div className="absolute bottom-full mb-4 w-48 p-4 bg-white rounded-lg shadow-xl text-gray-800 text-left z-10 transition-opacity duration-300 opacity-90">
+                    <div
+                      className="absolute bottom-full mb-4 w-48 p-4 bg-white rounded-lg shadow-xl text-gray-800 text-left z-10 transition-opacity duration-300 opacity-90"
+                      onMouseEnter={() => handleMouseEnter(pkg)}
+                      onMouseLeave={handleMouseLeave}
+                    >
                       {pkg && (
                         <>
                           <p className="font-semibold">
-                            User quota: {getPackageDetails(pkg, formData.duration).quota}
+                            User quota:{" "}
+                            {getPackageDetails(pkg, formData.duration).quota}
                           </p>
-                          <p>Data storage: {getPackageDetails(pkg, formData.duration).storage}</p>
-                          <p>{getPackageDetails(pkg, formData.duration).support}</p>
+                          <p>
+                            Data storage:{" "}
+                            {getPackageDetails(pkg, formData.duration).storage}
+                          </p>
+                          <p>
+                            {getPackageDetails(pkg, formData.duration).support}
+                          </p>
                           <p className="text-lg font-bold">
                             {getPackageDetails(pkg, formData.duration).price}
                           </p>

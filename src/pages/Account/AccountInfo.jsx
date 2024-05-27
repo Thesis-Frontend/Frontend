@@ -1,17 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AccountInfoModal from "./AccountInfoModal";
 import SessionHelper from "../../helpers/SessionHelper";
+import Request from "../../helpers/Request";
 
 const AccountInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const user = {
-    name: "Sude Nur",
-    email: "Sudenur@gmail.com",
-    companyName: "SCT",
-    sectorName: "Energy",
-    password: "12345678",
-    package: "Silver",
-  };
+  const [modalData, setModalData] = useState(null);
 
   const handleEditClick = () => {
     setIsModalOpen(true);
@@ -21,10 +15,18 @@ const AccountInfo = () => {
     setIsModalOpen(false);
   };
 
-  const handleModalSave = (updatedUser) => {
-    SessionHelper.updateUser(updatedUser);
+  const handleModalSave = (updatedmodalData) => {
+    SessionHelper.updatemodalData(updatedmodalData);
     setIsModalOpen(false);
   };
+
+  const init = useCallback(async () => {
+    setModalData(SessionHelper.getUser());
+  }, []);
+
+  useEffect(() => {
+    init();
+  }, [init]);
 
   return (
     <div className="p-4 bg-gray-100 rounded-lg dark:bg-[#161A23]">
@@ -36,30 +38,36 @@ const AccountInfo = () => {
 
       <div className="space-y-4 bg-white p-4 rounded-lg dark:bg-[#2D2F39] dark:text-white">
         <div>
-          <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">Fullname</label>
-          <p>{user?.name}</p>
-        </div>
-        <div>
-          <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">Email</label>
-          <p>{user?.email}</p>
-        </div>
-        <div>
-          <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">Company Name</label>
-          <p>{user?.companyName}</p>
-        </div>
-        <div>
-          <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">Sector Name</label>
-          <p>{user?.sectorName}</p>
-        </div>
-        <div>
-          <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">Password</label>
-          <p>*******</p>
-        </div>
-        <div>
-          <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">Selected Package</label>
+          <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">
+            Fullname
+          </label>
           <p>
-            {user?.package}
+            {modalData?.name} {modalData?.surname}
           </p>
+        </div>
+        <div>
+          <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">
+            Email
+          </label>
+          <p>{modalData?.email}</p>
+        </div>
+        <div>
+          <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">
+            Company Name
+          </label>
+          <p>{modalData?.companyName}</p>
+        </div>
+        <div>
+          <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">
+            Sector Name
+          </label>
+          <p>{modalData?.sector}</p>
+        </div>
+        <div>
+          <label className="block text-gray-700 font-bold dark:text-[#8A8C91]">
+            Selected Package
+          </label>
+          <p>{modalData?.subscriptionPackage}</p>
         </div>
         <button
           onClick={handleEditClick}
@@ -73,7 +81,7 @@ const AccountInfo = () => {
           isOpen={isModalOpen}
           onClose={handleModalClose}
           onSave={handleModalSave}
-          data={user}
+          data={modalData}
         />
       )}
     </div>

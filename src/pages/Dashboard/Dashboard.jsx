@@ -52,20 +52,23 @@ const Dashboard = () => {
             <p className="text-lg text-right text-gray-600 dark:text-[#8A8C91]">
               {dateTime.toLocaleString()}
             </p>
-            <p className="text-lg text-gray-600 dark:text-[#8A8C91]">
+            <p className="text-lg text-right text-gray-600 dark:text-[#8A8C91]">
               {company.name} ({company.shortName})
             </p>
+            <p className="text-lg text-right text-gray-600 dark:text-[#8A8C91]">
+              {department.name}
+            </p>
+            {isCustomer && (
+              <div className="flex items-center space-x-4">
+                <RiDashboardLine size={24} className="text-gray-500" />
+                <RiFileListLine size={24} className="text-gray-500" />
+                <RiTeamLine size={24} className="text-gray-500" />
+                <RiBuildingLine size={24} className="text-gray-500" />
+                <RiBuilding2Line size={24} className="text-gray-500" />
+              </div>
+            )}
           </div>
         </div>
-        {isCustomer && (
-          <div className="flex items-center space-x-4">
-            <RiDashboardLine size={24} className="text-gray-500" />
-            <RiFileListLine size={24} className="text-gray-500" />
-            <RiTeamLine size={24} className="text-gray-500" />
-            <RiBuildingLine size={24} className="text-gray-500" />
-            <RiBuilding2Line size={24} className="text-gray-500" />
-          </div>
-        )}
       </header>
 
       <main className="flex-1 overflow-y-auto">
@@ -118,7 +121,7 @@ const Dashboard = () => {
             <h2 className="block w-full text-center bg-gradient-to-b from-blue-600 to-gray-500 bg-clip-text font-bold text-transparent text-3xl sm:text-4xl mt-4">
               Welcome {user.name}!
             </h2>
-            <span className="text-gray-600 my-3 flex items-center justify-center font-medium uppercase tracking-wider">
+            <span className="text-gray-600 my-3 flex items-center justify-center dark:text-slate-300 font-medium uppercase tracking-wider">
               Pincident Lite
             </span>
             <p className="text-gray-600 dark:text-[#8A8C91] mb-4 text-center">

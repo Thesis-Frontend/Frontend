@@ -24,7 +24,6 @@ import logoCollapsed from "../assets/collapsed-logo.png";
 const sections = SessionHelper.getUser().uiSections;
 
 const allMenuItems1 = [
-  { name: "Dashboard", path: "/dashboard", icon: <RiHome2Line size={24} /> },
   { name: "Records", path: "/records", icon: <RiFileList2Line size={24} /> },
   {
     name: "Server Error Logs",
@@ -86,17 +85,21 @@ const allMenuItems2 = [
   },
 ];
 
-const filterMenuItems = (menuItems, sections) => {
-  return menuItems.filter((item) => {
-    const section = sections.find((sec) => sec.section === item.name);
-    if (!section) return false;
-    if (item.subItems && section.subsections) {
-      item.subItems = item.subItems.filter((subItem) =>
-        section.subsections.some((subSec) => subSec.name === subItem.name)
-      );
-    }
-    return true;
-  });
+const filterMenuItems = (menuItems, sections_) => {
+  if (sections) {
+    return menuItems.filter((item) => {
+      const section = sections_.find((sec) => sec.section === item.name);
+      if (!section) return false;
+      if (item.subItems && section.subsections) {
+        item.subItems = item.subItems.filter((subItem) =>
+          section.subsections.some((subSec) => subSec.name === subItem.name)
+        );
+      }
+      return true;
+    });
+  } else {
+    return [];
+  }
 };
 
 const Sidebar = () => {
@@ -230,6 +233,14 @@ const Sidebar = () => {
               !isOpen ? "items-center" : ""
             } text-gray-600 dark:text-[#8A8C91]`}
           >
+            <li
+              className={getMenuItemClass("/dashboard")}
+              onClick={() => handleMenuItemClick(item.path)}
+            >
+              <RiHome2Line size={24} />
+              {isOpen && <span>Dashboard</span>}
+            </li>
+
             {menuItems1.map((item) => (
               <li
                 key={item.name}
@@ -240,7 +251,9 @@ const Sidebar = () => {
                 {isOpen && <span>{item.name}</span>}
               </li>
             ))}
-            <hr className="border-t border-gray-300 dark:border-gray-600" />
+            {menuItems2.length > 0 && (
+              <hr className="border-t border-gray-300 dark:border-gray-600" />
+            )}
             {menuItems2.map((item) => (
               <li key={item.name}>
                 <div
@@ -285,8 +298,8 @@ const Sidebar = () => {
             className={`text-center mb-4 flex items-center space-x-2 ${
               userSector ? "cursor-pointer" : ""
             }`}
-            // onClick={userSector ? handleUserNameClick : undefined}
-            onClick={handleUserNameClick}
+            onClick={userSector ? handleUserNameClick : undefined}
+            // onClick={handleUserNameClick}
           >
             {userSector && <RiUser3Line size={24} />}
             <div>
