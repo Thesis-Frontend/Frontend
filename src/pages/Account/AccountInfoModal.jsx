@@ -8,6 +8,7 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
     sectorName: "",
     password: "",
     package: "Silver",
+    duration: "1 year",
   });
   const [hoveredPackage, setHoveredPackage] = useState(null);
 
@@ -20,6 +21,7 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
         sectorName: data.sectorName || "",
         password: "",
         package: data.package || "Silver",
+        duration: data.duration || "1 year",
       });
     }
   }, [data, isOpen]);
@@ -53,6 +55,61 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
       ...formData,
     };
     onSave(updatedUser);
+  };
+
+  const handleDurationChange = (duration) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      duration: duration,
+    }));
+  };
+
+  const getPackageDetails = (pkg, duration) => {
+    const details = {
+      Bronze: {
+        "1 year": {
+          quota: "1000",
+          storage: "5GB",
+          support: "Basic customer support",
+          price: "$10",
+        },
+        "2 year": {
+          quota: "1000",
+          storage: "5GB",
+          support: "Basic customer support",
+          price: "$17",
+        },
+      },
+      Silver: {
+        "1 year": {
+          quota: "5000",
+          storage: "15GB",
+          support: "Priority customer support",
+          price: "$20",
+        },
+        "2 year": {
+          quota: "5000",
+          storage: "15GB",
+          support: "Priority customer support",
+          price: "$34",
+        },
+      },
+      Gold: {
+        "1 year": {
+          quota: "10000",
+          storage: "30GB",
+          support: "Premium customer support",
+          price: "$30",
+        },
+        "2 year": {
+          quota: "10000",
+          storage: "30GB",
+          support: "Premium customer support",
+          price: "$50",
+        },
+      },
+    };
+    return details[pkg][duration];
   };
 
   if (!isOpen) return null;
@@ -121,7 +178,7 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
                     formData.package === pkg
                       ? "border-4 border-green-500"
                       : "border-4 border-transparent"
-                  } ${hoveredPackage === pkg ? "scale-110" : ""}`}
+                  }`}
                   style={{
                     backgroundColor:
                       pkg === "Bronze" ? "#CD7F32" : pkg === "Silver" ? "#C0C0C0" : "#FFD700",
@@ -132,31 +189,45 @@ const AccountInfoModal = ({ isOpen, onClose, onSave, data }) => {
                 >
                   {formData.package === pkg && <span className="text-white font-bold">✓</span>}
                   {hoveredPackage === pkg && (
-                    <div className="absolute top-full mt-2 w-48 p-4 bg-white rounded-lg shadow-xl text-gray-800 text-left z-10 transition-opacity duration-300 opacity-90">
-                      {pkg === "Bronze" && (
+                    <div className="absolute bottom-full mb-4 w-48 p-4 bg-white rounded-lg shadow-xl text-gray-800 text-left z-10 transition-opacity duration-300 opacity-90">
+                      {pkg && (
                         <>
-                          <p className="font-semibold">User quota: 1000</p>
-                          <p>Data storage: 5GB</p>
-                          <p>Basic customer support</p>
-                          <p className="text-lg font-bold">$17</p>
+                          <p className="font-semibold">
+                            User quota: {getPackageDetails(pkg, formData.duration).quota}
+                          </p>
+                          <p>Data storage: {getPackageDetails(pkg, formData.duration).storage}</p>
+                          <p>{getPackageDetails(pkg, formData.duration).support}</p>
+                          <p className="text-lg font-bold">
+                            {getPackageDetails(pkg, formData.duration).price}
+                          </p>
                         </>
                       )}
-                      {pkg === "Silver" && (
-                        <>
-                          <p className="font-semibold">User quota: 5000</p>
-                          <p>Data storage: 15GB</p>
-                          <p>Priority customer support</p>
-                          <p className="text-lg font-bold">$34</p>
-                        </>
-                      )}
-                      {pkg === "Gold" && (
-                        <>
-                          <p className="font-semibold">User quota: 10000</p>
-                          <p>Data storage: 30GB</p>
-                          <p>Premium customer support</p>
-                          <p className="text-lg font-bold">$50</p>
-                        </>
-                      )}
+                      <div className="flex justify-center space-x-2 mt-4">
+                        <div
+                          className={`w-6 h-6 rounded-full cursor-pointer flex items-center justify-center ${
+                            formData.duration === "1 year"
+                              ? "bg-green-500 text-white"
+                              : "bg-gray-300"
+                          }`}
+                          onClick={() => handleDurationChange("1 year")}
+                        >
+                          1
+                        </div>
+                        <div
+                          className={`w-6 h-6 rounded-full cursor-pointer flex items-center justify-center ${
+                            formData.duration === "2 year"
+                              ? "bg-green-500 text-white"
+                              : "bg-gray-300"
+                          }`}
+                          onClick={() => handleDurationChange("2 year")}
+                        >
+                          2
+                        </div>
+                      </div>
+                      <div className="flex justify-center space-x-2">
+                        <span className="text-sm">1 year</span>
+                        <span className="text-sm">2 year</span>
+                      </div>
                     </div>
                   )}
                 </div>
