@@ -116,7 +116,7 @@ const Users = () => {
       id: "educationStatus",
       label: "Education Status",
       minWidth: 100,
-      render: (rowData) => rowData.educationStatus.name,
+      render: (rowData) => rowData.educationStatus?.name,
     },
     {
       id: "marital",
