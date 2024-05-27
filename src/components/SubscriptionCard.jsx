@@ -38,7 +38,7 @@ const SubscriptionCard = ({
             <p className="text-4xl font-medium">{currency}</p>
             <p className="text-7xl font-bold">{price}</p>
           </div>
-          <p className="text-2xl text-white">/year</p>
+          <p className="text-2xl text-white">/month</p>
         </div>
       </div>
       <div className="p-12 bg-cardBackground">
