@@ -54,7 +54,7 @@ const TrainingsTypesModal = ({ isOpen, onClose, onSave, data, options }) => {
               onChange={handleChange}
             />
           </div>
-          <div>
+          {/* <div>
             <label className="block text-gray-700 font-bold">
               Company Name
             </label>
@@ -69,7 +69,7 @@ const TrainingsTypesModal = ({ isOpen, onClose, onSave, data, options }) => {
                 }));
               }}
             />
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-end mt-6 w-full">
           <button

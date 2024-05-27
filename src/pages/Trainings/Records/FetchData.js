@@ -62,6 +62,7 @@ export default function FetchData(
           instructors: data[i].instructors,
           attendees: data[i].attendees,
           files: data[i].files,
+          meetingPlace: data[i].meetingPlace,
         };
         temp.push(edit);
       }

@@ -49,7 +49,7 @@ export default function FetchData(
         const edit = {
           id: data[i].id,
           name: data[i].name,
-          company: data[i].company,
+          // company: data[i].company,
         };
         temp.push(edit);
       }

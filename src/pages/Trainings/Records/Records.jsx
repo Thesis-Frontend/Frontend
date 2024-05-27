@@ -82,9 +82,21 @@ const columns = [
   },
   {
     id: "meetingLink",
-    label: "Status",
+    label: "Meeting Link",
     minWidth: 170,
-    render: (rowData) => (rowData.meetingLink ? rowData.meetingLink : "-"),
+    render: (rowData) =>
+      rowData.meetingLink ? (
+        <a
+          href={rowData.meetingLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline"
+        >
+          {rowData.meetingLink}
+        </a>
+      ) : (
+        "-"
+      ),
   },
   {
     id: "instructors",
@@ -161,6 +173,7 @@ export default function Records() {
     // attendees: [],
     // files: [], // Add a new field for PDF files
     plannedTime: "",
+    meetingPlace: ""
   });
 
   const [completeData, setCompleteData] = useState({
@@ -285,7 +298,6 @@ export default function Records() {
       }
     }
 
-
     try {
       const res = await Request(
         "post",
@@ -328,6 +340,7 @@ export default function Records() {
       isOnline: null,
       meetingLink: "",
       instructors: [],
+      meetingPlace:"",
     });
 
     setModalOpen(false);

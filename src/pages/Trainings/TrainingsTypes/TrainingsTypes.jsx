@@ -9,12 +9,12 @@ import Snackbar from "../../../components/Snackbar";
 const columns = [
   { id: "id", label: "ID", minWidth: 170 },
   { id: "name", label: "Training Name", minWidth: 170 },
-  {
-    id: "company",
-    label: "Company Name",
-    minWidth: 170,
-    render: (rowData) => (rowData.company ? rowData.company.name : "-"),
-  },
+  // {
+  //   id: "company",
+  //   label: "Company Name",
+  //   minWidth: 170,
+  //   render: (rowData) => (rowData.company ? rowData.company.name : "-"),
+  // },
 ];
 
 const TrainingTypes = () => {

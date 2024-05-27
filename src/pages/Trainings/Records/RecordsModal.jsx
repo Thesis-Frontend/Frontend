@@ -22,10 +22,10 @@ const RecordsModal = ({
         typeId: data.typeId || null,
         status: data.status || null,
         plannedTime: data.plannedTime || "",
-
         isOnline: data.isOnline || null,
         meetingLink: data.meetingLink || "",
         instructors: data.instructors || [],
+        meetingPlace: data.meetingPlace || "",
       });
     }
     if (isOpen && !data) {
@@ -38,6 +38,7 @@ const RecordsModal = ({
         isOnline: null,
         meetingLink: "",
         instructors: [],
+        meetingPlace: "",
       });
     }
   }, [data, isOpen]);
@@ -149,18 +150,33 @@ const RecordsModal = ({
             </select>
           </div>
 
-          <div>
-            <label className="block text-gray-700 font-bold">
-              Meeting Link
-            </label>
-            <input
-              type="text"
-              name="meetingLink"
-              className="w-full border border-gray-300 p-2 rounded"
-              value={formData.meetingLink}
-              onChange={handleChange}
-            />
-          </div>
+          {formData.isOnline === "true" ? (
+            <div>
+              <label className="block text-gray-700 font-bold">
+                Meeting Link
+              </label>
+              <input
+                type="text"
+                name="meetingLink"
+                className="w-full border border-gray-300 p-2 rounded"
+                value={formData.meetingLink}
+                onChange={handleChange}
+              />
+            </div>
+          ) : (
+            <div>
+              <label className="block text-gray-700 font-bold">
+                Meeting Place
+              </label>
+              <input
+                type="text"
+                name="meetingPlace"
+                className="w-full border border-gray-300 p-2 rounded"
+                value={formData.meetingPlace}
+                onChange={handleChange}
+              />
+            </div>
+          )}
           <div>
             <label className="block text-gray-700 font-bold">Instructors</label>
             <CustomDropdown
