@@ -56,8 +56,8 @@ export default function FetchData(
           town: data[i].town,
           manager: data[i].manager,
           activityType: data[i].activityType,
-          activityTowns: data[i].activityTowns,
-          parentDepartments: data[i].parentDepartments,
+          activityTownId: data[i].activityTowns,
+          parentDepartmentId: data[i].parentDepartments,
         };
         temp.push(edit);
       }

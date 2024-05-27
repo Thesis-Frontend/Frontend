@@ -60,19 +60,19 @@ const columns = [
         : "-",
   },
   {
-    id: "activityTowns",
+    id: "activityTownIds",
     label: "Activity Towns",
     render: (rowData) =>
-      rowData.activityTowns.length > 0
-        ? getNames(rowData.activityTowns)
+      rowData.activityTownIds?.length > 0
+        ? getNames(rowData.activityTownIds)
         : ["-"],
   },
   {
-    id: "parentDepartments",
+    id: "parentDepartmentIds",
     label: "Parent Departments",
     render: (rowData) =>
-      rowData.parentDepartments.length > 0
-        ? getNames(rowData.parentDepartments)
+      rowData.parentDepartmentIds?.length > 0
+        ? getNames(rowData.parentDepartmentIds)
         : ["-"],
   },
 ];
@@ -100,9 +100,9 @@ const Departments = () => {
     companyId: null,
     townId: null,
     socialSecurityNumber: "",
-    manager: null,
-    activityTownIds: null,
-    parentDepartmentIds: null,
+    managerId: null,
+    activityTownIds: [],
+    parentDepartmentIds: [],
   });
 
   const init = useCallback(async () => {
@@ -161,9 +161,9 @@ const Departments = () => {
       companyId: null,
       townId: null,
       socialSecurityNumber: "",
-      manager: null,
-      activityTownIds: null,
-      parentDepartmentIds: null,
+      managerId: null,
+      activityTownIds: [],
+      parentDepartmentIds: [],
     });
 
     setModalOpen(false);

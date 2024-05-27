@@ -20,9 +20,9 @@ const DepartmentModal = ({
         companyId: data.company?.id || null,
         townId: data.town?.id || null,
         socialSecurityNumber: data.socialSecurityNumber || "",
-        manager: data.manager || null,
-        activityTownIds: data.activityTowns || null,
-        parentDepartmentIds: data.parentDepartments || null,
+        managerId: data.manager?.id || null,
+        activityTownIds: data.activityTownId || [],
+        parentDepartmentIds: data.parentDepartmentId || [],
       });
     }
     if (isOpen && !data) {
@@ -33,9 +33,9 @@ const DepartmentModal = ({
         companyId: null,
         townId: null,
         socialSecurityNumber: "",
-        manager: null,
-        activityTownIds: null,
-        parentDepartmentIds: null,
+        managerId: null,
+        activityTownIds: [],
+        parentDepartmentIds: [],
       });
     }
   }, [data, isOpen]);
@@ -61,7 +61,7 @@ const DepartmentModal = ({
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-gray-200 rounded shadow-lg p-8 w-1/4">
+      <div className="bg-gray-200 rounded shadow-lg p-8 w-1/4 h-3/4 overflow-y-scroll">
         <div className="space-y-4">
           <div>
             <label className="block text-gray-700 font-bold">
@@ -160,6 +160,7 @@ const DepartmentModal = ({
                 options?.towns?.find((opt) => opt.id === inst)
               )}
               onChange={(value) => {
+                console.log(value)
                 setFormData((prevData) => ({
                   ...prevData,
                   activityTownIds: value,

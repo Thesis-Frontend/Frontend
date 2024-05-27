@@ -19,12 +19,21 @@ export default function CustomDropdown({
   }, [selectedValue]);
 
   const handleOptionClick = (opt) => {
+    console.log(selected);
+    console.log(opt);
     if (disabled) return; // Prevent option click when disabled
     if (isMultiple) {
-      const isSelected = selected.some((item) => item.id === opt.id);
+      const isSelected = selected
+        ? selected?.some((item) =>
+            item.id ? item.id === opt.id : item === opt.id
+          )
+        : false;
+      console.log(isSelected);
       let newSelected;
       if (isSelected) {
-        newSelected = selected.filter((item) => item.id !== opt.id);
+        newSelected = selected?.filter((item) =>
+          item.id ? item.id !== opt.id : item !== opt.id
+        );
       } else {
         newSelected = [...selected, opt];
       }

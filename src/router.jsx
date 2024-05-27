@@ -146,13 +146,14 @@ const PrivateRoute = ({ element }) => {
   );
 };
 const MainRoute = ({ element }) => {
-  return (
+  const isLoggedIn = SessionHelper.getIsLoggedIn();
+  return !isLoggedIn ? (
     <div className="relative flex flex-col h-full">
       <Navbar />
       <main className="flex-1">{element}</main>
       <Footer />
     </div>
-  );
+  ) : <Navigate to="/dashboard" replace />;
 };
 
 const PublicRoute = ({ element }) => {
