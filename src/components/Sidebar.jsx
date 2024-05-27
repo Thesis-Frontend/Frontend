@@ -235,7 +235,7 @@ const Sidebar = () => {
           >
             <li
               className={getMenuItemClass("/dashboard")}
-              onClick={() => handleMenuItemClick(item.path)}
+              onClick={() => handleMenuItemClick("/dashboard")}
             >
               <RiHome2Line size={24} />
               {isOpen && <span>Dashboard</span>}
