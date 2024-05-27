@@ -1,37 +1,35 @@
 import React, { useState, useEffect } from "react";
 import CustomDropdown from "../../components/CustomDropdown";
 
-const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
-
-  const [formData, setFormData] = useState({
-    name: "",
-    shortName: "",
-    companyType: null,
-    taxOffice: "",
-    taxIdentificationNumber: "",
-    manager: null,
-  });
-
-
+const CompanyModal = ({
+  isOpen,
+  onClose,
+  onSave,
+  data,
+  options,
+  formData,
+  setFormData,
+  loading,
+}) => {
   useEffect(() => {
     if (isOpen && data) {
       setFormData({
         name: data.name || "",
         shortName: data.shortName || "",
-        companyType: data.companyType || null,
+        companyTypeId: data.companyType?.id || null,
         taxOffice: data.taxOffice || "",
         taxIdentificationNumber: data.taxIdentificationNumber || "",
-        manager: data.manager || null,
+        managerId: data.manager?.id || null,
       });
     }
     if (isOpen && !data) {
       setFormData({
         name: "",
         shortName: "",
-        companyType: null,
+        companyTypeId: null,
         taxOffice: "",
         taxIdentificationNumber: "",
-        manager: null,
+        managerId: null,
       });
     }
   }, [data, isOpen]);
@@ -76,7 +74,7 @@ const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
             </label>
             <input
               type="text"
-              name="Company Short Name"
+              name="shortName"
               className="w-full border border-gray-300 p-2 rounded"
               value={formData.shortName}
               onChange={handleChange}
@@ -89,11 +87,11 @@ const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
             <CustomDropdown
               title={"Company Type"}
               options={options.companyTypes}
-              selectedValue={formData.companyType?.id}
+              selectedValue={formData.companyTypeId}
               onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
-                  ["companyType"]: value,
+                  ["companyTypeId"]: value,
                 }));
               }}
             />
@@ -121,13 +119,13 @@ const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
           <div>
             <label className="block text-gray-700 font-bold">Manager</label>
             <CustomDropdown
-              title={"Manager"}
+              title={"manager"}
               options={options.managers}
-              selectedValue={formData.manager?.id}
+              selectedValue={formData.managerId?.id}
               onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
-                  ["manager"]: value,
+                  ["managerId"]: value,
                 }));
               }}
             />
@@ -140,14 +138,20 @@ const CompanyModal = ({ isOpen, onClose, onSave, data, options }) => {
           >
             Cancel
           </button>
-          <button
-            className={`${
-              data?.id ? "bg-loginSuccess hover:bg-[#98E292]" : "bg-createButtons"
-            } text-white px-4 py-2 rounded w-1/2`}
-            onClick={handleSave}
-          >
-            {data?.id ? "Update" : "Submit"}
-          </button>
+          {loading ? (
+            <div className="w-1/2 flex justify-center">
+              <div className="loader"></div>
+            </div>
+          ) : (
+            <button
+              className={`${
+                data?.id ? "bg-updateButton" : "bg-createButtons"
+              } text-white px-4 py-2 rounded w-1/2`}
+              onClick={handleSave}
+            >
+              {data?.id ? "Update" : "Submit"}
+            </button>
+          )}
         </div>
       </div>
     </div>

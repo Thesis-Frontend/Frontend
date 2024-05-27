@@ -4,6 +4,7 @@ import CompanyModal from "./CompanyModal";
 import FetchData from "./FetchData"; // Assuming this function exists and is correct
 import DeleteModal from "../../components/Modal/DeleteModal";
 import GetOptions from "./GetOptions";
+import Request from "../../helpers/Request";
 import Snackbar from "../../components/Snackbar";
 
 const columns = [
@@ -39,15 +40,21 @@ const Companies = () => {
   const [modalData, setModalData] = useState(null);
   const [deleteCandidateId, setDeleteCandidateId] = useState(null);
   const [companies, setCompanies] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const [options, setOptions] = useState([]);
 
+  const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [severity, setSeverity] = useState("");
+
+  const [formData, setFormData] = useState({
+    name: "",
+    shortName: "",
+    companyTypeId: null,
+    taxOffice: "",
+    taxIdentificationNumber: "",
+    managerId: null,
+  });
 
   const init = useCallback(async () => {
     const opt = await GetOptions();
@@ -81,12 +88,37 @@ const Companies = () => {
     setDeleteModalOpen(false);
   };
 
-  const handleSave = (company) => {
-    if (company.id) {
-      // Update logic
+  const handleSave = async (company) => {
+    setLoading(true);
+    const res = await Request(
+      "post",
+      "/api/fundamental/company/create",
+      company
+    );
+    if (res.status === 200) {
+      setSnackbarMessage(res.data.message);
+      setSnackbar(true);
+      setSeverity("success");
+      window.location.reload();
     } else {
-      // Create logic
+      setSnackbarMessage(res.data.message);
+      setSnackbar(true);
+      setSeverity("error");
     }
+    setLoading(false);
+    setModalOpen(false);
+  };
+
+  const handleOnClose = () => {
+    setFormData({
+      name: "",
+      shortName: "",
+      companyTypeId: null,
+      taxOffice: "",
+      taxIdentificationNumber: "",
+      managerId: null,
+    });
+
     setModalOpen(false);
   };
 
@@ -111,10 +143,13 @@ const Companies = () => {
       />
       <CompanyModal
         isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={handleOnClose}
         onSave={handleSave}
         data={modalData}
         options={options}
+        formData={formData}
+        setFormData={setFormData}
+        loading={loading}
       />
       <DeleteModal
         isOpen={isDeleteModalOpen}

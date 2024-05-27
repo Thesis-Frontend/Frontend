@@ -141,13 +141,8 @@ export default function Records() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const [data, setData] = useState(null);
   const [deleteCandidateId, setDeleteCandidateId] = useState(null);
-  const [companies, setCompanies] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
   const [options, setOptions] = useState([]);
   const [completeModal, setCompleteModal] = useState(false);
 
@@ -165,15 +160,11 @@ export default function Records() {
     departmentId: null,
     typeId: null,
     status: null,
-    // startTime: "",
-    // endTime: "",
     isOnline: null,
     meetingLink: "",
     instructors: [],
-    // attendees: [],
-    // files: [], // Add a new field for PDF files
     plannedTime: "",
-    meetingPlace: ""
+    meetingPlace: "",
   });
 
   const [completeData, setCompleteData] = useState({
@@ -340,7 +331,7 @@ export default function Records() {
       isOnline: null,
       meetingLink: "",
       instructors: [],
-      meetingPlace:"",
+      meetingPlace: "",
     });
 
     setModalOpen(false);
