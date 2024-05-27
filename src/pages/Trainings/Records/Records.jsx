@@ -78,7 +78,7 @@ const columns = [
     label: "Is Online",
     minWidth: 170,
     render: (rowData) =>
-      rowData.isOnline ? "True" : !rowData.isOnline ? "False" : "-",
+      rowData.isOnline ? "True" : rowData.isOnline === false ? "False" : "-",
   },
   {
     id: "meetingLink",
@@ -145,6 +145,8 @@ export default function Records() {
   const [snackbar, setSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [severity, setSeverity] = useState("");
+
+  const [filesToSend, setFilesToSend] = useState([]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -266,20 +268,33 @@ export default function Records() {
     console.log("Data to save:", data);
 
     let body = {
-      request: {
-        startTime: data.startTime,
-        endTime: data.endTime,
-        attendees: data.attendees,
-      },
-      files: data.files,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      attendees: data.attendees,
     };
 
-    console.log("Request body:", body);
+    let formData = new FormData();
+    formData.append(
+      "request",
+      new Blob([JSON.stringify(body)], { type: "application/json" })
+    );
+
+    if (filesToSend && Array.isArray(filesToSend)) {
+      for (let file of filesToSend) {
+        formData.append("files", file);
+      }
+    }
+
 
     try {
-      const res = await Request("post", "/api/training/record/complete", body, {
-        id: data.id,
-      });
+      const res = await Request(
+        "post",
+        "/api/training/record/complete",
+        formData,
+        {
+          recordId: data.id,
+        }
+      );
       console.log("Response from server:", res);
 
       if (res.status === 200) {
@@ -310,12 +325,9 @@ export default function Records() {
       typeId: null,
       status: null,
       plannedTime: "",
-      // endTime: "",
       isOnline: null,
       meetingLink: "",
       instructors: [],
-      // attendees: [],
-      // files: [], // Initialize PDF files array
     });
 
     setModalOpen(false);
@@ -370,6 +382,8 @@ export default function Records() {
         setFormData={setCompleteData}
         formData={completeData}
         loading={completeLoading}
+        filesToSend={filesToSend}
+        setFilesToSend={setFilesToSend}
       />
       <DeleteModal
         isOpen={isDeleteModalOpen}

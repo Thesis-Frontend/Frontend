@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaEye, FaTrash, FaUpload } from "react-icons/fa";
 
-const CompleteModal = ({
+export default function CompleteModal({
   isOpen,
   onClose,
   onSave,
@@ -13,7 +13,9 @@ const CompleteModal = ({
   formData,
   setFormData,
   loading,
-}) => {
+  filesToSend,
+  setFilesToSend,
+}) {
   useEffect(() => {
     if (isOpen && data) {
       setFormData({
@@ -41,12 +43,15 @@ const CompleteModal = ({
     }));
   };
 
-  const handleFileChange = async (e) => {
-    const files = Array.from(e.target.files);
-    const filesWithBase64 = await Promise.all(files.map(fileToBase64));
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files).map((file) => ({
+      filename: file.name,
+      base64: URL.createObjectURL(file),
+    }));
+    setFilesToSend((prev) => [...prev, ...e.target.files]);
     setFormData((prevData) => ({
       ...prevData,
-      files: [...prevData.files, ...filesWithBase64],
+      files: [...prevData.files, ...files],
     }));
   };
 
@@ -55,6 +60,7 @@ const CompleteModal = ({
       ...prevData,
       files: prevData.files.filter((_, i) => i !== index),
     }));
+    setFilesToSend((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSave = () => {
@@ -65,15 +71,6 @@ const CompleteModal = ({
       endTime: formData.endTime ? formData.endTime.toISOString() : null,
     };
     onSave(newRecord);
-  };
-
-  const fileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve({ filename: file.name, base64: reader.result.split(',')[1] });
-      reader.onerror = (error) => reject(error);
-    });
   };
 
   const fileInputRef = React.createRef();
@@ -134,7 +131,9 @@ const CompleteModal = ({
             />
           </div>
           <div>
-            <label className="block text-gray-700 font-bold">Upload Files</label>
+            <label className="block text-gray-700 font-bold">
+              Upload Files
+            </label>
             <input
               type="file"
               multiple
@@ -155,7 +154,7 @@ const CompleteModal = ({
                   <span>{file.filename}</span>
                   <div className="flex space-x-2">
                     <button
-                      onClick={() => window.open(`data:application/octet-stream;base64,${file.base64}`, "_blank")}
+                      onClick={() => window.open(file.base64, "_blank")}
                       className="text-blue-500"
                     >
                       <FaEye />
@@ -180,7 +179,9 @@ const CompleteModal = ({
             Cancel
           </button>
           {loading ? (
-            <div className="loader"></div>
+            <div className="w-1/2 flex justify-center">
+              <div className="loader"></div>
+            </div>
           ) : (
             <button
               className={`${
@@ -195,6 +196,4 @@ const CompleteModal = ({
       </div>
     </div>
   );
-};
-
-export default CompleteModal;
+}

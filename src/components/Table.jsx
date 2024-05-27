@@ -236,14 +236,14 @@ const Table = ({
                           {canDelete && (
                             <button
                               onClick={() => handleDelete(row.id)}
-                              className={`text-red-500 mr-2 ${
-                                isDone ? "opacity-50 cursor-not-allowed" : ""
-                              }`}
+                              className={`text-red-500 mr-2 
+                                // isDone ? "opacity-50 cursor-not-allowed" : ""
+                              `}
                             >
                               <FaTrash />
                             </button>
                           )}
-                          {handleComplete && (
+                          {handleComplete && canUpdate && (
                             <button
                               onClick={() => handleComplete(row)}
                               className={`text-green-500 ${
