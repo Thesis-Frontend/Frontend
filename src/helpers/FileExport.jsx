@@ -36,6 +36,11 @@ function formatDataForXLSX(columns, renderData) {
           row[prop] = data;
           continue;
         }
+        if (isBase64(data)) {
+          data = "Base64 Data"; // Placeholder for base64 data
+          row[prop] = data;
+          continue;
+        }
         if (prop in renders) {
           data = renders[prop](renderData[index]);
           if (typeof data === "string" || data instanceof String) {
@@ -79,7 +84,11 @@ function formatDataForPDF(columns, renderData) {
   for (let index in columns) {
     topRow[columns[index].id] = columns[index].label;
     head.push(columns[index].label);
-    columnWidths.push({ header: columns[index].label, dataKey: columns[index].id, width: calculateTextWidth(columns[index].label) });
+    columnWidths.push({
+      header: columns[index].label,
+      dataKey: columns[index].id,
+      width: calculateTextWidth(columns[index].label),
+    });
     if (columns[index].lookup) {
       lookups[columns[index].id] = columns[index].lookup;
     }
@@ -98,6 +107,11 @@ function formatDataForPDF(columns, renderData) {
           let data = renderData[index][prop];
           if (data === null || data === undefined) {
             data = ""; // Default empty string
+            row.push(data);
+            continue;
+          }
+          if (isBase64(data)) {
+            data = "Base64 Data"; // Placeholder for base64 data
             row.push(data);
             continue;
           }
@@ -126,7 +140,10 @@ function formatDataForPDF(columns, renderData) {
             data = lookups[prop][data];
           }
           row.push(data);
-          columnWidths[getColumnIndex(columnWidths, prop)].width = Math.max(columnWidths[getColumnIndex(columnWidths, prop)].width, calculateTextWidth(data));
+          columnWidths[getColumnIndex(columnWidths, prop)].width = Math.max(
+            columnWidths[getColumnIndex(columnWidths, prop)].width,
+            calculateTextWidth(data)
+          );
         }
       }
     }
@@ -137,6 +154,14 @@ function formatDataForPDF(columns, renderData) {
     body: body,
     columnWidths: columnWidths,
   };
+}
+
+function isBase64(str) {
+  try {
+    return btoa(atob(str)) === str;
+  } catch (err) {
+    return false;
+  }
 }
 
 function calculateTextWidth(text) {
@@ -152,7 +177,7 @@ function calculateTextWidth(text) {
 }
 
 function getColumnIndex(columnWidths, key) {
-  return columnWidths.findIndex(column => column.dataKey === key);
+  return columnWidths.findIndex((column) => column.dataKey === key);
 }
 
 const setWorksheetStyles = (ws, cols, rows) => {
@@ -261,7 +286,7 @@ export const exportToPDF = (columns, renderData, fileName) => {
   const doc = new jsPDF("landscape");
   doc.setFont("calibri-400");
   const columnStyles = {};
-  data.columnWidths.forEach(col => {
+  data.columnWidths.forEach((col) => {
     columnStyles[col.dataKey] = { cellWidth: col.width };
   });
   doc.autoTable({

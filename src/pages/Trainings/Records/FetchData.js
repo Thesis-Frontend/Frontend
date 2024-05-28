@@ -10,29 +10,7 @@ export default function FetchData(
   filterProps
 ) {
   const data = new Promise(async (resolve, reject) => {
-    const params = {
-      offset: query.page,
-      size: query.pageSize,
-      sortBy: "id",
-    };
-    if (query.orderBy !== undefined) {
-      if (query.orderBy.field === "id") {
-        params["sortBy"] = "id";
-      } else if (query.orderBy.field === "userId") {
-        params["sortBy"] = "user.id";
-      } else if (query.orderBy.field === "fname") {
-        params["sortBy"] = "user.fName";
-      } else if (query.orderBy.lName === "lName") {
-        params["sortBy"] = "user.lname";
-      } else if (query.orderBy.field === "email") {
-        params["sortBy"] = "email";
-      } else if (query.orderBy.field === "createdAt") {
-        params["sortBy"] = "createdAt";
-      }
-    }
-    if (query.search !== "") {
-      params.search = query.search;
-    }
+   
     const resp = await Request("get", "/api/training/records", null);
     if (resp.status !== 200) {
       setSeverity("error");

@@ -99,6 +99,12 @@ const columns = [
       ),
   },
   {
+    id: "meetingPlace",
+    label: "Meeting Place",
+    render: (rowData) =>
+      rowData.meetingPlace ? rowData.meetingPlace : ["-"],
+  },
+  {
     id: "instructors",
     label: "Instructors",
     render: (rowData) =>
