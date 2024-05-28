@@ -101,7 +101,7 @@ const Navbar = () => {
                   fontWeight: "bold",
                 }}
               >
-                Yönetici
+                Customer
               </Link>
               <Link
                 className="text-base px-4 py-2 leading-none border rounded-r-full text-white border-white hover:border-transparent border-l-0 hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
@@ -115,7 +115,7 @@ const Navbar = () => {
                   fontWeight: "bold",
                 }}
               >
-                Kullanıcı
+                User
               </Link>
             </>
           )}
