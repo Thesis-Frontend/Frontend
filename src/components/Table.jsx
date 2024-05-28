@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import SessionHelper from "../helpers/SessionHelper";
 import Snackbar from "./Snackbar";
+import { exportToXLSX, exportToPDF } from "../helpers/FileExport"; // Ensure correct path
 
 const Table = ({
   title,
@@ -23,7 +24,7 @@ const Table = ({
   handleCreate,
   handleEdit,
   handleDelete,
-  handleComplete, // Add the handleComplete prop
+  handleComplete,
   fetchData,
   rowStyle,
   actions,
@@ -115,6 +116,14 @@ const Table = ({
   const canUpdate = allowedOperations.includes("U");
   const canDelete = allowedOperations.includes("D");
 
+  const handleExportXLSX = () => {
+    exportToXLSX(columns, data, `${title}-export`);
+  };
+
+  const handleExportPDF = () => {
+    exportToPDF(columns, data, `${title}-export`);
+  };
+
   return (
     <>
       <div
@@ -143,11 +152,17 @@ const Table = ({
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="border border-gray-300 rounded-md px-4 py-2 dark:bg-[#2D2F39] dark:text-[#8A8C91]"
                 />
-                <button className="bg-green-500 text-white px-4 py-2 rounded-md flex items-center space-x-2">
+                <button
+                  className="bg-green-500 text-white px-4 py-2 rounded-md flex items-center space-x-2"
+                  onClick={handleExportPDF}
+                >
                   <FaFileExport />
                   <span>Export PDF</span>
                 </button>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center space-x-2">
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center space-x-2"
+                  onClick={handleExportXLSX}
+                >
                   <FaFileImport />
                   <span>Export Excel</span>
                 </button>
@@ -235,9 +250,10 @@ const Table = ({
                           {canDelete && handleDelete && (
                             <button
                               onClick={() => handleDelete(row.id)}
-                              className={`text-red-500 mr-2 
-                                // isDone ? "opacity-50 cursor-not-allowed" : ""
-                              `}
+                              className={`text-red-500 mr-2 ${
+                                isDone ? "opacity-50 cursor-not-allowed" : ""
+                              }`}
+                              disabled={isDone}
                             >
                               <FaTrash />
                             </button>
@@ -271,7 +287,7 @@ const Table = ({
                           >
                             {column.render
                               ? column.render(row)
-                              : row[column.id]}
+                              : row[column.id] || "-"} {/* Display "-" for empty cells */}
                           </td>
                         ))}
                       </tr>

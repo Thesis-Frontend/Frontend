@@ -88,9 +88,9 @@ const Navbar = () => {
               Login
             </button>
           ) : (
-            <>
+            <div className="flex">
               <Link
-                className="text-base px-4 py-2 leading-none border rounded-l-full text-white border-white hover:border-transparent border-r-0 hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
+                className="text-base px-4 py-2 leading-none border rounded-l-full text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
                 onClick={() => {
                   handleLoginClick(true);
                   setIsUserLogin(false);
@@ -99,12 +99,14 @@ const Navbar = () => {
                   backgroundColor: "#5C5E64",
                   color: "#ffffff",
                   fontWeight: "bold",
+                  width: "120px", // Set fixed width
+                  textAlign: "center", // Center text
                 }}
               >
                 Customer
               </Link>
               <Link
-                className="text-base px-4 py-2 leading-none border rounded-r-full text-white border-white hover:border-transparent border-l-0 hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
+                className="text-base px-4 py-2 leading-none border rounded-r-full text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white transition-all duration-300 ease-in-out"
                 onClick={() => {
                   handleLoginClick(true);
                   setIsUserLogin(true);
@@ -113,11 +115,13 @@ const Navbar = () => {
                   backgroundColor: "#5C5E64",
                   color: "#ffffff",
                   fontWeight: "bold",
+                  width: "120px", // Set fixed width
+                  textAlign: "center", // Center text
                 }}
               >
                 User
               </Link>
-            </>
+            </div>
           )}
           <Link
             to="/sign-up"
