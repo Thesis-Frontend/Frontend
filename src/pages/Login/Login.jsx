@@ -1,11 +1,11 @@
+// src/components/Login/Login.js
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import Snackbar from "../../components/Snackbar";
-import SessionHelper from "../../helpers/SessionHelper";
 import Request from "../../helpers/Request";
-
+import { useSession } from "../../helpers/SessionContext";
 const Login = ({ isOpen, onClose, isUserLogin }) => {
   if (!isOpen) return null;
 
@@ -18,6 +18,7 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [severity, setSeverity] = useState("");
 
+  const { login } = useSession();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -34,7 +35,7 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
 
     const res = await Request("post", path, null, user);
     if (res?.status === 200) {
-      SessionHelper.setUser(res?.data.data);
+      login(res?.data.data);
       setSnackbarMessage(res.data.message);
       setShowSnackbar(true);
       setSeverity("success");
@@ -70,7 +71,7 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
             <MdClose className="h-6 w-6" />
           </button>
           <h2 className="text-2xl font-bold mb-8 text-center">Welcome!</h2>
-          <form className="flex flex-col gap-8">
+          <form className="flex flex-col gap-8" onSubmit={handleLogin}>
             <section className="flex flex-col gap-2">
               <label htmlFor="username" className="text-lg font-medium">
                 {!isUserLogin ? "Yönetici " : "Kullanıcı "}name or E-mail
@@ -132,7 +133,7 @@ const Login = ({ isOpen, onClose, isUserLogin }) => {
             <button
               type="submit"
               className="bg-green-500 flex justify-center text-center text-white px-4 py-2 rounded hover:bg-green-300 transition-colors w-full"
-              onClick={handleLogin}
+              disabled={loading}
             >
               {loading ? <div className="loader"></div> : "Login"}
             </button>

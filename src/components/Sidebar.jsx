@@ -1,3 +1,4 @@
+// src/components/Sidebar.js
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -17,11 +18,9 @@ import { IoIosMenu } from "react-icons/io";
 import { SiAuthentik } from "react-icons/si";
 import { LuBookMinus } from "react-icons/lu";
 import { CiLight, CiDark } from "react-icons/ci";
-import SessionHelper from "../helpers/SessionHelper";
+import { useSession } from "../helpers/SessionContext";
 import logo from "../assets/logo.png";
 import logoCollapsed from "../assets/collapsed-logo.png";
-
-const sections = SessionHelper.getUser().uiSections;
 
 const allMenuItems1 = [
   { name: "Records", path: "/records", icon: <RiFileList2Line size={24} /> },
@@ -85,10 +84,10 @@ const allMenuItems2 = [
   },
 ];
 
-const filterMenuItems = (menuItems, sections_) => {
+const filterMenuItems = (menuItems, sections) => {
   if (sections) {
     return menuItems.filter((item) => {
-      const section = sections_.find((sec) => sec.section === item.name);
+      const section = sections.find((sec) => sec.section === item.name);
       if (!section) return false;
       if (item.subItems && section.subsections) {
         item.subItems = item.subItems.filter((subItem) =>
@@ -107,6 +106,8 @@ const Sidebar = () => {
   const location = useLocation();
   const path = location.pathname;
 
+  const { user, logout } = useSession();
+  const sections = user ? user.uiSections : [];
   const [isOpen, setIsOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState(path);
@@ -157,7 +158,7 @@ const Sidebar = () => {
   };
 
   const handleLogout = () => {
-    SessionHelper.deleteUser();
+    logout();
     navigate("/welcome");
   };
 
@@ -178,10 +179,9 @@ const Sidebar = () => {
     return `${baseClass} ${selectedClass}`;
   };
 
-  const user = SessionHelper.getUser();
   const userName = user ? user.name + " " + user.surname : "Sude Nur Çevik";
-  const userRole = user.title ? user.title : null;
-  const userSector = user.sector ? user.sector : null;
+  const userRole = user ? user.title : null;
+  const userSector = user ? user.sector : null;
 
   const toggleMenu = (name) => {
     setExpandedMenus((prev) => ({ ...prev, [name]: !prev[name] }));
@@ -299,7 +299,6 @@ const Sidebar = () => {
               userSector ? "cursor-pointer" : ""
             }`}
             onClick={userSector ? handleUserNameClick : undefined}
-            // onClick={handleUserNameClick}
           >
             {userSector && <RiUser3Line size={24} />}
             <div>

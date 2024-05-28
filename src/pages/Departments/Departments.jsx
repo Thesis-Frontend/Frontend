@@ -42,7 +42,7 @@ const columns = [
     id: "activityType",
     label: "Activity Type",
     minWidth: 100,
-    render: (rowData) => rowData.name,
+    render: (rowData) => rowData.activityType.name,
   },
   {
     id: "town",
@@ -60,19 +60,19 @@ const columns = [
         : "-",
   },
   {
-    id: "activityTownIds",
+    id: "activityTowns",
     label: "Activity Towns",
     render: (rowData) =>
-      rowData.activityTownId?.length > 0
-        ? getNames(rowData.activityTownId)
+      rowData.activityTowns?.length > 0
+        ? getNames(rowData.activityTowns)
         : ["-"],
   },
   {
-    id: "parentDepartmentIds",
+    id: "parentDepartments",
     label: "Parent Departments",
     render: (rowData) =>
-      rowData.parentDepartmentIds?.length > 0
-        ? getNames(rowData.parentDepartmentIds)
+      rowData.parentDepartments?.length > 0
+        ? getNames(rowData.parentDepartments)
         : ["-"],
   },
 ];

@@ -1,3 +1,4 @@
+// src/AppRoutes.js
 import React, { Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
@@ -5,7 +6,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import SessionHelper from "../src/helpers/SessionHelper";
+import { useSession } from "./helpers/SessionContext.jsx";
 import Loading from "./components/Loading/Loading";
 import Footer from "./components/Footer";
 
@@ -132,7 +133,8 @@ const privateRoutes = [
 ];
 
 const PrivateRoute = ({ element }) => {
-  const isLoggedIn = SessionHelper.getIsLoggedIn();
+  const { user } = useSession();
+  const isLoggedIn = !!user;
 
   return isLoggedIn ? (
     <div className="flex">
@@ -145,15 +147,19 @@ const PrivateRoute = ({ element }) => {
     <Navigate to="/welcome" replace />
   );
 };
+
 const MainRoute = ({ element }) => {
-  const isLoggedIn = SessionHelper.getIsLoggedIn();
+  const { user } = useSession();
+  const isLoggedIn = !!user;
   return !isLoggedIn ? (
     <div className="relative flex flex-col h-full">
       <Navbar />
       <main className="flex-1">{element}</main>
       <Footer />
     </div>
-  ) : <Navigate to="/dashboard" replace />;
+  ) : (
+    <Navigate to="/dashboard" replace />
+  );
 };
 
 const PublicRoute = ({ element }) => {
