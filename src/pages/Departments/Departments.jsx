@@ -82,10 +82,6 @@ const Departments = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [deleteCandidateId, setDeleteCandidateId] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
 

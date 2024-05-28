@@ -3,6 +3,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import * as XLSX from "xlsx";
 import XLSXStyle from "xlsx-js-style";
+import "../assets/fonts/calibri-400-normal";
 
 function formatDataForXLSX(columns, renderData) {
   let rows = [];
@@ -49,7 +50,8 @@ function formatDataForXLSX(columns, renderData) {
             if (temp === "") {
               temp += typeof data[i] === "object" ? data[i]?.name : data[i];
             } else {
-              temp += ", " + (typeof data[i] === "object" ? data[i]?.name : data[i]);
+              temp +=
+                ", " + (typeof data[i] === "object" ? data[i]?.name : data[i]);
             }
           }
           data = temp === "" ? "" : temp;
@@ -69,15 +71,15 @@ function formatDataForPDF(columns, renderData) {
   let topRow = {};
   let head = [];
   let body = [];
-  let maxRowWidth = 0;
   let lookups = {};
   let renders = {};
-  let columnWidths = {};
+  let columnWidths = [];
 
   // Column names
   for (let index in columns) {
     topRow[columns[index].id] = columns[index].label;
     head.push(columns[index].label);
+    columnWidths.push({ header: columns[index].label, dataKey: columns[index].id, width: calculateTextWidth(columns[index].label) });
     if (columns[index].lookup) {
       lookups[columns[index].id] = columns[index].lookup;
     }
@@ -87,37 +89,21 @@ function formatDataForPDF(columns, renderData) {
   }
   head = [head];
 
-  const increaseRowWidth = (data, prop, topRow) => {
-    const widthOfCell = getWidthOfText(data);
-    const ind = getIndexOfProp(prop, topRow);
-    !columnWidths[ind] && (columnWidths[ind] = { cellWidth: 100 });
-    if (
-      !columnWidths[ind].cellWidth ||
-      columnWidths[ind].cellWidth < widthOfCell
-    ) {
-      columnWidths[ind].cellWidth = widthOfCell;
-    }
-    return widthOfCell;
-  };
-
   // Column data
   for (let index in renderData) {
     let row = [];
-    let rowWidth = 0;
     for (let col in topRow) {
       for (let prop in renderData[index]) {
         if (prop === col) {
           let data = renderData[index][prop];
           if (data === null || data === undefined) {
             data = ""; // Default empty string
-            rowWidth += increaseRowWidth(data, prop, topRow);
             row.push(data);
             continue;
           }
           if (prop in renders) {
             data = renders[prop](renderData[index]);
             if (typeof data === "string" || data instanceof String) {
-              rowWidth += increaseRowWidth(data, prop, topRow);
               row.push(data);
               continue;
             }
@@ -129,7 +115,9 @@ function formatDataForPDF(columns, renderData) {
               if (temp === "") {
                 temp += typeof data[j] === "object" ? data[j]?.name : data[j];
               } else {
-                temp += ", " + (typeof data[j] === "object" ? data[j]?.name : data[j]);
+                temp +=
+                  ", " +
+                  (typeof data[j] === "object" ? data[j]?.name : data[j]);
               }
             }
             data = temp === "" ? "" : temp;
@@ -137,47 +125,35 @@ function formatDataForPDF(columns, renderData) {
           if (prop in lookups) {
             data = lookups[prop][data];
           }
-          rowWidth += increaseRowWidth(data, prop, topRow);
           row.push(data);
+          columnWidths[getColumnIndex(columnWidths, prop)].width = Math.max(columnWidths[getColumnIndex(columnWidths, prop)].width, calculateTextWidth(data));
         }
       }
     }
-    rowWidth > maxRowWidth && (maxRowWidth = rowWidth);
     body.push(row);
   }
   return {
     head: head,
     body: body,
-    width: maxRowWidth,
     columnWidths: columnWidths,
   };
 }
 
-const getIndexOfProp = (prop, list) => {
-  const keys = Object.keys(list);
-  for (let i = 0; i < keys.length; i++) {
-    if (keys[i] === prop) {
-      return i;
-    }
-  }
-};
+function calculateTextWidth(text) {
+  const span = document.createElement("span");
+  span.style.visibility = "hidden";
+  span.style.whiteSpace = "nowrap";
+  span.style.font = "12px Arial";
+  document.body.appendChild(span);
+  span.innerText = text;
+  const width = span.offsetWidth;
+  document.body.removeChild(span);
+  return width + 10; // Add some padding
+}
 
-const getWidthOfText = (str) => {
-  let text = document.createElement("span");
-  document.body.appendChild(text);
-
-  text.style.font = "calibri";
-  text.style.fontSize = 10 + "px";
-  text.style.height = "auto";
-  text.style.width = "auto";
-  text.style.position = "absolute";
-  text.style.whiteSpace = "nowrap";
-  text.innerHTML = str;
-  let width = Math.ceil(text.clientWidth);
-
-  document.body.removeChild(text);
-  return width + 30;
-};
+function getColumnIndex(columnWidths, key) {
+  return columnWidths.findIndex(column => column.dataKey === key);
+}
 
 const setWorksheetStyles = (ws, cols, rows) => {
   for (let prop in ws) {
@@ -185,7 +161,7 @@ const setWorksheetStyles = (ws, cols, rows) => {
       if (prop.match(/\d+/g)[0] === "1") {
         ws[prop].s = {
           fill: {
-            bgColor: { rgb: "FFFCD5B4" },
+            bgColor: { rgb: "FFFCD5B4" }, //fcd5b4
             fgColor: { rgb: "FFFCD5B4" },
           },
           font: {
@@ -282,36 +258,23 @@ export const exportToPDF = (columns, renderData, fileName) => {
   const data = formatDataForPDF(columns, renderData);
   const fileExtension = ".pdf";
 
-  const doc = new jsPDF("landscape", "px", [data.width, 800]);
+  const doc = new jsPDF("landscape");
   doc.setFont("calibri-400");
+  const columnStyles = {};
+  data.columnWidths.forEach(col => {
+    columnStyles[col.dataKey] = { cellWidth: col.width };
+  });
   doc.autoTable({
     head: data.head,
     body: data.body,
-    columnStyles: data.columnWidths,
+    columnStyles: columnStyles,
     styles: {
       font: "calibri-400",
       fontStyle: "normal",
-      cellWidth: "wrap",
+      cellWidth: "auto",
       overflow: "linebreak",
     },
+    margin: { top: 10, bottom: 10 },
   });
   doc.save(fileName + fileExtension);
-};
-
-export const exportToXLSXWorkAccidents = async (filters) => {
-  const res = await Request(
-    "get",
-    "/api/industrial-accidents/export-to-excel",
-    null,
-    filters
-  );
-  if (res.status === 200) {
-    const { fileName, base64 } = res.data?.content;
-    const link = document.createElement("a");
-    link.href = `data:application/octet-stream;base64,${base64}`;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
 };
